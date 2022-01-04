@@ -1,0 +1,72 @@
+@import '../vars.scss';
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+  box-shadow: $line;
+  padding: 0 2rem;
+  background-color: $white;
+  position: sticky;
+  top: 0;
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    margin: 0;
+    li {
+      list-style: none;
+
+      a {
+        text-decoration: none;
+        color: $black;
+
+        &:hover {
+          color: $blue-800;
+        }
+
+        &.active {
+          color: $blue;
+        }
+      }
+    }
+  }
+
+  .burger {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  nav {
+
+    ul {
+      position: fixed;
+      background-color: $white;
+      height: calc(100% - 12rem);
+      width: 100%;
+      top: 8vh;
+      left: 0;
+      flex-direction: column;
+      transform: translateX(100%);
+      opacity: 0;
+      padding: 4rem 0;
+      z-index: 3;
+      align-items: center;
+      transition: all .5s ease-out;
+      pointer-events: none;
+      &.open {
+        transform: translateX(0);
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+
+    .burger {
+      display: block;
+    }
+  }
+}

@@ -6,5 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'findsid';
+  
+  navbarOpen = false;
+  menuIcon = 'menu';
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
+    if(this.navbarOpen) {
+      this.menuIcon = 'x';
+    } else {
+      this.menuIcon = 'menu';
+    }
+  }
 }

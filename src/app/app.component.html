@@ -1,6 +1,28 @@
-<h1>Siddhant</h1>
-<h2>Jaiswal</h2>
-<h3>adad</h3>
+<nav>
+    <h6 class="bold blue">Siddhant Jaiswal</h6>
+    <ul [ngClass]="{'open' : navbarOpen}">
+        <li>
+            <a class="regular extra-bold" routerLink="/" routerLinkActive="active" (click)="toggleNavbar()">About</a>
+        </li>
+        <li>
+            <a class="regular extra-bold" routerLink="/work" (click)="toggleNavbar()">Work</a>
+        </li>
+        <li>
+            <a class="regular extra-bold" routerLink="/illustrations" (click)="toggleNavbar()">Illustrations</a>
+        </li>
+        <li>
+            <a class="regular extra-bold" routerLink="/resume" (click)="toggleNavbar()">Resume</a>
+        </li>
+        <li>
+            <a class="regular extra-bold" routerLink="/contact" (click)="toggleNavbar()">Contact</a>
+        </li>
+    </ul>
 
-<p class="header-2 bold">Extra</p>
-<i-feather name="linkedin"></i-feather>
+    <div class="burger" role="button" (click)="toggleNavbar()">
+        <i-feather [name]=menuIcon ></i-feather>
+    </div>
+
+</nav>
+<main>
+    <router-outlet></router-outlet>
+</main>
