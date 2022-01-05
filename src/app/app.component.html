@@ -6,27 +6,30 @@
     </div>
     <ul [ngClass]="{'open' : navbarOpen}" role="listbox" id="nav-menu">
         <li>
-            <a role="option" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular extra-bold" routerLink="/" routerLinkActive="active"  
-            [routerLinkActiveOptions]={exact:true} (click)="toggleNavbar()">
+            <a role="option" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular extra-bold" routerLink="/"
+                routerLinkActive="active" [routerLinkActiveOptions]={exact:true} (click)="toggleNavbar()">
                 About
             </a>
         </li>
         <li>
-            <a role="option"  aria-posinset="2" aria-setsize="5" tabindex="0" class="regular extra-bold" routerLink="/work" routerLinkActive="active" (click)="toggleNavbar()">
+            <a role="option" aria-posinset="2" aria-setsize="5" tabindex="0" class="regular extra-bold"
+                routerLink="/work" routerLinkActive="active" (click)="toggleNavbar()">
                 Work
             </a>
         </li>
         <li>
-            <a role="option"  aria-posinset="3" aria-setsize="5" tabindex="0" class="regular extra-bold" routerLink="/illustrations" routerLinkActive="active"
-                (click)="toggleNavbar()">Illustrations</a>
+            <a role="option" aria-posinset="3" aria-setsize="5" tabindex="0" class="regular extra-bold"
+                routerLink="/illustrations" routerLinkActive="active" (click)="toggleNavbar()">Illustrations</a>
         </li>
-        <li >
-            <a role="option"  aria-posinset="4" aria-setsize="5" tabindex="0" class="regular extra-bold" routerLink="/resume" routerLinkActive="active" (click)="toggleNavbar()">
+        <li>
+            <a role="option" aria-posinset="4" aria-setsize="5" tabindex="0" class="regular extra-bold"
+                routerLink="/resume" routerLinkActive="active" (click)="toggleNavbar()">
                 Resume
             </a>
         </li>
         <li>
-            <a role="option"  aria-posinset="5" aria-setsize="5" tabindex="0" class="regular extra-bold" routerLink="/contact" routerLinkActive="active" (click)="toggleNavbar()">
+            <a role="option" aria-posinset="5" aria-setsize="5" tabindex="0" class="regular extra-bold"
+                routerLink="/contact" routerLinkActive="active" (click)="toggleNavbar()">
                 Contact
             </a>
         </li>
@@ -35,3 +38,17 @@
 <main>
     <router-outlet></router-outlet>
 </main>
+
+<footer>
+    <a href="https://www.linkedin.com/in/iamsiddj" target="_blank" aria-label="LinkedIn">
+        <i-feather name = "linkedin"></i-feather>
+    </a><a href="https://www.instagram.com/isuckatdesign/" target="_blank" aria-label="Instagram">
+        <i-feather name = "instagram"></i-feather>
+    </a><a href="https://twitter.com/iamsidd_j" target="_blank" aria-label="Twitter">
+        <i-feather name = "twitter"></i-feather>
+    </a><a href="https://github.com/siddhant-dev" target="_blank" aria-label="Github">
+        <i-feather name = "github"></i-feather>
+    </a><a href="https://codepen.io/sidd_dev" target="_blank" aria-label="Code Pen">
+        <i-feather name = "codepen"></i-feather>
+    </a>
+</footer>

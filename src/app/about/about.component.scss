@@ -1,0 +1,50 @@
+@import '../../vars.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+
+    .hero-img{
+        background-image: url('../../assets/Hot\ Me.webp');
+        background-size: cover;
+        background-repeat: no-repeat;
+        height: 21rem;
+        width: 21rem;
+        border: 2px solid $black;
+        box-sizing: border-box;
+        border-radius: 1rem;
+        &:focus{
+            outline: 2px solid $black;
+            border-radius: .25rem;
+        }
+    }
+    h6, h2 {
+        &:focus {
+            outline: 2px solid $black;
+            border-radius: .25rem;
+        }
+    }
+    p{
+        margin: 0;
+        text-align: justify;
+        width: 70%;
+        &:focus{
+            outline: 2px solid $black;
+            border-radius: .25rem;
+        }
+    }
+}
+
+@media screen and (max-width: 850px) {
+    .container {
+        align-items: flex-start;
+        .hero-img{
+            align-self: center;
+        }
+        p{
+            width: 100%;
+        }
+    }
+}
