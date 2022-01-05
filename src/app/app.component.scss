@@ -10,7 +10,10 @@ nav {
   background-color: $white;
   position: sticky;
   top: 0;
-
+  h6:focus {
+    outline: 2px solid $black;
+    border-radius: .25rem;
+  }
   ul {
     display: flex;
     justify-content: space-between;
@@ -19,13 +22,16 @@ nav {
     margin: 0;
     li {
       list-style: none;
-
       a {
         text-decoration: none;
         color: $black;
 
         &:hover {
           color: $blue-800;
+        }
+        &:focus {
+          outline: 2px solid $black;
+          border-radius: .25rem;
         }
 
         &.active {
@@ -40,7 +46,7 @@ nav {
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 850px) {
   nav {
 
     ul {
@@ -67,6 +73,10 @@ nav {
 
     .burger {
       display: block;
+      &:focus {
+        outline: 2px solid $black;
+        border-radius: .25rem;
+      }
     }
   }
 }
