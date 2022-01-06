@@ -1,11 +1,19 @@
 @import 'vars.scss';
 
+*{
+  &:focus {
+    outline: 2px solid $black;
+    border-radius: .25rem;
+  }
+}
+
 html,
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif;
   scroll-behavior: smooth;
   height: -webkit-fill-available;
+  box-sizing: border-box;
 }
 
 h1,

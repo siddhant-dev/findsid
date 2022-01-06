@@ -6,12 +6,16 @@ import { AppComponent } from './app.component';
 import { FeatherIconsModule } from './feather-icons/feather-icons.module';
 import { AboutComponent } from './about/about.component';
 import { WorkComponent } from './work/work.component';
+import { CardComponent } from './work/card/card.component';
+import { ArticlesComponent } from './work/articles/articles.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AboutComponent,
-    WorkComponent
+    WorkComponent,
+    CardComponent,
+    ArticlesComponent
   ],
   imports: [
     BrowserModule,

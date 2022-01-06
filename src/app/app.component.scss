@@ -3,7 +3,7 @@
 .skip-nav {
   @include btn-white;
   position: absolute;
-  transform: translateY(-120%);
+  transform: translateY(-150%);
   text-decoration: none;
   transition: transform .3s ease-in;
   color: $black;
@@ -24,10 +24,6 @@ nav {
   background-color: $white;
   position: sticky;
   top: 0;
-  h6:focus {
-    outline: 2px solid $black;
-    border-radius: .25rem;
-  }
   ul {
     display: flex;
     justify-content: space-between;
@@ -42,10 +38,6 @@ nav {
 
         &:hover {
           color: $blue-800;
-        }
-        &:focus {
-          outline: 2px solid $black;
-          border-radius: .25rem;
         }
 
         &.active {
@@ -63,6 +55,9 @@ nav {
 main{
   padding: 2rem;
   min-height: calc(100vh - 11.5rem - 1px);
+  &:focus{
+    outline: none;
+  }
 }
 
 footer {
@@ -78,10 +73,6 @@ footer {
     height: 1.5rem;
     &:hover {
       color: $blue;
-    }
-    &:focus {
-      outline: 2px solid $black;
-      border-radius: .25rem;
     }
   }
 
@@ -115,14 +106,11 @@ footer {
     .burger {
       display: block;
       height: 1.5rem;
-      &:focus {
-        outline: 2px solid $black;
-        border-radius: .25rem;
-      }
     }
   }
   main{
     padding: 1rem;
     min-height: calc(100vh - 9.5rem - 1px);
+    
   }
 }

@@ -29,12 +29,43 @@ $shadow-y200: 0px -2px 0px $black;
 $shadow-y400: 0px -4px 0px $black;
 $shadow-y600: 0px -6px 0px $black;
 
-@mixin btn-white {
+@mixin blue-100 {
+    background-color: $blue-100;
+}
+
+@mixin tag {
+    padding: .5rem .75rem;
+    border: 2px solid $black;
+    border-radius: 2rem;
+    font-weight: bold;
+}
+
+@mixin btn {
     display: flex;
     align-items: center;
     padding: 1rem;
-    background-color: $white;
     border: 2px solid $black;
-    border-radius: .25rem;
+    border-radius: 1rem;
     gap: 1rem;
+    
+}
+
+@mixin btn-white {
+    @include btn;
+    background-color: $white;
+    box-shadow: $shadow-600;
+    &:focus{
+        outline: none;
+    }
+}
+
+@mixin btn-blue {
+    @include btn;
+    background-color: $blue;
+    color: $white;
+    box-shadow: $shadow-600;
+    &:focus{
+        background-color: lighten($color: $blue, $amount: 10);
+        outline: none;
+    }
 }
