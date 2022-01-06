@@ -29,3 +29,12 @@ $shadow-y200: 0px -2px 0px $black;
 $shadow-y400: 0px -4px 0px $black;
 $shadow-y600: 0px -6px 0px $black;
 
+@mixin btn-white {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    background-color: $white;
+    border: 2px solid $black;
+    border-radius: .25rem;
+    gap: 1rem;
+}
