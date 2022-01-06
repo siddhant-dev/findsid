@@ -1,41 +1,44 @@
-<nav role="navigation">
-    <h6 role="presentation" tabindex="0" class="bold blue">Siddhant Jaiswal</h6>
-    <div class="burger" role="button" tabindex="0" (click)="toggleNavbar()" (keyup.enter)="toggleNavbar()"
-        aria-controls="nav-menu" [attr.aria-expanded]="navbarOpen" title="Menu Button">
-        <i-feather [name]=menuIcon></i-feather>
-    </div>
-    <ul [ngClass]="{'open' : navbarOpen}" role="listbox" id="nav-menu">
-        <li>
-            <a role="option" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular extra-bold" routerLink="/"
-                routerLinkActive="active" [routerLinkActiveOptions]={exact:true} (click)="toggleNavbar()">
-                About
-            </a>
-        </li>
-        <li>
-            <a role="option" aria-posinset="2" aria-setsize="5" tabindex="0" class="regular extra-bold"
-                routerLink="/work" routerLinkActive="active" (click)="toggleNavbar()">
-                Work
-            </a>
-        </li>
-        <li>
-            <a role="option" aria-posinset="3" aria-setsize="5" tabindex="0" class="regular extra-bold"
-                routerLink="/illustrations" routerLinkActive="active" (click)="toggleNavbar()">Illustrations</a>
-        </li>
-        <li>
-            <a role="option" aria-posinset="4" aria-setsize="5" tabindex="0" class="regular extra-bold"
-                routerLink="/resume" routerLinkActive="active" (click)="toggleNavbar()">
-                Resume
-            </a>
-        </li>
-        <li>
-            <a role="option" aria-posinset="5" aria-setsize="5" tabindex="0" class="regular extra-bold"
-                routerLink="/contact" routerLinkActive="active" (click)="toggleNavbar()">
-                Contact
-            </a>
-        </li>
-    </ul>
-</nav>
-<main>
+<header>
+    <a href="#main" class="skip-nav">Skip to Content</a>
+    <nav role="navigation">
+        <h6 role="presentation" tabindex="0" class="bold blue">Siddhant Jaiswal</h6>
+        <div class="burger" role="button" tabindex="0" (click)="toggleNavbar()" (keyup.enter)="toggleNavbar()"
+            aria-controls="nav-menu" [attr.aria-expanded]="navbarOpen" title="Menu Button">
+            <i-feather [name]=menuIcon></i-feather>
+        </div>
+        <ul [ngClass]="{'open' : navbarOpen}" role="listbox" id="nav-menu">
+            <li>
+                <a role="option" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular extra-bold" routerLink="/"
+                    routerLinkActive="active" [routerLinkActiveOptions]={exact:true} (click)="toggleNavbar()">
+                    About
+                </a>
+            </li>
+            <li>
+                <a role="option" aria-posinset="2" aria-setsize="5" tabindex="0" class="regular extra-bold"
+                    routerLink="/work" routerLinkActive="active" (click)="toggleNavbar()">
+                    Work
+                </a>
+            </li>
+            <li>
+                <a role="option" aria-posinset="3" aria-setsize="5" tabindex="0" class="regular extra-bold"
+                    routerLink="/illustrations" routerLinkActive="active" (click)="toggleNavbar()">Illustrations</a>
+            </li>
+            <li>
+                <a role="option" aria-posinset="4" aria-setsize="5" tabindex="0" class="regular extra-bold"
+                    routerLink="/resume" routerLinkActive="active" (click)="toggleNavbar()">
+                    Resume
+                </a>
+            </li>
+            <li>
+                <a role="option" aria-posinset="5" aria-setsize="5" tabindex="0" class="regular extra-bold"
+                    routerLink="/contact" routerLinkActive="active" (click)="toggleNavbar()">
+                    Contact
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main id="main">
     <router-outlet></router-outlet>
 </main>
 
