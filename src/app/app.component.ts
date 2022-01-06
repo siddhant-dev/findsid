@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { ViewportScroller } from '@angular/common';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,9 @@ export class AppComponent {
   
   navbarOpen = false;
   menuIcon = 'menu';
+  @ViewChild('skipper', {static: false}) skipper!: ElementRef;
+
+  constructor (private view: ViewportScroller){}
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
@@ -17,5 +21,10 @@ export class AppComponent {
     } else {
       this.menuIcon = 'menu';
     }
+  }
+
+  skipContent() {
+    this.skipper.nativeElement.focus();
+    this.view.scrollToAnchor('main');
   }
 }
