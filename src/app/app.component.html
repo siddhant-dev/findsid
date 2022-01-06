@@ -1,5 +1,5 @@
 <header>
-    <a href="#main" class="skip-nav">Skip to Content</a>
+    <a href="javascript:void(0);" (click)="skipContent()" translate class="skip-nav">Skip to Content</a>
     <nav role="navigation">
         <h6 role="presentation" tabindex="0" class="bold blue">Siddhant Jaiswal</h6>
         <div class="burger" role="button" tabindex="0" (click)="toggleNavbar()" (keyup.enter)="toggleNavbar()"
@@ -8,37 +8,37 @@
         </div>
         <ul [ngClass]="{'open' : navbarOpen}" role="listbox" id="nav-menu">
             <li>
-                <a role="option" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular extra-bold" routerLink="/"
-                    routerLinkActive="active" [routerLinkActiveOptions]={exact:true} (click)="toggleNavbar()">
+                <a role="option" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular bold" routerLink="/"
+                    routerLinkActive="active extra-bold" [routerLinkActiveOptions]={exact:true} (click)="toggleNavbar()">
                     About
                 </a>
             </li>
             <li>
-                <a role="option" aria-posinset="2" aria-setsize="5" tabindex="0" class="regular extra-bold"
-                    routerLink="/work" routerLinkActive="active" (click)="toggleNavbar()">
+                <a role="option" aria-posinset="2" aria-setsize="5" tabindex="0" class="regular bold"
+                    routerLink="/work" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
                     Work
                 </a>
             </li>
             <li>
-                <a role="option" aria-posinset="3" aria-setsize="5" tabindex="0" class="regular extra-bold"
-                    routerLink="/illustrations" routerLinkActive="active" (click)="toggleNavbar()">Illustrations</a>
+                <a role="option" aria-posinset="3" aria-setsize="5" tabindex="0" class="regular bold"
+                    routerLink="/illustrations" routerLinkActive="active extra-bold" (click)="toggleNavbar()">Illustrations</a>
             </li>
             <li>
-                <a role="option" aria-posinset="4" aria-setsize="5" tabindex="0" class="regular extra-bold"
-                    routerLink="/resume" routerLinkActive="active" (click)="toggleNavbar()">
+                <a role="option" aria-posinset="4" aria-setsize="5" tabindex="0" class="regular bold"
+                    routerLink="/resume" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
                     Resume
                 </a>
             </li>
             <li>
-                <a role="option" aria-posinset="5" aria-setsize="5" tabindex="0" class="regular extra-bold"
-                    routerLink="/contact" routerLinkActive="active" (click)="toggleNavbar()">
+                <a role="option" aria-posinset="5" aria-setsize="5" tabindex="0" class="regular bold"
+                    routerLink="/contact" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
                     Contact
                 </a>
             </li>
         </ul>
     </nav>
 </header>
-<main id="main">
+<main id="main" #skipper tabindex="-1">
     <router-outlet></router-outlet>
 </main>
 
