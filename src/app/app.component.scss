@@ -1,5 +1,19 @@
 @import '../vars.scss';
 
+.skip-nav {
+  @include btn-white;
+  position: absolute;
+  transform: translateY(-120%);
+  text-decoration: none;
+  transition: transform .3s ease-in;
+  color: $black;
+  margin: .5rem;
+  z-index: 4;
+  &:focus {
+    transform: translateY(0);
+  }
+}
+
 nav {
   display: flex;
   justify-content: space-between;
