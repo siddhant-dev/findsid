@@ -1,0 +1,31 @@
+@import '../../vars.scss';
+
+
+.tabs{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    nav {
+        display: flex;
+        align-items: center;
+        border-radius: 2rem;
+        border: 2px solid;
+        box-sizing: border-box;
+        background-color: $white;
+        gap: 0 2px;
+        a {
+            text-decoration: none;
+            color: $black;
+            align-self: center;
+            padding: .75rem 1.5rem;
+            border-radius: 2rem;
+            &.active {
+                background-color: $green;
+                color: $white;
+            }
+            &:focus {
+                outline: 2px solid $black;
+            }
+        }
+    }
+}
