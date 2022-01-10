@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
+import { AppsComponent } from './work/apps/apps.component';
 import { ArticlesComponent } from './work/articles/articles.component';
 import { WorkComponent } from './work/work.component';
 
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'work', component: WorkComponent, children: [
     { path: 'articles', component: ArticlesComponent },
     { path: '', redirectTo: 'articles', pathMatch: 'full' },
+    { path: 'apps', component: AppsComponent },
   ]}
 ];
 
