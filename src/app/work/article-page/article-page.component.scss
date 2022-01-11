@@ -13,24 +13,6 @@
     box-shadow: $shadow-600;
   }
 
-  .full-article {
-
-
-    .highlight.html {
-        color: $white;
-        white-space: break-spaces;
-        padding: 1rem;
-        border-radius: 16px;
-        background-color: lighten($color: $black, $amount: 10);
-    }
-  }
-
 }
 
-.highlight.html {
-    color: $white;
-    white-space: break-spaces;
-    padding: 1rem;
-    border-radius: 16px;
-    background-color: lighten($color: $black, $amount: 10);
-}
+
