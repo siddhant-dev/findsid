@@ -1,20 +1,20 @@
 <div class="card">
     <div class="banner" >
-        <img [src]="imgUrl" alt="ada" height="185" width="345">
+        <img [src]="card_data.cover_image" alt="cover-image" height="172.5" width="345">
     </div>
     <div class="card-body">
         <section class="header">
-            <h6 tabindex="0">Light Speed CSS</h6>
-            <span class="tag">#css</span>
+            <h6 tabindex="0">{{card_data.title}}</h6>
+            <span class="tag">#{{card_data.tag}}</span>
         </section>
         <p class="description" tabindex="0">
-            Light Speed CSS is a CSS framework that is designed to be fast and lightweight.
+            {{card_data.description}}
         </p>
         <section class="footer">
-            <a routerLink="" tabindex="0">Open</a>
+            <a href="javascript:void(0);" (click)="openArticle(card_data.id)" tabindex="0">Open</a>
             <div class="pub" tabindex="0">
                 <span class="regular bold">Published On</span>
-                <span class="sub-2">May 1, 2019</span>
+                <span class="sub-2">{{card_data.published_date}}</span>
             </div>
         </section>
     </div>

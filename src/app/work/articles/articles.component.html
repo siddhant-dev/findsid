@@ -1,8 +1,3 @@
-<div class="grid-container">
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
+<div class="grid-container" >
+    <app-card *ngFor="let article of articles" [card_data]=article></app-card>
 </div>

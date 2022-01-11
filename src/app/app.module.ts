@@ -10,6 +10,8 @@ import { CardComponent } from './work/card/card.component';
 import { ArticlesComponent } from './work/articles/articles.component';
 import { AppsComponent } from './work/apps/apps.component';
 import { ArtComponent } from './work/art/art.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ArticlePageComponent } from './work/article-page/article-page.component';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { ArtComponent } from './work/art/art.component';
     CardComponent,
     ArticlesComponent,
     AppsComponent,
-    ArtComponent
+    ArtComponent,
+    ArticlePageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FeatherIconsModule
+    FeatherIconsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

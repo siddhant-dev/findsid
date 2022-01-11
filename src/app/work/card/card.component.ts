@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Articles } from 'src/app/models/dev.model';
 
 @Component({
   selector: 'app-card',
@@ -7,11 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CardComponent implements OnInit {
 
-  imgUrl = "../../../assets/css-banner.png";
+  @Input() card_data!: Articles;
 
-  constructor() { }
+  constructor(private route: Router) { }
 
   ngOnInit(): void {
+  }
+
+  openArticle(id: number) {
+    this.route.navigateByUrl('/article/' + id);
   }
 
 }
