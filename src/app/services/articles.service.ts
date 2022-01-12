@@ -35,8 +35,8 @@ export class ArticlesService {
         id: data.id,
         title: data.title,
         description: data.description,
-        published_date: data.published_date,
-        cover_image: data.cover_image,
+        published_date: data.readable_publish_date,
+        cover_image: data.social_image,
         tag: data.tag_list[0],
         body_html: this.domSanitizer.bypassSecurityTrustHtml( data.body_html.toString() )
       }

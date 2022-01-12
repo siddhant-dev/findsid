@@ -5,6 +5,22 @@
     outline: 2px solid $black;
     border-radius: .25rem;
   }
+  scrollbar-width: thin;
+  scrollbar-color: $black $black-700;
+}
+
+::-webkit-scrollbar {
+  width: .625rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: $black-700; 
+}
+::-webkit-scrollbar-thumb {
+  background-color: $black;
+  &:hover{
+    background-color: $black-800;
+  } 
 }
 
 html,
@@ -109,7 +125,7 @@ h6,
   }
 }
 
-.regular {
+p, .regular {
   font-family: 'Montserrat', sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -197,20 +213,26 @@ h6,
   display: none;
 }
 
-.highlight.html {
-  color: $white;
-  white-space: break-spaces;
-  padding: 1rem;
-  border-radius: 16px;
-  background-color: lighten($color: $black, $amount: 5);
-  font-weight: bold;
+.highlight {
+  &.html, .javascript,.css, .plaintext{
+    color: $white;
+    white-space: break-spaces;
+    padding: 1rem;
+    border-radius: 16px;
+    background-color: $black; //lighten($color: $black, $amount: 5);
+    font-weight: bold;
+  }
 }
 
-.nt {
-  color: #f9690e;
+code {
+  font-weight: bolder;
 }
 
-.na {
+.nt, .kd, .k, .p {
+  color: $pink;
+}
+
+.na, .nl, .nx {
   color: $green-800;
 }
 

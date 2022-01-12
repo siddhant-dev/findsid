@@ -1,59 +1,65 @@
 @import '../vars.scss';
 
-.skip-nav {
-  @include btn-white;
-  position: absolute;
-  transform: translateY(-150%);
-  text-decoration: none;
-  transition: transform .3s ease-in;
-  color: $black;
-  margin: .5rem;
-  z-index: 4;
-  &:focus {
-    transform: translateY(0);
+header {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  .skip-nav {
+    @include btn-white;
+    position: absolute;
+    transform: translateY(-150%);
+    text-decoration: none;
+    transition: transform .3s ease-in;
+    color: $black;
+    margin: .5rem;
+    z-index: 101;
+    &:focus {
+      transform: translateY(0);
+    }
   }
-}
-
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 4rem;
-  box-shadow: $line;
-  padding: 0 2rem;
-  background-color: $white;
-  position: sticky;
-  top: 0;
-  ul {
+  
+  nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 50%;
-    margin: 0;
-    li {
-      list-style: none;
-      a {
-        text-decoration: none;
-        color: $black;
-
-        &:hover {
-          color: $blue-800;
-        }
-
-        &.active {
-          color: $blue;
+    height: 4rem;
+    box-shadow: $line;
+    padding: 0 2rem;
+    background-color: $white;
+    position: sticky;
+    top: 0;
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 50%;
+      margin: 0;
+      li {
+        list-style: none;
+        a {
+          text-decoration: none;
+          color: $black;
+  
+          &:hover {
+            color: $blue-800;
+          }
+  
+          &.active {
+            color: $blue;
+          }
         }
       }
     }
-  }
-
-  .burger {
-    display: none;
+  
+    .burger {
+      display: none;
+    }
   }
 }
 
 main{
   padding: 2rem;
+  padding-top: 6rem;
   min-height: calc(100vh - 11.5rem - 1px);
   &:focus{
     outline: none;
@@ -79,37 +85,40 @@ footer {
 }
 
 @media screen and (max-width: 850px) {
-  nav {
+  header{
+    nav {
 
-    ul {
-      position: fixed;
-      background-color: $white;
-      height: calc(100% - 12rem);
-      width: 100%;
-      top: 4rem;
-      left: 0;
-      flex-direction: column;
-      transform: translateX(100%);
-      opacity: 0;
-      padding: 4rem 0;
-      z-index: 3;
-      align-items: center;
-      transition: all .5s ease-out;
-      pointer-events: none;
-      &.open {
-        transform: translateX(0);
-        opacity: 1;
-        pointer-events: all;
+      ul {
+        position: fixed;
+        background-color: $white;
+        height: calc(100% - 12rem);
+        width: 100%;
+        top: 4rem;
+        left: 0;
+        flex-direction: column;
+        transform: translateX(100%);
+        opacity: 0;
+        padding: 4rem 0;
+        z-index: 3;
+        align-items: center;
+        transition: all .5s ease-out;
+        pointer-events: none;
+        &.open {
+          transform: translateX(0);
+          opacity: 1;
+          pointer-events: all;
+        }
       }
-    }
-
-    .burger {
-      display: block;
-      height: 1.5rem;
+  
+      .burger {
+        display: block;
+        height: 1.5rem;
+      }
     }
   }
   main{
     padding: 1rem;
+    padding-top: 5rem;
     min-height: calc(100vh - 9.5rem - 1px);
     
   }

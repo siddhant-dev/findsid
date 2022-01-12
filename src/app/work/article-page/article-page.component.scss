@@ -12,7 +12,32 @@
     border: 2px solid $black;
     box-shadow: $shadow-600;
   }
+  .full-article {
+    text-align: justify;
+  }
 
 }
 
+
+@media screen and (max-width:811px) {
+  .container {
+    padding: 0;
+    img {
+      width: 80%;
+      height: auto;
+    }
+  }
+  
+}
+
+@media screen and (max-width: 1200px) {
+  
+  .container{
+    img {
+      width: 80%;
+      height: auto;
+    }
+  }
+
+}
 

@@ -18,7 +18,7 @@ export class ArticlesComponent implements OnInit {
   }
 
   getAllArticles() {
-    this.articleService.getAllArticles().subscribe(data => {
+    this.articleService.getAllArticles().subscribe((data:Articles[]) => {
       this.articles = data;
     });
   }
