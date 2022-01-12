@@ -1,0 +1,29 @@
+@import '../../../vars.scss';
+
+.grid-container{
+    padding: 0 4rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    & > *{
+        justify-self: center;
+        border: 2px solid $black;
+        border-radius: 1rem;
+        width: 100%;
+        height: auto;
+    }
+}
+
+
+@media screen and (max-width: 800px) {
+    .grid-container {
+        padding: 0;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media screen and (max-width: 1180px) and (min-width: 810px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
