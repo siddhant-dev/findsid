@@ -15,27 +15,25 @@
         border: 2px solid $black;
         box-sizing: border-box;
         border-radius: 1rem;
-        &:focus{
-            outline: 2px solid $black;
-            border-radius: .25rem;
-        }
     }
-    h6, h2 {
-        &:focus {
-            outline: 2px solid $black;
-            border-radius: .25rem;
+    h2 {
+        & span::after {
+            content: '';
+            animation: blink 0.5s linear infinite;
+            border-right: .25rem solid $black;
         }
     }
     p{
         margin: 0;
         text-align: justify;
         width: 70%;
-        &:focus{
-            outline: 2px solid $black;
-            border-radius: .25rem;
-        }
     }
 }
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
 
 @media screen and (max-width: 850px) {
     .container {
@@ -47,4 +45,11 @@
             width: 100%;
         }
     }
+}
+
+@media screen and (max-width: 435px) {
+    .container h2 {
+        min-height: 6.75rem;
+    }
+    
 }
