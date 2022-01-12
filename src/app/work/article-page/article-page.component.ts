@@ -14,6 +14,7 @@ export class ArticlePageComponent implements OnInit {
   routeSub!: Subscription
   id: number = 0;
   article!: Articles;
+  articleSub!: Subscription;
 
   constructor(private route: ActivatedRoute, private articleService: ArticlesService) { }
 
@@ -28,8 +29,13 @@ export class ArticlePageComponent implements OnInit {
 
   }
 
+  ngOnDestory() {
+    this.routeSub.unsubscribe();
+    this.articleSub.unsubscribe();
+  }
+
   getArticle() {
-    this.articleService.getArticleById(this.id).subscribe((data:Articles) => {
+    this.articleSub = this.articleService.getArticleById(this.id).subscribe((data:Articles) => {
       console.log(data);
       this.article = data;
     });
