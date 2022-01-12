@@ -7,5 +7,6 @@ export interface Articles {
     published_date: string;
     cover_image: string;
     tag: string;
+    typeOf: string;
     body_html?: SafeHtml;
 }

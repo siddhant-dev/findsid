@@ -15,9 +15,10 @@ const routes: Routes = [
     { path: 'articles', component: ArticlesComponent},
     { path: '', redirectTo: 'articles', pathMatch: 'full' },
     { path: 'apps', component: AppsComponent },
-    { path: 'art', component: ArtComponent }
+    { path: 'art', component: ArtComponent },
+    { path: 'articles/:id', component: ArticlePageComponent }
   ]},
-  { path: 'article/:id', component: ArticlePageComponent }
+  
 ];
 
 @NgModule({

@@ -20,6 +20,10 @@ export class ArticlePageComponent implements OnInit {
 
   ngOnInit(): void {
 
+    window.scrollTo({
+      top: 0
+    });
+
     this.routeSub = this.route.params.subscribe(params => {
       this.id = params['id'];
       this.getArticle();

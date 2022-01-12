@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Card } from 'src/app/models/card.model';
 import { Articles } from 'src/app/models/dev.model';
 
 @Component({
@@ -9,15 +10,19 @@ import { Articles } from 'src/app/models/dev.model';
 })
 export class CardComponent implements OnInit {
 
-  @Input() card_data!: Articles;
+  @Input() card_data!: Card;
 
   constructor(private route: Router) { }
 
   ngOnInit(): void {
   }
 
-  openArticle(id: number) {
-    this.route.navigateByUrl('/article/' + id);
+  navigate() {
+
+    if(this.card_data.typeOf === 'article'){
+      this.route.navigateByUrl('work/articles/' + this.card_data.id);
+    }
+      
   }
 
 }

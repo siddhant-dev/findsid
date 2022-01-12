@@ -20,6 +20,7 @@ export class ArticlesService {
         return {
           id: article.id,
           title: article.title,
+          typeOf: 'article',
           description: article.description,
           published_date: article.readable_publish_date,
           cover_image: article.social_image,
@@ -35,6 +36,7 @@ export class ArticlesService {
         id: data.id,
         title: data.title,
         description: data.description,
+        typeOf: 'article',
         published_date: data.readable_publish_date,
         cover_image: data.social_image,
         tag: data.tag_list[0],
