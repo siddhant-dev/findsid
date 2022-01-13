@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Articles } from 'src/app/models/dev.model';
 import { ArticlesService } from 'src/app/services/articles.service';
@@ -8,7 +8,7 @@ import { ArticlesService } from 'src/app/services/articles.service';
   templateUrl: './articles.component.html',
   styleUrls: ['./articles.component.scss']
 })
-export class ArticlesComponent implements OnInit {
+export class ArticlesComponent implements OnInit, OnDestroy {
 
   articles: Articles[] = [];
   articleSub!: Subscription;
@@ -19,7 +19,7 @@ export class ArticlesComponent implements OnInit {
     this.getAllArticles();
   }
 
-  ngOnDestory() {
+  ngOnDestroy() {
     this.articleSub.unsubscribe();
   }
 

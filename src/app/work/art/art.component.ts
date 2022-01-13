@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Insta } from 'src/app/models/insta.model';
 import { InstagramService } from 'src/app/services/instagram.service';
@@ -8,12 +8,15 @@ import { InstagramService } from 'src/app/services/instagram.service';
   templateUrl: './art.component.html',
   styleUrls: ['./art.component.scss']
 })
-export class ArtComponent implements OnInit {
+export class ArtComponent implements OnInit, OnDestroy {
 
   instaPosts!: Insta[];
   sub!: Subscription;
 
   constructor(private instaService: InstagramService) { }
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.getAllPosts();
