@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
+import { ResumeComponent } from './resume/resume.component';
 import { AppsComponent } from './work/apps/apps.component';
 import { ArtComponent } from './work/art/art.component';
 import { ArticlePageComponent } from './work/article-page/article-page.component';
@@ -18,6 +19,9 @@ const routes: Routes = [
     { path: 'art', component: ArtComponent },
     { path: 'articles/:id', component: ArticlePageComponent }
   ]},
+  {
+    path: 'resume', component: ResumeComponent
+  }
   
 ];
 

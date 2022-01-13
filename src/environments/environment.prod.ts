@@ -1,0 +1,4 @@
+export const environment = {
+  production: true,
+  accessKey: `IGQVJXaEtkZAGlPYkhqVVc0MTlGS0ZAhNDhyN2FlRzBuVjJmSHdVTUR2YkJzRndrbkRHY0F5ZAjhLQTR1d2xjb1BfNUhXMEdfR0pWOU1ocVpNZA3BIZA1JnNk90VFFrRjZArMFVSVHZAJMEJ6WnRrbkUxTFI5VQZDZD`
+};

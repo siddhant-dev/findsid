@@ -1,5 +1,5 @@
 <div class="container">
-    <img [src]="article.cover_image" alt="banner" height="500" width="1000">
+    <img [src]="article.cover_image" alt="banner" height="500" width="1000" loading="lazy">
     <h1>{{article.title}}</h1>
     <div class="full-article" [innerHtml]="article.body_html"></div>
 </div>
