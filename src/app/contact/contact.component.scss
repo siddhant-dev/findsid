@@ -1,0 +1,58 @@
+@import '../../vars.scss';
+.form-container {
+    form {
+        width: 50%;
+        transform: translateX(50%);
+        
+
+        fieldset{
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            border: 2px solid $black;
+            border-radius: 1rem;
+            padding: 0 1.5rem  2rem;
+            legend{
+                color: $blue;
+            }
+            p{
+                background-color: $yellow-100;
+                padding: .5rem;
+                text-align: justify;
+                border-radius: 1rem;
+            }
+
+            .form-group{
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+                label {
+                    padding-left: 1rem;
+                }
+                input, textarea {
+                    padding: .875rem 1rem;
+                    border: 2px solid $black;
+                    border-radius: 1rem;
+                    &:focus {
+                        outline: none;
+                        border-color: $yellow;
+                    }
+                    &.error {
+                        border-color: $red;
+                    }
+                }
+            }
+            button {
+                @include btn-blue;
+                align-self: center;
+                transition: all 300ms ease-in;
+                &:disabled {
+                    background-color: $black-700;
+                    box-shadow: none;
+                    border-color: $black-800;
+                }
+                
+            }
+        }
+    }
+}

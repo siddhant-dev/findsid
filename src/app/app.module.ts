@@ -13,6 +13,7 @@ import { ArtComponent } from './work/art/art.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ArticlePageComponent } from './work/article-page/article-page.component';
 import { ResumeComponent } from './resume/resume.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ResumeComponent } from './resume/resume.component';
     AppsComponent,
     ArtComponent,
     ArticlePageComponent,
-    ResumeComponent
+    ResumeComponent,
+    ContactComponent
   ],
   imports: [
     BrowserModule,
