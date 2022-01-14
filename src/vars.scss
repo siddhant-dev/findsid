@@ -47,6 +47,10 @@ $shadow-y600: 0px -6px 0px $black;
     border: 2px solid $black;
     border-radius: 1rem;
     gap: 1rem;
+    &:active {
+        box-shadow: $shadow-200;
+        transform: translateY(.25rem);
+    }
     
 }
 
