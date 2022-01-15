@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ArticlePageComponent } from './work/article-page/article-page.component';
 import { ResumeComponent } from './resume/resume.component';
 import { ContactComponent } from './contact/contact.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,13 +27,14 @@ import { ContactComponent } from './contact/contact.component';
     ArtComponent,
     ArticlePageComponent,
     ResumeComponent,
-    ContactComponent
+    ContactComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FeatherIconsModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,52 @@
+[
+      {
+        "id": 1,
+        "typeOf": "app",
+        "cover_image": "../../assets/app-cover.svg",
+        "title": "Authentic Weather App",
+        "description": "An Authentic Weather App that gives you weather information with a grain of salt. ",
+        "tag": "angular",
+        "published_date": "Dec' 2021",
+        "url": "https://authentic-weather.web.app"
+     },
+     {
+        "id": 2,
+        "typeOf": "app",
+        "cover_image": "../../assets/app-cover.svg",
+        "title": "Toonify App",
+        "description": "Convert your Image into a Disney Charcter. Built using Vue and Open AI ",
+        "tag": "vue",
+        "published_date": "Sep' 2019",
+        "url": "https://toonify-me.web.app/"
+     },
+     {
+        "id": 3,
+        "typeOf": "app",
+        "cover_image": "../../assets/app-cover.svg",
+        "title": "Notes App",
+        "description": "Another notes app built using Angular and Firebase",
+        "tag": "angular",
+        "published_date": "Oct' 2018",
+        "url": "https://keepit-notes.web.app"
+     },
+     {
+        "id": 4,
+        "typeOf": "app",
+        "cover_image": "../../assets/app-cover.svg",
+        "title": "Wedding Invite App",
+        "description": "This was built for my sister's wedding to invite people to the wedding. Built using Vue",
+        "tag": "vue",
+        "published_date": "Dec' 2021",
+        "url": "https://jaiswalswedding.web.app"
+     },
+     {
+        "id": 5,
+        "typeOf": "app",
+        "cover_image": "../../assets/app-cover.svg",
+        "title": "Tic Tac Game",
+        "description": "This was my first project, It does not look good but it works and marks the beginning of my journey as a developer",
+        "tag": "react",
+        "published_date": "Dec' 2021",
+        "url": "https://tic-tacgame.web.app/"
+     }
+]

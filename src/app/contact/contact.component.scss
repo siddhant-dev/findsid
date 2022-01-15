@@ -1,5 +1,8 @@
 @import '../../vars.scss';
 .form-container {
+    background-image: url('./../../assets/contact-background.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
     form {
         width: 50%;
         transform: translateX(50%);
@@ -17,9 +20,11 @@
             }
             p{
                 background-color: $yellow-100;
-                padding: .5rem;
+                padding: 1rem;
                 text-align: justify;
                 border-radius: 1rem;
+                margin: 0;
+                margin-top: 2rem;
             }
 
             .form-group{
@@ -33,6 +38,7 @@
                     padding: .875rem 1rem;
                     border: 2px solid $black;
                     border-radius: 1rem;
+                    font-family: 'Montserrat', sans-serif;
                     &:focus {
                         outline: none;
                         border-color: $yellow;
@@ -41,11 +47,16 @@
                         border-color: $red;
                     }
                 }
+               
+            }
+            .error-text {
+                color: $red;
+                padding-left: 1rem
             }
             button {
                 @include btn-blue;
                 align-self: center;
-                transition: all 300ms ease-in;
+                transition: all 100ms ease-in;
                 &:disabled {
                     background-color: $black-700;
                     box-shadow: none;
@@ -54,5 +65,19 @@
                 
             }
         }
+    }
+}
+
+@media screen and (max-width: 811px) {
+    .form-container {
+        background-image: none;
+        form {
+            width: 100%;
+            transform: translateX(0);
+            fieldset {
+                padding: 0 1rem 2rem;
+            }
+        }
+
     }
 }

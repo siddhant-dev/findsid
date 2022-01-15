@@ -22,6 +22,9 @@ export class CardComponent implements OnInit {
     if(this.card_data.typeOf === 'article'){
       this.route.navigateByUrl('work/articles/' + this.card_data.id);
     }
+    else if(this.card_data.typeOf === 'app'){
+      window.open(this.card_data.url, '_blank');
+    }
       
   }
 
