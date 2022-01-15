@@ -13,7 +13,7 @@ export class ContactService {
 
   constructor(private http: HttpClient) { }
 
-  sendEmail(data: any): Observable<any> {
+  sendEmail(data: Contact): Observable<any> {
     const headers= new HttpHeaders().set('Content-type', 'application/x-www-form-urlencoded');
     return this.http.post(this.formURL, data, { headers: headers }).pipe(
       catchError(this.handleError)
