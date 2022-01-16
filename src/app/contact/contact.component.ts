@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ContactService } from '../services/contact.service';
+import { MetaTagService } from '../services/meta-tag.service';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, OnDestroy {
 
   contactForm!: FormGroup
   sub!: Subscription;
 
-  constructor(private fb: FormBuilder, private contact: ContactService) { }
+  constructor(private fb: FormBuilder, private contact: ContactService, private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
     this.contactForm = this.fb.group({
@@ -26,6 +28,11 @@ export class ContactComponent implements OnInit {
     }, {
       validator: this.phoneOrEmailRequired('email', 'phone')
     });
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
+    this.metaTag.removeMetaTags();
   }
 
   phoneOrEmailRequired(ctrl1:any, ctrl2: any): ValidatorFn {
@@ -65,5 +72,16 @@ export class ContactComponent implements OnInit {
         console.log(err);
       }
     });
+  }
+
+  addTags() {
+    this.meta.addTag({ property: 'description', content: 'Connect With Siddhant Jaiswal' });
+    this.meta.addTag({ property: 'og:title', content: 'Connect With Siddhant Jaiswal' });
+    this.meta.addTag({ property: 'og:description', content: 'Connect With Siddhant Jaiswal' });
+    this.meta.addTag({ property: 'og:image', content: '../../assets/favicon.ico' });
+    this.meta.addTag({ property: 'og:url', content: window.location.href });
+    this.meta.addTag({ property: 'twitter:title', content: 'Connect With Siddhant Jaiswal' });
+    this.meta.addTag({ property: 'twitter:description', content: 'Contact me' });
+    this.meta.addTag({ property: 'twitter:image', content: '../../assets/favicon.ico' });
   }
 }

@@ -16,7 +16,7 @@ export class InstagramService {
 
   getAllPosts(): Observable<Insta[]> {
     let params = new HttpParams();
-    params = params.append('fields', 'id,media_url,media_type');
+    params = params.append('fields', 'id,media_url,media_type,caption');
     params = params.append('access_token', this.access_token);
     
     return this.http.get<Insta[]>(this.url, { params }).pipe(map((d: any) => {
@@ -25,7 +25,8 @@ export class InstagramService {
         return {
           id: post.id,
           media_url: post.media_url,
-          media_type: post.media_type
+          media_type: post.media_type,
+          caption: post.caption
         }
       })
     }), catchError(this.handleError));

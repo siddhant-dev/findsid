@@ -1,11 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
+import { MetaTagService } from '../services/meta-tag.service';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
+export class AboutComponent implements OnInit, OnDestroy {
 
   @ViewChild('type') typewritter!: ElementRef<HTMLElement>;
   i: number = 0;
@@ -13,13 +15,18 @@ export class AboutComponent implements OnInit {
   reverse: boolean = false;
   text = ['Siddhant Jaiswal', 'a Developer', 'a Designer', 'an Illustrator']
 
-  constructor() { }
+  constructor(private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
 
     setInterval(() => {
       this.typing();
     }, 150);
+    this.addTags();
+  }
+
+  ngOnDestroy(): void {
+    this.metaTag.removeMetaTags();
   }
 
 
@@ -47,4 +54,16 @@ export class AboutComponent implements OnInit {
     }
 
   }
+
+  addTags() {
+    this.meta.addTag({ property: 'og:description', content: 'Siddhant Jaiswal is a UI Developer, Designer and Illustrator. He is a passionate about creating web and mobile applications. He is a self-taught developer and has a knack for learning new technologies.' });
+    this.meta.addTag({ property: 'og:title', content: 'Siddhant Jaiswal - UI Developer' });
+    this.meta.addTag({ property: 'og:type', content: 'website' });
+    this.meta.addTag({ property: 'og:url', content: window.location.href });
+    this.meta.addTag({ property: 'og:image', content: '../../assets/favicon.ico' });
+    this.meta.addTag({ property: 'twitter:title', content: 'Siddhant Jaiswal - UI Developer' });
+    this.meta.addTag({ property: 'twitter:description', content: 'Siddhant Jaiswal is a UI Developer, Designer and Illustrator. He is a passionate about creating web and mobile applications. He is a self-taught developer and has a knack for learning new technologies.' });
+    this.meta.addTag({ property: 'twitter:image', content: '../../assets/favicon.ico' });
+  }
+
 }

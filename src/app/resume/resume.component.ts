@@ -1,17 +1,33 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
+import { MetaTagService } from '../services/meta-tag.service';
 
 @Component({
   selector: 'app-resume',
   templateUrl: './resume.component.html',
   styleUrls: ['./resume.component.scss']
 })
-export class ResumeComponent implements OnInit {
+export class ResumeComponent implements OnInit, OnDestroy {
 
   url = environment.resumeURL;
-  constructor() { }
+  constructor(private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
+    this.addTags();
   }
 
+  ngOnDestroy(): void {
+    this.metaTag.removeMetaTags();
+  }
+
+  addTags() {
+    this.meta.addTag({ property: 'og:title', content: 'Resume' });
+    this.meta.addTag({ property: 'og:description', content: 'Siddant Jaiswal\'s resume' });
+    this.meta.addTag({ property: 'og:image', content: '../../assets/favicon.ico' });
+    this.meta.addTag({ property: 'og:url', content: window.location.href });
+    this.meta.addTag({ property: 'twitter:title', content: 'Resume' });
+    this.meta.addTag({ property: 'twitter:description', content: 'Siddant Jaiswal\'s resume' });
+    this.meta.addTag({ property: 'twitter:image', content: '../../assets/favicon.ico' });
+  }
 }
