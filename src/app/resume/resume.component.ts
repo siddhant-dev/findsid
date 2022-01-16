@@ -22,6 +22,7 @@ export class ResumeComponent implements OnInit, OnDestroy {
   }
 
   addTags() {
+    this.meta.addTag({ name: 'description', content: 'Siddant Jaiswal\'s resume' });
     this.meta.addTag({ property: 'og:title', content: 'Resume' });
     this.meta.addTag({ property: 'og:description', content: 'Siddant Jaiswal\'s resume' });
     this.meta.addTag({ property: 'og:image', content: '../../assets/favicon.ico' });

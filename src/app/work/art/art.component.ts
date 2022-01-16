@@ -36,7 +36,7 @@ export class ArtComponent implements OnInit, OnDestroy {
 
   addTags() {
     this.instaPosts.forEach(post => {
-      this.meta.addTag({property: 'description', content: post.caption});
+      this.meta.addTag({name: 'description', content: post.caption});
       this.meta.addTag({ property: 'og:description', content: post.caption });
       this.meta.addTag({ property: 'og:title', content: 'Instagram Posts' });
       this.meta.addTag({ property: 'og:type', content: post.media_type });

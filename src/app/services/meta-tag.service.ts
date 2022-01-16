@@ -10,7 +10,7 @@ export class MetaTagService {
 
 
   removeMetaTags() {
-    this.meta.removeTag('property="description"');
+    this.meta.removeTag('name="description"');
     this.meta.removeTag('property="og:description"');
     this.meta.removeTag('property="og:title"');
     this.meta.removeTag('property="og:type"');

@@ -33,7 +33,7 @@ export class AppsComponent implements OnInit, OnDestroy {
 
   addTags() {
     this.apps.forEach(app => {
-      this.meta.addTag({ property: 'description', content: app.description });
+      this.meta.addTag({ name: 'description', content: app.description });
       this.meta.addTag({ property: 'og:title', content: app.title });
       this.meta.addTag({ property: 'og:description', content: app.description });
       this.meta.addTag({ property: 'og:image', content: app.cover_image });

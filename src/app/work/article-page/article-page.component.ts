@@ -50,7 +50,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   }
 
   addMetaTags() {
-    this.meta.addTag({property: 'description', content: this.article.description});
+    this.meta.addTag({name: 'description', content: this.article.description});
     this.meta.addTag({ property: 'og:description', content: this.article.description });
     this.meta.addTag({ property: 'og:title', content: this.article.title });
     this.meta.addTag({ property: 'og:type', content: 'article' });

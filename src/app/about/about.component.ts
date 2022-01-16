@@ -56,6 +56,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   }
 
   addTags() {
+    this.meta.addTag({ name: 'description', content: 'Siddhant Jaiswal is a UI Developer, Designer and Illustrator. He is a passionate about creating web and mobile applications. He is a self-taught developer and has a knack for learning new technologies.' });
     this.meta.addTag({ property: 'og:description', content: 'Siddhant Jaiswal is a UI Developer, Designer and Illustrator. He is a passionate about creating web and mobile applications. He is a self-taught developer and has a knack for learning new technologies.' });
     this.meta.addTag({ property: 'og:title', content: 'Siddhant Jaiswal - UI Developer' });
     this.meta.addTag({ property: 'og:type', content: 'website' });

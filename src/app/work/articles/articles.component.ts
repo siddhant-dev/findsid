@@ -38,7 +38,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
 
   addTags() {
     this.articles.forEach(article => {
-      this.meta.addTag({property: 'description', content: article.description});
+      this.meta.addTag({name: 'description', content: article.description});
       this.meta.addTag({ property: 'og:description', content: article.description });
       this.meta.addTag({ property: 'og:title', content: article.title });
       this.meta.addTag({ property: 'og:type', content: 'article' });

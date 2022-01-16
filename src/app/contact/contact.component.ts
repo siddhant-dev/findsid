@@ -18,6 +18,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private contact: ContactService, private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
+    this.addTags();
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.email],
@@ -31,7 +32,9 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    if(this.sub) {
+      this.sub.unsubscribe();
+    }
     this.metaTag.removeMetaTags();
   }
 
@@ -75,7 +78,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   addTags() {
-    this.meta.addTag({ property: 'description', content: 'Connect With Siddhant Jaiswal' });
+    this.meta.addTag({ name: 'description', content: 'Connect With Siddhant Jaiswal' });
     this.meta.addTag({ property: 'og:title', content: 'Connect With Siddhant Jaiswal' });
     this.meta.addTag({ property: 'og:description', content: 'Connect With Siddhant Jaiswal' });
     this.meta.addTag({ property: 'og:image', content: '../../assets/favicon.ico' });
