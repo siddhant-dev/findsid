@@ -70,7 +70,6 @@
 
 @media screen and (max-width: 811px) {
     .form-container {
-        background-image: none;
         form {
             width: 100%;
             transform: translateX(0);
@@ -80,4 +79,11 @@
         }
 
     }
+}
+
+@media screen and (max-width: 1200px) {
+    .form-container {
+        background-image: none;
+    }
+    
 }
