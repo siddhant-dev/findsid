@@ -1,6 +1,7 @@
 <div class="card">
     <div class="banner" >
-        <img [src]="card_data.cover_image" role="presentation" alt="cover-image" height="172.5" width="345" loading="lazy">
+        <img [src]="card_data.cover_image" role="presentation" alt="cover-image" height="172.5" width="345" 
+        [attr.loading]="card_data.id ? 'eager':'lazy'">
     </div>
     <div class="card-body">
         <section class="header">

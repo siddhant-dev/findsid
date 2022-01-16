@@ -28,6 +28,9 @@ header {
     background-color: $white;
     position: sticky;
     top: 0;
+    h6{
+      cursor: pointer;
+    }
     ul {
       display: flex;
       justify-content: space-between;
@@ -36,6 +39,7 @@ header {
       margin: 0;
       li {
         list-style: none;
+        cursor: pointer;
         a {
           text-decoration: none;
           color: $black;
