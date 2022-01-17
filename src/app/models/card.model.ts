@@ -8,3 +8,7 @@ export interface Card {
     published_date: string;
     url?: string;
 }
+
+export class CardClass {
+    constructor(public card: Card[], public err: any = null) { }
+}

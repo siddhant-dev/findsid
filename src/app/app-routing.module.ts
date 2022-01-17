@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { ResumeComponent } from './resume/resume.component';
+import { AppService } from './services/app.service';
 import { AppsComponent } from './work/apps/apps.component';
 import { ArtComponent } from './work/art/art.component';
 import { ArticlePageComponent } from './work/article-page/article-page.component';
@@ -17,7 +18,7 @@ const routes: Routes = [
     path: 'work', component: WorkComponent, children: [
       { path: 'articles', component: ArticlesComponent},
       { path: '', redirectTo: 'articles', pathMatch: 'full' },
-      { path: 'apps', component: AppsComponent },
+      { path: 'apps', component: AppsComponent, resolve: { apps: AppService } },
       { path: 'art', component: ArtComponent },
       { path: 'articles/:id', component: ArticlePageComponent }
     ]

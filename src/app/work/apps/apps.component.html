@@ -2,3 +2,5 @@
     <app-card *ngFor="let data of apps" [card_data]=data></app-card>
     
 </div>
+
+<div class="error" *ngIf="error">{{error}}</div>

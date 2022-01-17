@@ -1,8 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { Subscription } from 'rxjs';
-import { Card } from 'src/app/models/card.model';
-import { AppService } from 'src/app/services/app.service';
+import { ActivatedRoute } from '@angular/router';
+import { Card, CardClass } from 'src/app/models/card.model';
 import { MetaTagService } from 'src/app/services/meta-tag.service';
 
 @Component({
@@ -12,23 +12,28 @@ import { MetaTagService } from 'src/app/services/meta-tag.service';
 })
 export class AppsComponent implements OnInit, OnDestroy {
 
-  constructor(private app: AppService, private meta: Meta, private metaTag: MetaTagService) { }
+  constructor(private route: ActivatedRoute, private meta: Meta, private metaTag: MetaTagService) { }
 
-  apps!: Card[];
-  sub!: Subscription;
+  apps: Card[] = [];
+  error: string = '';
 
   ngOnInit(): void {
-    this.sub = this.app.getApps().subscribe(data => {
-      this.apps = data;
+    const routeData: CardClass = this.route.snapshot.data['apps'];
+    if(routeData.err) {
+      this.error = this.handleError(routeData.err);
+    }
+    else {
+      this.apps = routeData.card;
       this.addTags();
-    });
+    }
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
-    this.apps.forEach(() => {
-      this.metaTag.removeMetaTags();
-    })
+    if(this.apps.length){
+      this.apps.forEach(() => {
+        this.metaTag.removeMetaTags();
+      })
+    }
   }
 
   addTags() {
@@ -42,6 +47,16 @@ export class AppsComponent implements OnInit, OnDestroy {
       this.meta.addTag({ property: 'twitter:description', content: app.description });
       this.meta.addTag({ property: 'twitter:image', content: app.cover_image });
     });
+  }
+
+  private handleError(err: HttpErrorResponse) {
+    let errMsg = '';
+    if (err.error instanceof Error) {
+      errMsg = err.error.message;
+    } else {
+      errMsg = `Backend returned code ${err.status}`;
+    }
+    return errMsg;
   }
 
 }
