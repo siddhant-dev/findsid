@@ -24,6 +24,7 @@ export class ArtComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.meta.removeTag('name="description"');
     this.getAllPosts();
   }
 

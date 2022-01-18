@@ -18,6 +18,7 @@ export class AppsComponent implements OnInit, OnDestroy {
   error: string = '';
 
   ngOnInit(): void {
+    this.meta.removeTag('name="description"');
     const routeData: CardClass = this.route.snapshot.data['apps'];
     if(routeData.err) {
       this.error = this.handleError(routeData.err);

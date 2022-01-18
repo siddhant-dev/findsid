@@ -18,6 +18,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private contact: ContactService, private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
+    this.meta.removeTag('name="description"');
     this.addTags();
     this.contactForm = this.fb.group({
       name: ['', Validators.required],

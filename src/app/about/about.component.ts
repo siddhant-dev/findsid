@@ -18,6 +18,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   constructor(private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
+    this.meta.removeTag('name="description"');
 
     setInterval(() => {
       this.typing();

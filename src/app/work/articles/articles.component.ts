@@ -18,6 +18,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   constructor(private articleService: ArticlesService, private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
+    this.meta.removeTag('name="description"');
     this.getAllArticles();
     
   }

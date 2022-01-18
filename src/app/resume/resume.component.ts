@@ -14,6 +14,7 @@ export class ResumeComponent implements OnInit, OnDestroy {
   constructor(private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
+    this.meta.removeTag('name="description"');
     this.addTags();
   }
 

@@ -22,6 +22,7 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
     private metaTag:MetaTagService) { }
 
   ngOnInit(): void {
+    this.meta.removeTag('name="description"');
 
     window.scrollTo({
       top: 0
