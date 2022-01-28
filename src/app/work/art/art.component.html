@@ -1,4 +1,8 @@
-<div class="grid-container" >
+<div class="grid-container" *ngIf="!showSpinner" >
     <img  *ngFor="let post of instaPosts; let i = index" [src]=post.media_url height="350" width="350" 
     alt="Illustration from Instagram" role="presentation" [attr.loading]="i == 0 ? 'eager':'lazy'">
 </div>
+
+<app-loader *ngIf="showSpinner"></app-loader>
+
+<div class="error" *ngIf="error">{{error}}</div>

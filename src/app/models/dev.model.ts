@@ -10,3 +10,7 @@ export interface Articles {
     typeOf: string;
     body_html?: SafeHtml;
 }
+
+export class ArticlesClass {
+    constructor(public articles: Articles[], public err: any = null) { }
+}

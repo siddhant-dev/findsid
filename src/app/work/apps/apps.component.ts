@@ -2,7 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Card, CardClass } from 'src/app/models/card.model';
+import { AppService } from 'src/app/services/app.service';
 import { MetaTagService } from 'src/app/services/meta-tag.service';
 
 @Component({
@@ -12,21 +14,27 @@ import { MetaTagService } from 'src/app/services/meta-tag.service';
 })
 export class AppsComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute, private meta: Meta, private metaTag: MetaTagService) { }
+  constructor(private appService: AppService, private meta: Meta, private metaTag: MetaTagService) { }
 
   apps: Card[] = [];
   error: string = '';
+  sub!: Subscription;
+  showSpinner: boolean = true;
 
   ngOnInit(): void {
     this.meta.removeTag('name="description"');
-    const routeData: CardClass = this.route.snapshot.data['apps'];
-    if(routeData.err) {
-      this.error = this.handleError(routeData.err);
-    }
-    else {
-      this.apps = routeData.card;
-      this.addTags();
-    }
+    this.sub = this.appService.getApps().subscribe(
+      {
+        next: (data: Card[]) => {
+          this.apps = data;
+          this.addTags();
+          this.showSpinner = false;
+        },
+        error: (err: HttpErrorResponse) => {
+          this.error = err.toString();
+          this.showSpinner = false;
+        }
+      });
   }
 
   ngOnDestroy() {

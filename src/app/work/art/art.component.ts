@@ -14,6 +14,8 @@ export class ArtComponent implements OnInit, OnDestroy {
 
   instaPosts!: Insta[];
   sub!: Subscription;
+  showSpinner: boolean = true;
+  error: string = '';
 
   constructor(private instaService: InstagramService, private meta: Meta, private metaTag: MetaTagService) { }
   ngOnDestroy(): void {
@@ -29,9 +31,16 @@ export class ArtComponent implements OnInit, OnDestroy {
   }
 
   getAllPosts() {
-    this.sub = this.instaService.getAllPosts().subscribe((data: Insta[]) => {
-      this.instaPosts = data;
-      this.addTags();
+    this.sub = this.instaService.getAllPosts().subscribe({
+      next: (data: Insta[]) => {
+        this.instaPosts = data;
+        this.addTags();
+        this.showSpinner = false;
+      }, 
+      error: (err) => {
+        this.error = err.toString();
+        this.showSpinner = false;
+      }
     });   
   }
 

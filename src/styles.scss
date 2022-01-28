@@ -141,6 +141,13 @@ p, .regular {
   }
 }
 
+.error {
+  background-color: $red-800;
+  padding: 2rem;
+  border-radius: 1rem;
+}
+
+
 .text {
   font-style: normal;
   font-weight: 500;

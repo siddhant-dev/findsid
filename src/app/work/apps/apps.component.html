@@ -1,6 +1,8 @@
-<div class="grid-container">
+<div class="grid-container" *ngIf="!showSpinner">
     <app-card *ngFor="let data of apps" [card_data]=data></app-card>
     
 </div>
 
 <div class="error" *ngIf="error">{{error}}</div>
+
+<app-loader *ngIf="showSpinner"></app-loader>

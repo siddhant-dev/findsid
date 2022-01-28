@@ -1,5 +1,9 @@
-<div class="container">
+<div class="container" *ngIf="!showSpinner">
     <img role="presentation" [src]="article.cover_image" alt="banner" height="500" width="1000" loading="lazy">
     <h1>{{article.title}}</h1>
     <div tabindex="0" class="full-article" [innerHtml]="article.body_html"></div>
 </div>
+
+<app-loader *ngIf="showSpinner"></app-loader>
+
+<div class="error" *ngIf="error">{{error}}</div>

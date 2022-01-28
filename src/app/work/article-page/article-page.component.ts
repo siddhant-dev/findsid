@@ -17,6 +17,8 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   id: number = 0;
   article!: Articles;
   articleSub!: Subscription;
+  showSpinner: boolean = true;
+  error:string = '';
 
   constructor(private route: ActivatedRoute, private articleService: ArticlesService, private meta: Meta, 
     private metaTag:MetaTagService) { }
@@ -44,9 +46,16 @@ export class ArticlePageComponent implements OnInit, OnDestroy {
   }
 
   getArticle() {
-    this.articleSub = this.articleService.getArticleById(this.id).subscribe((data:Articles) => {
-      this.article = data;
-      this.addMetaTags();
+    this.articleSub = this.articleService.getArticleById(this.id).subscribe({
+      next: (data:Articles) => {
+        this.article = data;
+        this.addMetaTags();
+        this.showSpinner = false;
+      },
+      error: (err) => {
+        this.error = err.toString();
+        this.showSpinner = false;
+      }
     });
   }
 

@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'work', component: WorkComponent, children: [
       { path: 'articles', component: ArticlesComponent},
       { path: '', redirectTo: 'articles', pathMatch: 'full' },
-      { path: 'apps', component: AppsComponent, resolve: { apps: AppService } },
+      { path: 'apps', component: AppsComponent },
       { path: 'art', component: ArtComponent },
       { path: 'articles/:id', component: ArticlePageComponent }
     ]

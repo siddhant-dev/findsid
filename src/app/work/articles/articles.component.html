@@ -1,3 +1,7 @@
-<div class="grid-container" >
+<div class="grid-container" *ngIf="!showSpinner" >
     <app-card *ngFor="let article of articles" [card_data]=article></app-card>
 </div>
+
+<app-loader *ngIf="showSpinner"></app-loader>
+
+<div class="error" *ngIf="error">{{error}}</div>

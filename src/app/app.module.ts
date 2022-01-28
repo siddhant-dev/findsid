@@ -15,6 +15,7 @@ import { ArticlePageComponent } from './work/article-page/article-page.component
 import { ResumeComponent } from './resume/resume.component';
 import { ContactComponent } from './contact/contact.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ArticlePageComponent,
     ResumeComponent,
     ContactComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

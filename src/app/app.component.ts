@@ -21,6 +21,7 @@ export class AppComponent {
     } else {
       this.menuIcon = 'menu';
     }
+    this.skipContent();
   }
 
   skipContent() {

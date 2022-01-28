@@ -14,6 +14,8 @@ export class ArticlesComponent implements OnInit, OnDestroy {
 
   articles: Articles[] = [];
   articleSub!: Subscription;
+  showSpinner: boolean = true;
+  error:string = '';
 
   constructor(private articleService: ArticlesService, private meta: Meta, private metaTag: MetaTagService) { }
 
@@ -31,10 +33,17 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   }
 
   getAllArticles() {
-   this.articleSub = this.articleService.getAllArticles().subscribe((data:Articles[]) => {
+   this.articleSub = this.articleService.getAllArticles().subscribe({
+     next: (data:Articles[]) => {
       this.articles = data;
       this.addTags();
-    });
+      this.showSpinner = false;
+    }, 
+    error: (err) => {
+      this.showSpinner = false;
+      this.error = err.toString();
+    }
+   });
   }
 
   addTags() {
