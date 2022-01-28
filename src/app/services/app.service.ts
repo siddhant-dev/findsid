@@ -9,7 +9,7 @@ import { Card, CardClass } from '../models/card.model';
 export class AppService {
 
   constructor(private http: HttpClient) { }
-  url = '../../assets/dat.json';
+  url = '../../assets/data.json';
   saveData!: CardClass;
 
   getApps(): Observable<Card[]> {
