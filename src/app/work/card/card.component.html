@@ -12,7 +12,9 @@
             {{card_data.description}}
         </p>
         <section class="footer">
-            <a role="button" title="Open" href="javascript:void(0);" (click)="navigate()" tabindex="0">Open</a>
+            <a role="button" title="Open" href="javascript:void(0);" (click)="navigate()" tabindex="0">
+                Open <i-feather *ngIf="card_data.external" name = "external-link"></i-feather>
+            </a>
             <div class="pub" tabindex="0">
                 <span class="regular bold">Published On</span>
                 <span class="sub-2">{{card_data.published_date}}</span>

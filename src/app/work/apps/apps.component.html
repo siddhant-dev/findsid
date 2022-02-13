@@ -1,4 +1,4 @@
-<div class="grid-container" *ngIf="!showSpinner">
+<div class="grid-container" *ngIf="!showSpinner" id="apps" aria-labelledby="tab-apps" tabindex="0">
     <app-card *ngFor="let data of apps" [card_data]=data></app-card>
     
 </div>

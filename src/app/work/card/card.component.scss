@@ -52,6 +52,7 @@
     a {
       @include btn-blue;
       text-decoration: none;
+      padding-block: .75rem;
 
       &:focus {
         background-color: lighten($color: $blue, $amount: 10);

@@ -7,6 +7,7 @@ export interface Card {
     tag: string;
     published_date: string;
     url?: string;
+    external?: boolean;
 }
 
 export class CardClass {

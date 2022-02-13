@@ -33,7 +33,7 @@ export class ArtComponent implements OnInit, OnDestroy {
   getAllPosts() {
     this.sub = this.instaService.getAllPosts().subscribe({
       next: (data: Insta[]) => {
-        this.instaPosts = data;
+        this.instaPosts = data.slice(0,24);
         this.addTags();
         this.showSpinner = false;
       }, 

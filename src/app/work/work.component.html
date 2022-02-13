@@ -1,8 +1,12 @@
 <div class="tabs">
-    <nav role="menubar">
-        <a role="menuitem" href="javascript:void(0);" class="text bold" routerLink="articles" routerLinkActive="active">Articles</a>
-        <a role="menuitem" href="javascript:void(0);" class="text bold" routerLink="apps" routerLinkActive="active">Apps</a>
-        <a role="menuitem" href="javascript:void(0);" class="text bold" routerLink="art" routerLinkActive="active">Art</a>
+    <nav role="tablist" (keyup)="handleKeyUp($event)"
+    (keydown)="handleKeyDown($event)">
+        <a #tabs (click)="activatePanel(0)" id="tab-article" role="tab" href="javascript:void(0);" class="text bold" routerLink="articles" 
+        routerLinkActive="active" aria-controls="articles">Articles</a>
+        <a #tabs (click)="activatePanel(1)" id="tab-apps" role="tab" href="javascript:void(0);" class="text bold" routerLink="apps" 
+        routerLinkActive="active" aria-controls="apps">Apps</a>
+        <a #tabs (click)="activatePanel(2)" id="tab-art" role="tab" href="javascript:void(0);" class="text bold" routerLink="art" 
+        routerLinkActive="active" aria-controls="art">Art</a>
     </nav>
 </div>
 

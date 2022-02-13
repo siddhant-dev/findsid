@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { FeatherModule } from 'angular-feather';
-import { Github, Twitter, Linkedin, Menu, X, Instagram, Codepen, Download, FileText, Send } from 'angular-feather/icons';
+import { Github, Twitter, Linkedin, Menu, X, Instagram, Codepen, Download, FileText, Send, ExternalLink } from 'angular-feather/icons';
 
 // Select some icons (use an object, not an array)
 const icons = {
@@ -15,6 +15,7 @@ const icons = {
   Download,
   FileText,
   Send,
+  ExternalLink
 };
 
 @NgModule({
