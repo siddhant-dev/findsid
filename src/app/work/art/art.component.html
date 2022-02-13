@@ -1,13 +1,16 @@
-<div class="grid-container" *ngIf="!showSpinner" id="art" aria-labelledby="tab-art" tabindex="0" >
-    <img  *ngFor="let post of instaPosts; let i = index" [src]=post.media_url height="350" width="350" 
-    alt="Illustration from Instagram" role="presentation" [attr.loading]="i == 0 ? 'eager':'lazy'">
+<section *ngIf="!showSpinner" >
+    <div class="grid-container" id="art" aria-labelledby="tab-art" tabindex="0" >
+        <img  *ngFor="let post of instaPosts; let i = index" [src]=post.media_url height="350" width="350" 
+        alt="Illustration from Instagram" role="presentation" [attr.loading]="i == 0 ? 'eager':'lazy'">
+        
+    </div>
     <div class="btn-group">
         <!-- <a href="../../assets/resume.webp" target="blank" class="btn">View PDF <i-feather name = "file-text"></i-feather></a> -->
-        <a role="button" aria-label="View More on Instagram" href="https://instagram.com/isuckatdesign/" target="blank" class="btn-blue">
-            View More on Instagram <i-feather name = "external-link"></i-feather>
+        <a role="button" aria-label="View more on Instagram" href="https://instagram.com/isuckatdesign/" target="blank" class="btn-blue">
+            View more on Instagram <i-feather name = "external-link"></i-feather>
         </a>
     </div>
-</div>
+</section>
 
 
 <app-loader *ngIf="showSpinner"></app-loader>

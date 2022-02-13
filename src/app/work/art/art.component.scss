@@ -12,22 +12,24 @@
         width: 100%;
         height: auto;
     }
-    .btn-group {
-        display: flex;
-        border: none;
-        grid-column-start: 2;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-        .btn {
-            @include btn-white;
-            text-decoration: none;
+    
+}
 
-            &-blue {
-                @include btn-blue;
-                text-decoration: none;
-        
-            }
+.btn-group {
+    margin-top: 2rem;
+    display: flex;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    .btn {
+        @include btn-white;
+        text-decoration: none;
+
+        &-blue {
+            @include btn-blue;
+            text-decoration: none;
+    
         }
     }
 }
