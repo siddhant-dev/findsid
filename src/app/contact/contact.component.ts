@@ -1,9 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ContactService } from '../services/contact.service';
 import { MetaTagService } from '../services/meta-tag.service';
+import { Overlay, OverlayConfig, } from '@angular/cdk/overlay';
+import { TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
   selector: 'app-contact',
@@ -14,8 +16,10 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   contactForm!: FormGroup
   sub!: Subscription;
+  @ViewChild('template') tpl!: TemplateRef<unknown>;
 
-  constructor(private fb: FormBuilder, private contact: ContactService, private meta: Meta, private metaTag: MetaTagService) { }
+  constructor(private fb: FormBuilder, private contact: ContactService, private overlay: Overlay,
+     private viewContainerRef: ViewContainerRef, private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
     this.meta.removeTag('name="description"');
@@ -66,16 +70,18 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   sendMessage() {
-    this.sub = this.contact.sendEmail(this.contactForm.value).subscribe(
-      {
-        next: (data:any) => {
-          console.log(data);
-        this.contactForm.reset();
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    });
+    this.openWithTemplate();
+    // this.sub = this.contact.sendEmail(this.contactForm.value).subscribe(
+    //   {
+    //     next: (data:any) => {
+    //       console.log(data);
+    //       this.contactForm.reset();
+          
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //   }
+    // });
   }
 
   addTags() {
@@ -87,5 +93,16 @@ export class ContactComponent implements OnInit, OnDestroy {
     this.meta.addTag({ property: 'twitter:title', content: 'Connect With Siddhant Jaiswal' });
     this.meta.addTag({ property: 'twitter:description', content: 'Contact me' });
     this.meta.addTag({ property: 'twitter:image', content: '../../assets/favicon.ico' });
+  }
+
+  openWithTemplate() {
+    const config = new OverlayConfig({
+      hasBackdrop: true,
+      panelClass: ['modal', 'active'],
+      backdropClass: 'modal-backdrop',
+    });
+    const overlayRef = this.overlay.create(config);
+    overlayRef.attach(new TemplatePortal(this.tpl, this.viewContainerRef));
+    console.log(this.tpl)
   }
 }

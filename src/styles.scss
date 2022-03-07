@@ -255,3 +255,33 @@ code {
     }
   }
 }
+
+.modal-backdrop {
+  background-color: rgba(10,10,10,.86);
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 101;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 102;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  &.active {
+      display: block;
+  }
+  .modal-card {
+      margin: 0 auto;
+      position: relative;
+      max-height: calc(100vh - 2.5rem);
+      width: 40rem;
+      background-color: white;
+  }
+}
