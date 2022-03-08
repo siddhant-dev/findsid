@@ -4,7 +4,7 @@ import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ContactService } from '../services/contact.service';
 import { MetaTagService } from '../services/meta-tag.service';
-import { Overlay, OverlayConfig, } from '@angular/cdk/overlay';
+import { Overlay, OverlayConfig,OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 
 @Component({
@@ -17,6 +17,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   contactForm!: FormGroup
   sub!: Subscription;
   @ViewChild('template') tpl!: TemplateRef<unknown>;
+  overlayRef!: OverlayRef
 
   constructor(private fb: FormBuilder, private contact: ContactService, private overlay: Overlay,
      private viewContainerRef: ViewContainerRef, private meta: Meta, private metaTag: MetaTagService) { }
@@ -32,7 +33,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       message: ['', [Validators.required, Validators.minLength(25)]]
 
     }, {
-      validator: this.phoneOrEmailRequired('email', 'phone')
+      validators: this.phoneOrEmailRequired('email', 'phone')
     });
   }
 
@@ -100,9 +101,14 @@ export class ContactComponent implements OnInit, OnDestroy {
       hasBackdrop: true,
       panelClass: ['modal', 'active'],
       backdropClass: 'modal-backdrop',
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
-    const overlayRef = this.overlay.create(config);
-    overlayRef.attach(new TemplatePortal(this.tpl, this.viewContainerRef));
-    console.log(this.tpl)
+    this.overlayRef = this.overlay.create(config);
+    this.overlayRef.attach(new TemplatePortal(this.tpl, this.viewContainerRef));
+
+  }
+
+  closeModal(){
+    this.overlayRef.dispose();
   }
 }
