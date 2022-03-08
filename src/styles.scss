@@ -271,19 +271,21 @@ code {
   position: fixed;
   z-index: -1;
   transition: all 0.3s ease-in-out;
+  margin: 0 auto;
   top: 0;
+  left: 0;
+  right: 0;
   &.active {
       top: 50%;
       z-index: 101;
-      left: 50%;
-      transition: translate 0.3s ease-in-out;
-      transform: translate(-50%, -50%);
+      transition: all 0.3s ease-in-out;
+      transform: translateY(-50%);
   }
   .modal-card {
       margin: 0 auto;
       position: relative;
       max-height: calc(100vh - 2.5rem);
-      min-width: 40rem;
+      width: 40rem;
       min-height: 20rem;
       border-radius: 1rem;
       box-shadow: $shadow-600;
@@ -301,7 +303,7 @@ code {
           justify-content: center;
           padding: .5rem;
           &:hover {
-            background-color: $black-200;
+            background-color: $red-100;
             border-radius: 50%;
             
           }
