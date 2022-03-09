@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
@@ -18,6 +18,12 @@ export class ContactComponent implements OnInit, OnDestroy {
   sub!: Subscription;
   @ViewChild('template') tpl!: TemplateRef<unknown>;
   overlayRef!: OverlayRef
+  title:string = 'Thank you!';
+  src!: string;
+  body!: string;
+  error!: string;
+  head!: ElementRef;
+  
 
   constructor(private fb: FormBuilder, private contact: ContactService, private overlay: Overlay,
      private viewContainerRef: ViewContainerRef, private meta: Meta, private metaTag: MetaTagService) { }
@@ -72,17 +78,28 @@ export class ContactComponent implements OnInit, OnDestroy {
 
   sendMessage() {
     this.openWithTemplate();
-    // this.sub = this.contact.sendEmail(this.contactForm.value).subscribe(
-    //   {
-    //     next: (data:any) => {
-    //       console.log(data);
-    //       this.contactForm.reset();
-          
-    //   },
-    //   error: (err) => {
-    //     console.log(err);
-    //   }
-    // });
+    this.sub = this.contact.sendEmail(this.contactForm.value).subscribe(
+      {
+        next: (data:any) => {
+          this.contactForm.reset();
+          this.error = data.success;
+          if(this.error === 'true') {
+            this.title = 'Thank you!';
+            this.body = 'Your message has been sent. I will get back to you soon.';
+          }
+          else {
+            this.title = 'Error!';
+            this.body = 'Something went wrong. Please try again later.';
+
+          }
+        },
+        error: (err: any) => {
+          console.log(err);
+          this.title = 'Error!';
+          this.body = err;
+          this.error = 'true';
+        }
+    });
   }
 
   addTags() {
@@ -97,6 +114,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   openWithTemplate() {
+    // this.body = 'Your message has been sent. I will get back to you soon.';
     const config = new OverlayConfig({
       hasBackdrop: true,
       panelClass: ['modal', 'active'],
@@ -104,11 +122,20 @@ export class ContactComponent implements OnInit, OnDestroy {
       scrollStrategy: this.overlay.scrollStrategies.block(),
     });
     this.overlayRef = this.overlay.create(config);
-    this.overlayRef.attach(new TemplatePortal(this.tpl, this.viewContainerRef));
+    const popup = this.overlayRef.attach(new TemplatePortal(this.tpl, this.viewContainerRef)); 
+    console.log(popup.rootNodes[0]);
+    popup.rootNodes[0].focus();
 
   }
 
   closeModal(){
     this.overlayRef.dispose();
   }
+
+  handleKey(event: KeyboardEvent) {
+    if(event.key === 'Escape' || event.key === 'Enter') {
+      this.closeModal();
+    }
+  }
+
 }

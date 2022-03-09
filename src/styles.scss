@@ -311,6 +311,17 @@ code {
       }
       .modal-card-body {
         padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+        flex-direction: column;
       }
   }
+}
+
+.cdk-global-scrollblock {
+  position: fixed;
+  width: 100%;
+  overflow-y: scroll;
 }
