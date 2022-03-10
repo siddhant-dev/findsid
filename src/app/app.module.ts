@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,11 @@ import { ContactComponent } from './contact/contact.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { OverlayModule } from '@angular/cdk/overlay';
+import { LottieCacheModule, LottieModule } from 'ngx-lottie';
+
+export function playerFactory() {
+  return import('lottie-web');
+}
 
 @NgModule({
   declarations: [
@@ -31,6 +36,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
     ResumeComponent,
     ContactComponent,
     LoaderComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -38,10 +44,11 @@ import { OverlayModule } from '@angular/cdk/overlay';
     FeatherIconsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    OverlayModule
+    OverlayModule,
+    LottieModule.forRoot({ player: playerFactory }),
+    LottieCacheModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }

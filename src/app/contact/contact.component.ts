@@ -6,6 +6,7 @@ import { ContactService } from '../services/contact.service';
 import { MetaTagService } from '../services/meta-tag.service';
 import { Overlay, OverlayConfig,OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-contact',
@@ -23,6 +24,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   body!: string;
   error!: string;
   head!: ElementRef;
+  options!: AnimationOptions;
   
 
   constructor(private fb: FormBuilder, private contact: ContactService, private overlay: Overlay,
@@ -86,10 +88,12 @@ export class ContactComponent implements OnInit, OnDestroy {
           if(this.error === 'true') {
             this.title = 'Thank you!';
             this.body = 'Your message has been sent. I will get back to you soon.';
+            this.options = {path:'https://assets2.lottiefiles.com/packages/lf20_rzwlshcq.json'};
           }
           else {
             this.title = 'Error!';
             this.body = 'Something went wrong. Please try again later.';
+            this.options = {path:'https://assets6.lottiefiles.com/packages/lf20_pcguxrto.json'};
 
           }
         },
@@ -97,7 +101,8 @@ export class ContactComponent implements OnInit, OnDestroy {
           console.log(err);
           this.title = 'Error!';
           this.body = err;
-          this.error = 'true';
+          this.error = 'false';
+          this.options = {path:'https://assets6.lottiefiles.com/packages/lf20_pcguxrto.json'};
         }
     });
   }

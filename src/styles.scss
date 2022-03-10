@@ -254,6 +254,13 @@ code {
       height: auto;
     }
   }
+
+  .modal .modal-card{
+    max-width: calc(100% - 2rem);
+    .modal-card-body .lottie {
+      width: 80% !important;
+    }
+  }
 }
 
 .modal-backdrop {
@@ -316,6 +323,9 @@ code {
         align-items: center;
         gap: .5rem;
         flex-direction: column;
+        .lottie {
+          width: 50%;
+        }
       }
   }
 }

@@ -60,14 +60,7 @@
             </a>
         </header>
         <section class="modal-card-body">
-            <lottie-player *ngIf="error=='true';else err" autoplay loop mode="normal" style="width: 20rem"
-            src="https://assets2.lottiefiles.com/packages/lf20_rzwlshcq.json">
-            </lottie-player>
-            <ng-template #err>
-                <lottie-player  autoplay loop mode="normal" style="width: 20rem"
-            src="https://assets6.lottiefiles.com/packages/lf20_pcguxrto.json">
-            </lottie-player>
-            </ng-template>
+            <ng-lottie class="lottie" [options]="options"></ng-lottie>
             <p class="regular" tabindex="0">{{body}}</p>
         </section>
     </div>
