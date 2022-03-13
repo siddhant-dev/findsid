@@ -40,8 +40,8 @@ export class InstagramService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.log(`Backend returned code ${err.status}`);
-      errMsg = err.error.status;
+      console.log(err);
+      errMsg = err.error.error.message.toString();
     }
     return throwError(()=>errMsg);
   }
