@@ -55,7 +55,7 @@
       padding-block: .75rem;
 
       &:focus {
-        background-color: lighten($color: $blue, $amount: 10);
+        background-color: $blue-800;
       }
     }
 

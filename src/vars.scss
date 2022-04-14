@@ -1,25 +1,21 @@
-$blue: #1947E6;
-$blue-800: #8094FF;
-$blue-100: #E9E7FC;
-$pink: #FF89BB;
-$pink-800: #FFC7DE;
-$pink-100: #FFF3F8;
-$black: #18191F;
-$black-800: #474A57;
-$black-700: #969BAB;
-$black-300: #9FA4B4;
-$black-200: #EEEFF4;
-$black-100: #F4F5F7;
-$yellow: #FFBD12;
-$yellow-800: #FFD465;
-$yellow-100: #FFF4CC;
-$green: #00C6AE;
-$green-800: #61E4C5;
-$green-100: #D6FCF7;
-$red: #F95A2C;
-$red-800: #FF9692;
-$red-100: #FFE8E8;
-$white: #FFFFFF;
+@import 'src/themes/light.scss';
+
+$blue: var(--primary-color);
+$blue-800: var(--primary-color-800);
+$blue-100: var(--primary-color-100);
+$green: var(--secondary-color);
+$green-800: var(--secondary-color-800);
+$green-100: var(--secondary-color-100);
+$yellow: var(--tertiary-color);
+$yellow-800: var(--tertiary-color-800);
+$yellow-100: var(--tertiary-color-100);
+$red: var(--quaternary-color);
+$red-800: var(--quaternary-color-800);
+$red-100: var(--quaternary-color-100);
+$black: var(--text-color);
+$white: var(--background-color);
+$black-800: var(--black-800);
+$black-100: var(--black-100);
 
 $line: inset 0px -1px 0px $black;
 $shadow-200: 0px 2px 0px $black;
@@ -69,7 +65,7 @@ $shadow-y600: 0px -6px 0px $black;
     color: $white;
     box-shadow: $shadow-600;
     &:focus{
-        background-color: lighten($color: $blue, $amount: 10);
+        background-color: $blue-800;
         outline: none;
     }
 }

@@ -1,5 +1,5 @@
 @import 'vars.scss';
-
+/*
 *{
   &:focus {
     outline: 2px solid $black;
@@ -21,7 +21,7 @@
   &:hover{
     background-color: $black-800;
   } 
-}
+} */
 
 html,
 body {
@@ -30,6 +30,8 @@ body {
   scroll-behavior: smooth;
   height: -webkit-fill-available;
   box-sizing: border-box;
+  background-color: $white;
+  color: $black;
 }
 
 h1,
@@ -226,7 +228,7 @@ p, .regular {
     white-space: break-spaces;
     padding: 1rem;
     border-radius: 16px;
-    background-color: $black; //lighten($color: $black, $amount: 5);
+    background-color: black; //lighten($color: $black, $amount: 5);
     font-weight: bold;
   }
 }
@@ -236,7 +238,7 @@ code {
 }
 
 .nt, .kd, .k, .p {
-  color: $pink;
+  color: $red-800;
 }
 
 .na, .nl, .nx {
@@ -299,7 +301,7 @@ code {
       background-color: $white;
       .modal-card-head {
         padding: .75rem 1.5rem;
-        border-bottom: 2px solid $black-200;
+        border-bottom: 2px solid $black;
         display: flex;
         justify-content: space-between;
         align-items: center;

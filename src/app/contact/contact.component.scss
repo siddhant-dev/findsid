@@ -58,7 +58,7 @@
                 align-self: center;
                 transition: all 100ms ease-in;
                 &:disabled {
-                    background-color: $black-700;
+                    background-color: $black-100;
                     box-shadow: none;
                     border-color: $black-800;
                 }
