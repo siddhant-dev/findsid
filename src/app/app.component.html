@@ -31,6 +31,13 @@
                     Contact
                 </a>
             </li>
+            <li role="none">
+                <label role="menuitem" aria-posinset="6" tabindex="0" class="toggle">
+                    <span>Light</span>
+                    <input type="checkbox" class="switch" [(ngModel)]="theme" #ctrl="ngModel" (change)="onThemeChange()">
+                    <span>Dark</span>
+                </label>
+            </li>
         </ul>
     </nav>
 </header>

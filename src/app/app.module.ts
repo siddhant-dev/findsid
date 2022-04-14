@@ -14,10 +14,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { ArticlePageComponent } from './work/article-page/article-page.component';
 import { ResumeComponent } from './resume/resume.component';
 import { ContactComponent } from './contact/contact.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LottieCacheModule, LottieModule } from 'ngx-lottie';
+import { ThemeService } from './services/theme.service';
 
 export function playerFactory() {
   return import('lottie-web');
@@ -45,10 +46,11 @@ export function playerFactory() {
     HttpClientModule,
     ReactiveFormsModule,
     OverlayModule,
+    FormsModule,
     LottieModule.forRoot({ player: playerFactory }),
     LottieCacheModule.forRoot()
   ],
-  providers: [],
+  providers: [ThemeService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

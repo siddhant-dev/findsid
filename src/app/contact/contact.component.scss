@@ -1,8 +1,5 @@
 @import '../../vars.scss';
 .form-container {
-    background-image: url('./../../assets/contact-background.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
     form {
         width: 50%;
         transform: translateX(50%);
@@ -19,7 +16,7 @@
                 color: $blue;
             }
             p{
-                background-color: $yellow-100;
+                background-color: $yellow;
                 padding: 1rem;
                 text-align: justify;
                 border-radius: 1rem;

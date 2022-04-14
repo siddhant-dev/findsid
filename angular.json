@@ -37,12 +37,12 @@
               {
                 "input": "src/themes/light.scss",
                 "bundleName": "light",
-                "inject": true
+                "inject": false
               },
               {
                 "input": "src/themes/dark.scss",
                 "bundleName": "dark",
-                "inject": true
+                "inject": false
               }
             ],
             "scripts": [

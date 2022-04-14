@@ -237,11 +237,19 @@ code {
   font-weight: bolder;
 }
 
-.nt, .kd, .k, .p {
+.nt, .kd, .k, .p, .err, .o {
   color: $red-800;
 }
 
-.na, .nl, .nx {
+.m, .s2, .s1,.cm {
+  color: whitesmoke;
+}
+
+.c1{
+  color: $yellow;
+}
+
+.na, .nl, .nx,.n {
   color: $green-800;
 }
 
