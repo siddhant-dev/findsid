@@ -1,12 +1,12 @@
 @import 'vars.scss';
-/*
+
 *{
   &:focus {
     outline: 2px solid $black;
     border-radius: .25rem;
   }
   scrollbar-width: thin;
-  scrollbar-color: $black $black-700;
+  scrollbar-color: $black $black-100;
 }
 
 ::-webkit-scrollbar {
@@ -14,14 +14,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background-color: $black-700; 
+  background-color: $black-100; 
 }
 ::-webkit-scrollbar-thumb {
   background-color: $black;
   &:hover{
     background-color: $black-800;
   } 
-} */
+}
 
 html,
 body {
@@ -231,17 +231,20 @@ p, .regular {
     background-color: black; //lighten($color: $black, $amount: 5);
     font-weight: bold;
   }
+  code {
+    color: #fff;
+  }
 }
 
 code {
   font-weight: bolder;
 }
 
-.nt, .kd, .k, .p, .err, .o {
+.nt, .kd, .k, .p, .o {
   color: $red-800;
 }
 
-.m, .s2, .s1,.cm {
+.m, .s2, .s1,.cm, .err {
   color: whitesmoke;
 }
 
@@ -255,6 +258,14 @@ code {
 
 .s {
   color: $yellow-800;
+}
+
+.full-article {
+  a {
+    color: $blue;
+    text-decoration: none;
+    
+  }
 }
 
 @media screen and (max-width: 811px) {
@@ -274,7 +285,7 @@ code {
 }
 
 .modal-backdrop {
-  background-color: $black;
+  background-color: #18191f;
   opacity: 0.8;
   bottom: 0;
   left: 0;
@@ -320,7 +331,7 @@ code {
           justify-content: center;
           padding: .5rem;
           &:hover {
-            background-color: $red-100;
+            background-color: $red;
             border-radius: 50%;
             
           }

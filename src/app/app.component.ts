@@ -14,7 +14,16 @@ export class AppComponent {
   theme: boolean = false;
   @ViewChild('skipper', {static: false}) skipper!: ElementRef;
 
-  constructor (private view: ViewportScroller, private themeService: ThemeService){}
+  constructor (private view: ViewportScroller, private themeService: ThemeService){
+    if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.theme = true;
+      this.onThemeChange();
+    }
+    else {
+      this.theme = false;
+      this.onThemeChange();
+    }
+  }
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;

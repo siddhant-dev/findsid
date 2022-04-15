@@ -9,12 +9,13 @@
   img {
     align-self: center;
     border-radius: 1rem;
-    border: 2px solid $black;
-    box-shadow: $shadow-600;
+    border: 2px solid $black-800;
+    @include shadow-400($black-800)
   }
   .full-article {
     text-align: justify;
   }
+  
 
 }
 

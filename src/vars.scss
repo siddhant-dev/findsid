@@ -24,6 +24,19 @@ $shadow-y200: 0px -2px 0px $black;
 $shadow-y400: 0px -4px 0px $black;
 $shadow-y600: 0px -6px 0px $black;
 
+@mixin shadow-400($color) {
+  box-shadow:  0px 4px 0px $color;;
+}
+
+@mixin line($color) {
+    box-shadow: inset 0px -1px 0px $color;
+}
+
+@mixin shadow-600($color) {
+    box-shadow: 0px 6px 0px $color;
+}
+
+
 @mixin blue-100 {
     background-color: $blue-100;
 }
@@ -39,7 +52,7 @@ $shadow-y600: 0px -6px 0px $black;
     display: flex;
     align-items: center;
     padding: 1rem;
-    border: 2px solid $black;
+    border: 2px solid $blue;
     border-radius: 1rem;
     gap: 1rem;
     &:active {
@@ -50,9 +63,11 @@ $shadow-y600: 0px -6px 0px $black;
 }
 
 @mixin btn-white {
+
     @include btn;
+    color: $blue;
     background-color: $white;
-    box-shadow: $shadow-600;
+    @include shadow-600($blue-800);
     &:focus{
         outline: none;
     }
@@ -62,7 +77,7 @@ $shadow-y600: 0px -6px 0px $black;
     @include btn;
     background-color: $blue;
     color: $white;
-    box-shadow: $shadow-600;
+    @include shadow-600($blue-800);
     &:focus{
         background-color: $blue-800;
         outline: none;

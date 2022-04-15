@@ -9,7 +9,7 @@
         display: flex;
         align-items: center;
         border-radius: 2rem;
-        border: 2px solid;
+        border: 2px solid $black-800;
         background-color: $white;
         gap: 0 2px;
         a {
@@ -20,6 +20,7 @@
             border-radius: 2rem;
             &.active {
                 background-color: $green;
+                color: #000;
             }
         }
     }

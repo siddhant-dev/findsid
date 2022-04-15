@@ -36,9 +36,11 @@
                     border: 2px solid $black;
                     border-radius: 1rem;
                     font-family: 'Montserrat', sans-serif;
+                    background-color: $white;
+                    color: $black;
                     &:focus {
                         outline: none;
-                        border-color: $yellow;
+                        border-color: $blue;
                     }
                     &.error-border {
                         border-color: $red;

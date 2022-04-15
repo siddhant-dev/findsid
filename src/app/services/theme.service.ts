@@ -12,16 +12,17 @@ export class ThemeService {
     this.style = document.createElement('link');
     this.style.rel = 'stylesheet';
     document.head.appendChild(this.style);
-    this.style.href = 'light.css';
+    
    }
 
-  setTheme(theme?: boolean) {
+  setTheme(theme: boolean) {
     if(theme) {
       console.log(theme)
       this.style.href = 'dark.css';
     } else {
       this.style.href = 'light.css';
     }
+    return theme;
   }
 
 }
