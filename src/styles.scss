@@ -6,7 +6,7 @@
     border-radius: .25rem;
   }
   scrollbar-width: thin;
-  scrollbar-color: $black $black-700;
+  scrollbar-color: $black $black-100;
 }
 
 ::-webkit-scrollbar {
@@ -14,7 +14,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background-color: $black-700; 
+  background-color: $black-100; 
 }
 ::-webkit-scrollbar-thumb {
   background-color: $black;
@@ -30,6 +30,8 @@ body {
   scroll-behavior: smooth;
   height: -webkit-fill-available;
   box-sizing: border-box;
+  background-color: $white;
+  color: $black;
 }
 
 h1,
@@ -226,8 +228,11 @@ p, .regular {
     white-space: break-spaces;
     padding: 1rem;
     border-radius: 16px;
-    background-color: $black; //lighten($color: $black, $amount: 5);
+    background-color: black; //lighten($color: $black, $amount: 5);
     font-weight: bold;
+  }
+  code {
+    color: #fff;
   }
 }
 
@@ -235,16 +240,32 @@ code {
   font-weight: bolder;
 }
 
-.nt, .kd, .k, .p {
-  color: $pink;
+.nt, .kd, .k, .p, .o {
+  color: $red-800;
 }
 
-.na, .nl, .nx {
+.m, .s2, .s1,.cm, .err {
+  color: whitesmoke;
+}
+
+.c1{
+  color: $yellow;
+}
+
+.na, .nl, .nx,.n {
   color: $green-800;
 }
 
 .s {
   color: $yellow-800;
+}
+
+.full-article {
+  a {
+    color: $blue;
+    text-decoration: none;
+    
+  }
 }
 
 @media screen and (max-width: 811px) {
@@ -264,7 +285,7 @@ code {
 }
 
 .modal-backdrop {
-  background-color: $black;
+  background-color: #18191f;
   opacity: 0.8;
   bottom: 0;
   left: 0;
@@ -299,7 +320,7 @@ code {
       background-color: $white;
       .modal-card-head {
         padding: .75rem 1.5rem;
-        border-bottom: 2px solid $black-200;
+        border-bottom: 2px solid $black;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -310,7 +331,7 @@ code {
           justify-content: center;
           padding: .5rem;
           &:hover {
-            background-color: $red-100;
+            background-color: $red;
             border-radius: 50%;
             
           }

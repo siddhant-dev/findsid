@@ -1,5 +1,6 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -10,9 +11,19 @@ export class AppComponent {
   
   navbarOpen = false;
   menuIcon = 'menu';
+  theme: boolean = false;
   @ViewChild('skipper', {static: false}) skipper!: ElementRef;
 
-  constructor (private view: ViewportScroller){}
+  constructor (private view: ViewportScroller, private themeService: ThemeService){
+    if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      this.theme = true;
+      this.onThemeChange();
+    }
+    else {
+      this.theme = false;
+      this.onThemeChange();
+    }
+  }
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
@@ -27,5 +38,10 @@ export class AppComponent {
   skipContent() {
     this.skipper.nativeElement.focus();
     this.view.scrollToAnchor('main');
+  }
+
+  onThemeChange( ) {
+    this.themeService.setTheme(this.theme);
+    
   }
 }

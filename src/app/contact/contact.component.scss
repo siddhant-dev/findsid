@@ -1,8 +1,5 @@
 @import '../../vars.scss';
 .form-container {
-    background-image: url('./../../assets/contact-background.svg');
-    background-repeat: no-repeat;
-    background-size: cover;
     form {
         width: 50%;
         transform: translateX(50%);
@@ -19,7 +16,7 @@
                 color: $blue;
             }
             p{
-                background-color: $yellow-100;
+                background-color: $yellow;
                 padding: 1rem;
                 text-align: justify;
                 border-radius: 1rem;
@@ -39,9 +36,11 @@
                     border: 2px solid $black;
                     border-radius: 1rem;
                     font-family: 'Montserrat', sans-serif;
+                    background-color: $white;
+                    color: $black;
                     &:focus {
                         outline: none;
-                        border-color: $yellow;
+                        border-color: $blue;
                     }
                     &.error-border {
                         border-color: $red;
@@ -58,7 +57,7 @@
                 align-self: center;
                 transition: all 100ms ease-in;
                 &:disabled {
-                    background-color: $black-700;
+                    background-color: $black-100;
                     box-shadow: none;
                     border-color: $black-800;
                 }
