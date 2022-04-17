@@ -29,6 +29,29 @@
     }
 }
 
+svg {
+    width: 90vw;
+    height: auto;
+}
+
+#Background {
+    fill: $white;
+}
+
+#text > * {
+    fill: $black;
+}
+
+#presentation{
+    @if $white != #fff {
+        fill: $yellow;
+    }
+}
+
+#Seperator{
+    stroke: $yellow;
+}
+
 @media screen and (max-width: 811px) {
     .container {
         padding: 0;
