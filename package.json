@@ -1,6 +1,6 @@
 {
   "name": "findsid",
-  "version": "0.8.1",
+  "version": "0.9.9",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
