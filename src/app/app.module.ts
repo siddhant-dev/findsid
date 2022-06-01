@@ -19,6 +19,7 @@ import { LoaderComponent } from './loader/loader.component';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { LottieCacheModule, LottieModule } from 'ngx-lottie';
 import { ThemeService } from './services/theme.service';
+import { A11yModule } from '@angular/cdk/a11y';
 
 export function playerFactory() {
   return import('lottie-web');
@@ -46,6 +47,7 @@ export function playerFactory() {
     HttpClientModule,
     ReactiveFormsModule,
     OverlayModule,
+    A11yModule,
     FormsModule,
     LottieModule.forRoot({ player: playerFactory }),
     LottieCacheModule.forRoot()

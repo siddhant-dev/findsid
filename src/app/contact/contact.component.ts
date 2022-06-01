@@ -18,7 +18,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   contactForm!: FormGroup
   sub!: Subscription;
   @ViewChild('template') tpl!: TemplateRef<unknown>;
-  overlayRef!: OverlayRef
+  overlayRef!: OverlayRef;
   title:string = 'Thank you!';
   src!: string;
   body!: string;
@@ -127,9 +127,7 @@ export class ContactComponent implements OnInit, OnDestroy {
       scrollStrategy: this.overlay.scrollStrategies.block(),
     });
     this.overlayRef = this.overlay.create(config);
-    const popup = this.overlayRef.attach(new TemplatePortal(this.tpl, this.viewContainerRef)); 
-    console.log(popup.rootNodes[0]);
-    popup.rootNodes[0].focus();
+    this.overlayRef.attach(new TemplatePortal(this.tpl, this.viewContainerRef)); 
 
   }
 
