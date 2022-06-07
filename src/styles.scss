@@ -224,7 +224,7 @@ p, .regular {
 }
 
 .highlight {
-  &.html, .javascript,.css, .plaintext{
+  &.html, .javascript,.css, .plaintext, .typescript{
     color: $white;
     white-space: break-spaces;
     padding: 1rem;
