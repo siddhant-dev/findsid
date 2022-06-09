@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
 import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ContactService } from '../services/contact.service';
-import { MetaTagService } from '../services/meta-tag.service';
+import { MetaTagService } from '../../services/meta-tag.service';
 import { Overlay, OverlayConfig,OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { AnimationOptions } from 'ngx-lottie';
