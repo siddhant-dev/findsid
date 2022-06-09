@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Card, CardClass } from 'src/app/models/card.model';
-import { AppService } from 'src/app/services/app.service';
-import { MetaTagService } from 'src/app/services/meta-tag.service';
+import { Card, CardClass } from '../../models/card.model';
+import { AppService } from '../../services/app.service';
+import { MetaTagService } from '../../../services/meta-tag.service';
 
 @Component({
   selector: 'app-apps',

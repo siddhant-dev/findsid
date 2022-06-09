@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
-import { Insta } from 'src/app/models/insta.model';
-import { InstagramService } from 'src/app/services/instagram.service';
-import { MetaTagService } from 'src/app/services/meta-tag.service';
+import { Insta } from '../../models/insta.model';
+import { InstagramService } from '../../services/instagram.service';
+import { MetaTagService } from '../../../services/meta-tag.service';
 
 @Component({
   selector: 'app-art',

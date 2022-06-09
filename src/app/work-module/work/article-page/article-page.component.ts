@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Articles } from 'src/app/models/dev.model';
-import { ArticlesService } from 'src/app/services/articles.service';
-import { MetaTagService } from 'src/app/services/meta-tag.service';
+import { Articles } from '../../models/dev.model';
+import { ArticlesService } from '../../services/articles.service';
+import { MetaTagService } from '../../../services/meta-tag.service';
 
 @Component({
   selector: 'app-article-page',
