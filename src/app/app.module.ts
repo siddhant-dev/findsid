@@ -12,7 +12,6 @@ import { AppsComponent } from './work/apps/apps.component';
 import { ArtComponent } from './work/art/art.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ArticlePageComponent } from './work/article-page/article-page.component';
-import { ResumeComponent } from './resume/resume.component';
 import { ContactComponent } from './contact/contact.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { LoaderComponent } from './loader/loader.component';
@@ -35,7 +34,6 @@ export function playerFactory() {
     AppsComponent,
     ArtComponent,
     ArticlePageComponent,
-    ResumeComponent,
     ContactComponent,
     LoaderComponent,
     

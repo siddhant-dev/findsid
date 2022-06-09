@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
-import { ResumeComponent } from './resume/resume.component';
-import { AppService } from './services/app.service';
 import { AppsComponent } from './work/apps/apps.component';
 import { ArtComponent } from './work/art/art.component';
 import { ArticlePageComponent } from './work/article-page/article-page.component';
@@ -24,7 +22,7 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'resume', component: ResumeComponent
+    path: 'resume', loadChildren: ()=> import('./resume-module/resume-module.module').then(m => m.ResumeModuleModule)
   },
   {
     path: 'contact', component: ContactComponent
