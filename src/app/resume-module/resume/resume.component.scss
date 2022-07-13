@@ -41,6 +41,9 @@ svg {
 #text > * {
     fill: $black;
 }
+#text-link {
+    fill: $black;
+}
 
 #presentation{
     @if $white != #fff {
