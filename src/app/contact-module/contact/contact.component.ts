@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, TemplateRef, ViewChild, ViewContainerRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { ContactService } from '../services/contact.service';
@@ -15,7 +15,7 @@ import { AnimationOptions } from 'ngx-lottie';
 })
 export class ContactComponent implements OnInit, OnDestroy {
 
-  contactForm!: FormGroup
+  contactForm!: UntypedFormGroup
   sub!: Subscription;
   @ViewChild('template') tpl!: TemplateRef<unknown>;
   overlayRef!: OverlayRef;
@@ -27,7 +27,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   options!: AnimationOptions;
   
 
-  constructor(private fb: FormBuilder, private contact: ContactService, private overlay: Overlay,
+  constructor(private fb: UntypedFormBuilder, private contact: ContactService, private overlay: Overlay,
      private viewContainerRef: ViewContainerRef, private meta: Meta, private metaTag: MetaTagService) { }
 
   ngOnInit(): void {
