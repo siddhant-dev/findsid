@@ -1,7 +1,8 @@
 <header>
     <a role="button" href="javascript:void(0);" (click)="skipContent()" translate class="skip-nav">Skip to Content</a>
     <nav role="navigation">
-        <h6 role="link" tabindex="0" routerLink="/" class="bold blue">Siddhant Jaiswal<sup class="overline">βeta</sup></h6>
+        <h6 role="link" tabindex="0" routerLink="/" class="bold blue">Siddhant Jaiswal<sup class="overline">βeta</sup>
+        </h6>
         <div class="burger" role="button" tabindex="0" (click)="toggleNavbar()" (keyup.enter)="toggleNavbar()"
             aria-controls="nav-menu" [attr.aria-expanded]="navbarOpen" title="Menu Button">
             <i-feather [name]=menuIcon></i-feather>
@@ -9,7 +10,8 @@
         <ul [ngClass]="{'open' : navbarOpen}" role="menubar" id="nav-menu">
             <li role=none>
                 <a role="menuitem" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular bold" routerLink="/"
-                    routerLinkActive="active extra-bold" [routerLinkActiveOptions]={exact:true} (click)="toggleNavbar()">
+                    routerLinkActive="active extra-bold" [routerLinkActiveOptions]={exact:true}
+                    (click)="toggleNavbar()">
                     About
                 </a>
             </li>
@@ -34,7 +36,8 @@
             <li role="none">
                 <label role="menuitem" aria-posinset="6" tabindex="0" class="toggle">
                     <span>Light</span>
-                    <input type="checkbox" class="switch" [(ngModel)]="theme" #ctrl="ngModel" (change)="onThemeChange()">
+                    <input type="checkbox" class="switch" [(ngModel)]="theme" #ctrl="ngModel"
+                        (change)="onThemeChange()">
                     <span>Dark</span>
                 </label>
             </li>
@@ -47,14 +50,14 @@
 
 <footer>
     <a href="https://www.linkedin.com/in/iamsiddj" rel="noreferrer" target="_blank" aria-label="LinkedIn">
-        <i-feather name = "linkedin"></i-feather>
+        <i-feather name="linkedin"></i-feather>
     </a><a href="https://www.instagram.com/isuckatdesign/" rel="noreferrer" target="_blank" aria-label="Instagram">
-        <i-feather name = "instagram"></i-feather>
+        <i-feather name="instagram"></i-feather>
     </a><a href="https://twitter.com/iamsidd_j" rel="noreferrer" target="_blank" aria-label="Twitter">
-        <i-feather name = "twitter"></i-feather>
+        <i-feather name="twitter"></i-feather>
     </a><a href="https://github.com/siddhant-dev" rel="noreferrer" target="_blank" aria-label="Github">
-        <i-feather name = "github"></i-feather>
+        <i-feather name="github"></i-feather>
     </a><a href="https://codepen.io/sidd_dev" rel="noreferrer" target="_blank" aria-label="Code Pen">
-        <i-feather name = "codepen"></i-feather>
+        <i-feather name="codepen"></i-feather>
     </a>
 </footer>

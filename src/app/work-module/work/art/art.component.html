@@ -1,18 +1,25 @@
-<section *ngIf="!showSpinner" >
+@if (!showSpinner) {
+  <section >
     <div class="grid-container" id="art" aria-labelledby="tab-art" tabindex="0" >
-        <img  *ngFor="let post of instaPosts; let i = index" [src]=post.media_url height="350" width="350" 
-        alt="Illustration from Instagram" role="presentation" [attr.loading]="i == 0 ? 'eager':'lazy'">
-        
+      @for (post of instaPosts; track post; let i = $index) {
+        <img  [src]=post.media_url height="350" width="350"
+          alt="Illustration from Instagram" role="presentation" [attr.loading]="i == 0 ? 'eager':'lazy'">
+      }
     </div>
     <div class="btn-group">
-        <!-- <a href="../../assets/resume.webp" target="blank" class="btn">View PDF <i-feather name = "file-text"></i-feather></a> -->
-        <a role="button" aria-label="View more on Instagram" href="https://instagram.com/isuckatdesign/" target="blank" class="btn-blue">
-            View more on Instagram <i-feather name = "external-link"></i-feather>
-        </a>
+      <!-- <a href="../../assets/resume.webp" target="blank" class="btn">View PDF <i-feather name = "file-text"></i-feather></a> -->
+      <a role="button" aria-label="View more on Instagram" href="https://instagram.com/isuckatdesign/" target="blank" class="btn-blue">
+        View more on Instagram <i-feather name = "external-link"></i-feather>
+      </a>
     </div>
-</section>
+  </section>
+}
 
 
-<app-loader *ngIf="showSpinner"></app-loader>
+@if (showSpinner) {
+  <app-loader></app-loader>
+}
 
-<div class="error" *ngIf="error">{{error}}</div>
+@if (error) {
+  <div class="error">{{error}}</div>
+}
