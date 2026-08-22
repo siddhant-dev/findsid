@@ -1,9 +1,19 @@
 import { NgModule } from '@angular/core';
-
 import { FeatherModule } from 'angular-feather';
-import { Github, Twitter, Linkedin, Menu, X, Instagram, Codepen, Download, FileText, Send, ExternalLink } from 'angular-feather/icons';
+import {
+  Codepen,
+  Download,
+  ExternalLink,
+  FileText,
+  Github,
+  Instagram,
+  Linkedin,
+  Menu,
+  Send,
+  Twitter,
+  X,
+} from 'angular-feather/icons';
 
-// Select some icons (use an object, not an array)
 const icons = {
   Github,
   Twitter,
@@ -15,15 +25,11 @@ const icons = {
   Download,
   FileText,
   Send,
-  ExternalLink
+  ExternalLink,
 };
 
 @NgModule({
-  imports: [
-    FeatherModule.pick(icons)
-  ],
-  exports: [
-    FeatherModule
-  ]
+  imports: [FeatherModule.pick(icons)],
+  exports: [FeatherModule],
 })
-export class FeatherIconsModule { }
+export class FeatherIconsModule {}

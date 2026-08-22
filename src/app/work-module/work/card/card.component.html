@@ -1,24 +1,26 @@
 <div class="card">
-    <div class="banner" >
-        <img [src]="card_data.cover_image" role="presentation" alt="cover-image" height="172.5" width="345" 
-        [attr.loading]="card_data.id ? 'eager':'lazy'">
+  <div class="banner" >
+    <img [src]="card_data.cover_image" role="presentation" alt="cover-image" height="172.5" width="345"
+      [attr.loading]="card_data.id ? 'eager':'lazy'">
+  </div>
+  <div class="card-body">
+    <section class="header">
+      <h6 tabindex="0">{{card_data.title}}</h6>
+      <span class="tag">#{{card_data.tag}}</span>
+    </section>
+    <p class="description" tabindex="0">
+      {{card_data.description}}
+    </p>
+    <section class="footer">
+      <a role="button" title="Open" href="javascript:void(0);" (click)="navigate()" tabindex="0">
+        Open @if (card_data.external) {
+        <i-feather name = "external-link"></i-feather>
+      }
+    </a>
+    <div class="pub" tabindex="0">
+      <span class="regular bold">Published On</span>
+      <span class="sub-2">{{card_data.published_date}}</span>
     </div>
-    <div class="card-body">
-        <section class="header">
-            <h6 tabindex="0">{{card_data.title}}</h6>
-            <span class="tag">#{{card_data.tag}}</span>
-        </section>
-        <p class="description" tabindex="0">
-            {{card_data.description}}
-        </p>
-        <section class="footer">
-            <a role="button" title="Open" href="javascript:void(0);" (click)="navigate()" tabindex="0">
-                Open <i-feather *ngIf="card_data.external" name = "external-link"></i-feather>
-            </a>
-            <div class="pub" tabindex="0">
-                <span class="regular bold">Published On</span>
-                <span class="sub-2">{{card_data.published_date}}</span>
-            </div>
-        </section>
-    </div>
+  </section>
+</div>
 </div>

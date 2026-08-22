@@ -1,38 +1,48 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-work',
   templateUrl: './work.component.html',
-  styleUrls: ['./work.component.scss']
+  styleUrls: ['./work.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive, RouterOutlet],
 })
 export class WorkComponent implements OnInit, AfterViewChecked {
+  constructor() {}
 
-  constructor() { }
-
-  @ViewChildren('tabs', {read: ElementRef}) tabElement!: QueryList<ElementRef>;
+  @ViewChildren('tabs', { read: ElementRef })
+  tabElement!: QueryList<ElementRef>;
   tabs: ElementRef[] = [];
   activated = 0;
   focused = 0;
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewChecked(): void {
     this.tabs = this.tabElement.toArray();
     this.tabElement.first.nativeElement.index = '0';
-    this.tabs.forEach(tab => {
-      tab.nativeElement.tabIndex = -1
-      if(tab.nativeElement.classList.contains('active')){
+    this.tabs.forEach((tab) => {
+      tab.nativeElement.tabIndex = -1;
+      if (tab.nativeElement.classList.contains('active')) {
         tab.nativeElement.tabIndex = 0;
         this.focused = this.tabs.indexOf(tab);
         this.activated = this.tabs.indexOf(tab);
       }
-        
     });
   }
 
   activatePanel(index: number): void {
-    this.tabs.forEach(tab => (tab.nativeElement.tabIndex = -1));
+    this.tabs.forEach((tab) => (tab.nativeElement.tabIndex = -1));
     this.tabs[index].nativeElement.tabIndex = 0;
     this.focused = index;
     this.activated = index;
@@ -48,7 +58,7 @@ export class WorkComponent implements OnInit, AfterViewChecked {
     let index = 0;
     switch (event.key) {
       case 'ArrowLeft':
-        index = this.focused ? this.focused - 1 : this.tabs.length - 1
+        index = this.focused ? this.focused - 1 : this.tabs.length - 1;
         this.activatePanel(index);
         this.tabs[index].nativeElement.focus();
         this.tabs[index].nativeElement.click();
@@ -74,5 +84,4 @@ export class WorkComponent implements OnInit, AfterViewChecked {
         break;
     }
   }
-
 }

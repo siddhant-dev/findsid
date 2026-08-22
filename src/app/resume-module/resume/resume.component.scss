@@ -1,62 +1,61 @@
-@import '../../../vars.scss';
+@use "../../../vars.scss" as *;
 
 .container {
-    padding: 0 4rem;
+  padding: 0 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid $black;
+    // border-radius: 1rem;
+  }
+  .btn-group {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 2rem;
-    img{
-        width: 100%;
-        height: auto;
-        border-bottom: 2px solid $black;
-        // border-radius: 1rem;
-    }
-    .btn-group {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        .btn {
-            @include btn-white;
-            text-decoration: none;
+    gap: 1rem;
+    .btn {
+      @include btn-white;
+      text-decoration: none;
 
-            &-blue {
-                @include btn-blue;
-                text-decoration: none;
-        
-            }
-        }
+      &-blue {
+        @include btn-blue;
+        text-decoration: none;
+      }
     }
+  }
 }
 
 svg {
-    width: 90vw;
-    height: auto;
+  width: 90vw;
+  height: auto;
 }
 
 #background {
-    fill: $white;
+  fill: $white;
 }
 
 #text > * {
-    fill: $black;
+  fill: $black;
 }
-#text-link > *{
-    fill: $black;
-}
-
-#presentation{
-    @if $white != #fff {
-        fill: $yellow;
-    }
+#text-link > * {
+  fill: $black;
 }
 
-#seperator{
-    stroke: $yellow;
+#presentation {
+  @if $white != #fff {
+    fill: $yellow;
+  }
+}
+
+#seperator {
+  stroke: $yellow;
 }
 
 @media screen and (max-width: 811px) {
-    .container {
-        padding: 0;
-    }
+  .container {
+    padding: 0;
+  }
 }

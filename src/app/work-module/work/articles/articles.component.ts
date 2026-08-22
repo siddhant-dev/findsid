@@ -1,62 +1,83 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { Articles } from '../../models/dev.model';
 import { ArticlesService } from '../../services/articles.service';
 import { MetaTagService } from '../../../services/meta-tag.service';
+import { LoaderComponent } from '../../loader/loader.component';
+import { CardComponent } from '../card/card.component';
 
 @Component({
   selector: 'app-articles',
   templateUrl: './articles.component.html',
-  styleUrls: ['./articles.component.scss']
+  styleUrls: ['./articles.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: true,
+  imports: [CardComponent, LoaderComponent],
 })
 export class ArticlesComponent implements OnInit, OnDestroy {
-
   articles: Articles[] = [];
   articleSub!: Subscription;
   showSpinner: boolean = true;
-  error:string = '';
+  error: string = '';
 
-  constructor(private articleService: ArticlesService, private meta: Meta, private metaTag: MetaTagService) { }
+  constructor(
+    private articleService: ArticlesService,
+    private meta: Meta,
+    private metaTag: MetaTagService,
+  ) {}
 
   ngOnInit(): void {
     this.meta.removeTag('name="description"');
     this.getAllArticles();
-    
   }
 
   ngOnDestroy() {
     this.articleSub.unsubscribe();
     this.articles.forEach(() => {
       this.metaTag.removeMetaTags();
-    })
+    });
   }
 
   getAllArticles() {
-   this.articleSub = this.articleService.getAllArticles().subscribe({
-     next: (data:Articles[]) => {
-      this.articles = data;
-      this.addTags();
-      this.showSpinner = false;
-    }, 
-    error: (err) => {
-      this.showSpinner = false;
-      this.error = err.toString();
-    }
-   });
+    this.articleSub = this.articleService.getAllArticles().subscribe({
+      next: (data: Articles[]) => {
+        this.articles = data;
+        this.addTags();
+        this.showSpinner = false;
+      },
+      error: (err) => {
+        this.showSpinner = false;
+        this.error = err.toString();
+      },
+    });
   }
 
   addTags() {
-    this.articles.forEach(article => {
-      this.meta.addTag({name: 'description', content: article.description});
-      this.meta.addTag({ property: 'og:description', content: article.description });
+    this.articles.forEach((article) => {
+      this.meta.addTag({ name: 'description', content: article.description });
+      this.meta.addTag({
+        property: 'og:description',
+        content: article.description,
+      });
       this.meta.addTag({ property: 'og:title', content: article.title });
       this.meta.addTag({ property: 'og:type', content: 'article' });
       this.meta.addTag({ property: 'og:url', content: window.location.href });
       this.meta.addTag({ property: 'og:image', content: article.cover_image });
       this.meta.addTag({ property: 'twitter:title', content: article.title });
-      this.meta.addTag({ property: 'twitter:description', content: article.description });
-      this.meta.addTag({ property: 'twitter:image', content: article.cover_image });
+      this.meta.addTag({
+        property: 'twitter:description',
+        content: article.description,
+      });
+      this.meta.addTag({
+        property: 'twitter:image',
+        content: article.cover_image,
+      });
     });
   }
 }

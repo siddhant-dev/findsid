@@ -1,7 +1,15 @@
-<div class="grid-container" *ngIf="!showSpinner" aria-labelledby="tab-article" id="articles" tabindex="0">
-    <app-card *ngFor="let article of articles" [card_data]=article></app-card>
-</div>
+@if (!showSpinner) {
+  <div class="grid-container" aria-labelledby="tab-article" id="articles" tabindex="0">
+    @for (article of articles; track article) {
+      <app-card [card_data]=article></app-card>
+    }
+  </div>
+}
 
-<app-loader *ngIf="showSpinner"></app-loader>
+@if (showSpinner) {
+  <app-loader></app-loader>
+}
 
-<div class="error" *ngIf="error">{{error}}</div>
+@if (error) {
+  <div class="error">{{error}}</div>
+}

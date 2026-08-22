@@ -1,23 +1,29 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { Contact } from '../models/contact.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ContactService {
-
   formURL: string = environment.formURL;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   sendEmail(data: Contact): Observable<any> {
-    const headers= new HttpHeaders().set('Content-type', 'application/x-www-form-urlencoded');
-    return this.http.post(this.formURL, data, { headers: headers }).pipe(
-      catchError(this.handleError)
+    const headers = new HttpHeaders().set(
+      'Content-type',
+      'application/x-www-form-urlencoded',
     );
+    return this.http
+      .post(this.formURL, data, { headers: headers })
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(err: HttpErrorResponse): Observable<any> {
@@ -32,6 +38,6 @@ export class ContactService {
       console.log(`Backend returned code ${err.status}`);
       errMsg = err.error.status;
     }
-    return throwError(()=>errMsg);
+    return throwError(() => errMsg);
   }
 }

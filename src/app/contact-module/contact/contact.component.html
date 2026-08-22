@@ -1,67 +1,80 @@
 <div class="form-container">
-    <form [formGroup]="contactForm" (ngSubmit)="sendMessage()">
-        <fieldset>
-            <legend class="header-4 bold">Lets Connect </legend>
-            <p class="regular">
-                Want to connect with me for any project or job oppurtunity? Fill in the form below I'll revert back to
-                you
-            </p>
-            <div class="form-group">
-                <label class="regular bold" for="name">Enter your Name</label>
-                <input class="form-text" type="text" id="name"
-                    [ngClass]="{'error-border':name!.invalid && (name!.dirty || name!.touched)} " formControlName="name"
-                    placeholder="Full Name">
-                <span class="error-text" *ngIf="name!.invalid && (name!.dirty || name!.touched)">Name is required.
-                </span>
-            </div>
-            <div class="form-group">
-                <label class="regular bold" for="email">Enter your email</label>
-                <input class="form-text"
-                    [ngClass]="{'error-border':email!.invalid && (email!.dirty || email!.touched)} " type="email"
-                    id="email" formControlName="email" placeholder="someone@example.com">
-                <span class="error-text" *ngIf="email!.invalid && (email!.dirty || email!.touched)">Your email doesn't
-                    look right</span>
-            </div>
-            <div class="form-group">
-                <label class="regular bold" for="phone">Enter your Phone No.</label>
-                <input class="form-text" type="tel" id="phone"
-                    [ngClass]="{'error-border':phone!.invalid && (phone!.dirty || phone!.touched)}"
-                    formControlName="phone" placeholder="+919988776655">
-                <span class="error-text" *ngIf="phone!.invalid && (phone!.dirty || phone!.touched)">Your phone number
-                    doesn't
-                    look right</span>
-                <span class="error-text" *ngIf="(phone!.dirty || phone!.touched) && (email!.dirty || email!.touched) && 
-                    contactForm?.errors?.['phoneOrEmailRequired']">
-                    Please enter either phone or email
-                </span>
-            </div>
-            <div class="form-group">
-                <label class="regular bold" for="message">Enter your Message</label>
-                <textarea class="form-text" id="message"
-                    [ngClass]="{'error-border':message!.invalid && (message!.dirty || message!.touched)}"
-                    formControlName="message" type="tel" id="message" placeholder="Please enter minimum of 25 chars"></textarea>
-                <span class="error-text" *ngIf="message!.invalid && (message!.dirty || message!.touched)">
-                    Your message is too short please enter at least 25 chars</span>
-            </div>
-            <button class="btn-text" [disabled]="contactForm!.invalid">Send Message <i-feather name="send"></i-feather>
-            </button>
-        </fieldset>
+  <form [formGroup]="contactForm" (ngSubmit)="sendMessage()">
+    <fieldset>
+      <legend class="header-4 bold">Lets Connect </legend>
+      <p class="regular">
+        Want to connect with me for any project or job oppurtunity? Fill in the form below I'll revert back to
+        you
+      </p>
+      <div class="form-group">
+        <label class="regular bold" for="name">Enter your Name</label>
+        <input class="form-text" type="text" id="name"
+          [ngClass]="{'error-border':name!.invalid && (name!.dirty || name!.touched)} " formControlName="name"
+          placeholder="Full Name">
+        @if (name!.invalid && (name!.dirty || name!.touched)) {
+        <span class="error-text">Name is required.
+        </span>
+        }
+      </div>
+      <div class="form-group">
+        <label class="regular bold" for="email">Enter your email</label>
+        <input class="form-text" [ngClass]="{'error-border':email!.invalid && (email!.dirty || email!.touched)} "
+          type="email" id="email" formControlName="email" placeholder="someone@example.com">
+        @if (email!.invalid && (email!.dirty || email!.touched)) {
+        <span class="error-text">Your email doesn't
+          look right</span>
+        }
+      </div>
+      <div class="form-group">
+        <label class="regular bold" for="phone">Enter your Phone No.</label>
+        <input class="form-text" type="tel" id="phone"
+          [ngClass]="{'error-border':phone!.invalid && (phone!.dirty || phone!.touched)}" formControlName="phone"
+          placeholder="+919988776655">
+        @if (phone!.invalid && (phone!.dirty || phone!.touched)) {
+        <span class="error-text">Your phone number
+          doesn't
+          look right</span>
+        }
+        @if ((phone!.dirty || phone!.touched) && (email!.dirty || email!.touched) &&
+        contactForm?.errors?.['phoneOrEmailRequired']) {
+        <span class="error-text">
+          Please enter either phone or email
+        </span>
+        }
+      </div>
+      <div class="form-group">
+        <label class="regular bold" for="message">Enter your Message</label>
+        <textarea class="form-text" id="message"
+          [ngClass]="{'error-border':message!.invalid && (message!.dirty || message!.touched)}"
+          formControlName="message" type="tel" id="message" placeholder="Please enter minimum of 25 chars"></textarea>
+        @if (message!.invalid && (message!.dirty || message!.touched)) {
+        <span class="error-text">
+          Your message is too short please enter at least 25 chars</span>
+        }
+      </div>
+      <button class="btn-text" [disabled]="contactForm!.invalid">Send Message <i-feather name="send"></i-feather>
+      </button>
+    </fieldset>
 
 
-    </form>
+  </form>
 </div>
 
-<ng-template #template >
-    <div class="modal-card" cdkTrapFocus cdkTrapFocusAutoCapture>
-        <header class="modal-card-head">
-            <h5 tabindex="0" cdkFocusInitial>{{title}}</h5>
-            <a tabindex="0" (click)="closeModal()" (keydown)="handleKey($event)"  role="button" aria-label="Close Modal">
-                <i-feather name="X"></i-feather>
-            </a>
-        </header>
-        <section class="modal-card-body">
-            <ng-lottie class="lottie" [options]="options"></ng-lottie>
-            <p class="regular" tabindex="0">{{body}}</p>
-        </section>
-    </div>
+<ng-template #template>
+  <div class="modal-card" cdkTrapFocus cdkTrapFocusAutoCapture>
+    <header class="modal-card-head">
+      <h5 tabindex="0" cdkFocusInitial>{{title}}</h5>
+      <a tabindex="0" (click)="closeModal()" (keydown)="handleKey($event)" role="button" aria-label="Close Modal">
+        <i-feather name="X"></i-feather>
+      </a>
+    </header>
+    <section class="modal-card-body">
+      @if (error === 'true') {
+      <i-feather class="lottie" name="send"></i-feather>
+      } @else {
+      <i-feather class="lottie" name="x"></i-feather>
+      }
+      <p class="regular" tabindex="0">{{body}}</p>
+    </section>
+  </div>
 </ng-template>

@@ -1,4 +1,4 @@
-@import '../../../../vars.scss';
+@use "../../../../vars.scss" as *;
 
 .card {
   display: flex;
@@ -11,8 +11,8 @@
 
   .banner {
     img {
-        border-radius: 1rem;
-        @include shadow-400($black-800);
+      border-radius: 1rem;
+      @include shadow-400($black-800);
     }
   }
 
@@ -27,7 +27,6 @@
       @include tag;
       @include blue-100;
       color: $black-800;
-
     }
 
     h6 {
@@ -41,7 +40,7 @@
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3; /* number of lines to show */
-    line-clamp: 3; 
+    line-clamp: 3;
     -webkit-box-orient: vertical;
   }
 
@@ -53,7 +52,7 @@
     a {
       @include btn-blue;
       text-decoration: none;
-      padding-block: .75rem;
+      padding-block: 0.75rem;
 
       &:focus {
         background-color: $blue-800;

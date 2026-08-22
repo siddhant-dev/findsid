@@ -1,4 +1,4 @@
-@import '../../../../vars.scss';
+@use "../../../../vars.scss" as *;
 
 .container {
   display: flex;
@@ -10,17 +10,14 @@
     align-self: center;
     border-radius: 1rem;
     border: 2px solid $black-800;
-    @include shadow-400($black-800)
+    @include shadow-400($black-800);
   }
   .full-article {
     text-align: justify;
   }
-  
-
 }
 
-
-@media screen and (max-width:811px) {
+@media screen and (max-width: 811px) {
   .container {
     padding: 0;
     img {
@@ -28,17 +25,13 @@
       height: auto;
     }
   }
-  
 }
 
 @media screen and (max-width: 1200px) {
-  
-  .container{
+  .container {
     img {
       width: 80%;
       height: auto;
     }
   }
-
 }
-

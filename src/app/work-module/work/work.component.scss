@@ -1,31 +1,30 @@
-@import '../../../vars.scss';
+@use "../../../vars.scss" as *;
 
-
-.tabs{
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  nav {
     display: flex;
     align-items: center;
-    justify-content: center;
-    nav {
-        display: flex;
-        align-items: center;
-        border-radius: 2rem;
-        border: 2px solid $black-800;
-        background-color: $white;
-        gap: 0 2px;
-        a {
-            text-decoration: none;
-            color: $black;
-            align-self: center;
-            padding: .5rem 1.5rem;
-            border-radius: 2rem;
-            &.active {
-                background-color: $green;
-                color: #000;
-            }
-        }
+    border-radius: 2rem;
+    border: 2px solid $black-800;
+    background-color: $white;
+    gap: 0 2px;
+    a {
+      text-decoration: none;
+      color: $black;
+      align-self: center;
+      padding: 0.5rem 1.5rem;
+      border-radius: 2rem;
+      &.active {
+        background-color: $green;
+        color: #000;
+      }
     }
+  }
 }
 
 .content {
-    padding-block: 2rem;
+  padding-block: 2rem;
 }

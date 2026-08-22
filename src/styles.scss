@@ -1,32 +1,32 @@
-@import 'vars.scss';
+@use "vars.scss" as *;
 
-*{
+* {
   &:focus {
     outline: 2px solid $black;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
   }
   scrollbar-width: thin;
   scrollbar-color: $black $black-100;
 }
 
 ::-webkit-scrollbar {
-  width: .625rem;
+  width: 0.625rem;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: $black-100; 
+  background-color: $black-100;
 }
 ::-webkit-scrollbar-thumb {
   background-color: $black;
-  &:hover{
+  &:hover {
     background-color: $black-800;
-  } 
+  }
 }
 
 html,
 body {
   margin: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   scroll-behavior: smooth;
   height: -webkit-fill-available;
   box-sizing: border-box;
@@ -97,7 +97,7 @@ h5,
 
 h6,
 .header-6 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 24px;
@@ -113,7 +113,8 @@ h6,
   }
 }
 
-.btn-text, .form-text {
+.btn-text,
+.form-text {
   font-style: normal;
   font-weight: 500;
   font-size: 21px;
@@ -128,8 +129,9 @@ h6,
   }
 }
 
-p, .regular {
-  font-family: 'Montserrat', sans-serif;
+p,
+.regular {
+  font-family: "Montserrat", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 17px;
@@ -149,7 +151,6 @@ p, .regular {
   padding: 2rem;
   border-radius: 1rem;
 }
-
 
 .text {
   font-style: normal;
@@ -213,7 +214,7 @@ p, .regular {
 
 .blue {
   color: $blue;
-  &-bg{
+  &-bg {
     background-color: $blue;
     color: $white;
   }
@@ -224,7 +225,11 @@ p, .regular {
 }
 
 .highlight {
-  &.html, .javascript,.css, .plaintext, .typescript{
+  &.html,
+  .javascript,
+  .css,
+  .plaintext,
+  .typescript {
     color: $white;
     white-space: break-spaces;
     padding: 1rem;
@@ -241,19 +246,30 @@ code {
   font-weight: bolder;
 }
 
-.nt, .kd, .k, .p, .o {
+.nt,
+.kd,
+.k,
+.p,
+.o {
   color: $red-800;
 }
 
-.m, .s2, .s1,.cm, .err {
+.m,
+.s2,
+.s1,
+.cm,
+.err {
   color: whitesmoke;
 }
 
-.c1{
+.c1 {
   color: $yellow;
 }
 
-.na, .nl, .nx,.n {
+.na,
+.nl,
+.nx,
+.n {
   color: $green-800;
 }
 
@@ -265,7 +281,6 @@ code {
   a {
     color: $blue;
     text-decoration: none;
-    
   }
 }
 
@@ -277,7 +292,7 @@ code {
     }
   }
 
-  .modal .modal-card{
+  .modal .modal-card {
     max-width: calc(100% - 2rem);
     .modal-card-body .lottie {
       width: 80% !important;
@@ -305,51 +320,50 @@ code {
   left: 0;
   right: 0;
   &.active {
-      top: 50%;
-      z-index: 101;
-      transition: all 0.3s ease-in-out;
-      transform: translateY(-50%);
+    top: 50%;
+    z-index: 101;
+    transition: all 0.3s ease-in-out;
+    transform: translateY(-50%);
   }
   .modal-card {
-      margin: 0 auto;
-      position: relative;
-      max-height: calc(100vh - 2.5rem);
-      width: 40rem;
-      min-height: 20rem;
-      border-radius: 1rem;
-      border: 2px solid $black;
-      box-shadow: $shadow-600;
-      background-color: $white;
-      .modal-card-head {
-        padding: .75rem 1.5rem;
-        border-bottom: 2px solid $black;
+    margin: 0 auto;
+    position: relative;
+    max-height: calc(100vh - 2.5rem);
+    width: 40rem;
+    min-height: 20rem;
+    border-radius: 1rem;
+    border: 2px solid $black;
+    box-shadow: $shadow-600;
+    background-color: $white;
+    .modal-card-head {
+      padding: 0.75rem 1.5rem;
+      border-bottom: 2px solid $black;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      a {
+        text-decoration: none;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        a{
-          text-decoration: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: .5rem;
-          &:hover {
-            background-color: $red;
-            border-radius: 50%;
-            
-          }
-        }
-      }
-      .modal-card-body {
-        padding: 1rem 1.5rem;
-        display: flex;
         justify-content: center;
-        align-items: center;
-        gap: .5rem;
-        flex-direction: column;
-        .lottie {
-          width: 50%;
+        padding: 0.5rem;
+        &:hover {
+          background-color: $red;
+          border-radius: 50%;
         }
       }
+    }
+    .modal-card-body {
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      flex-direction: column;
+      .lottie {
+        width: 50%;
+      }
+    }
   }
 }
 
