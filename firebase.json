@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/findsid",
+    "public": "dist/findsid/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
