@@ -1,0 +1,1363 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siddhant Jaiswal — Lead Front-End Architect</title>
+    <meta name="description"
+        content="Siddhant Jaiswal — Lead Front-End Architect. 9.5+ years architecting enterprise Angular applications for global financial institutions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --blue: #14335C;
+            --blue-deep: #0E2646;
+            --blue-panel: #102A4D;
+            --paper: #E8EFF7;
+            --ink-muted: #7FA0C4;
+            --ink-dim: #547089;
+            --red: #FF5A36;
+            --grid: rgba(232, 239, 247, 0.09);
+            --grid-strong: rgba(232, 239, 247, 0.18);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--blue);
+            color: var(--paper);
+            font-family: 'IBM Plex Sans', sans-serif;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        ::selection {
+            background: var(--red);
+            color: var(--blue-deep);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .mono {
+            font-family: 'Space Mono', monospace;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            margin: 0;
+        }
+
+        .wrap {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 28px;
+            position: relative;
+        }
+
+        .label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--red);
+        }
+
+        /* corner registration marks */
+        .reg {
+            position: relative;
+        }
+
+        .reg::before,
+        .reg::after,
+        .reg .rc2::before,
+        .reg .rc3::before {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            border: 1px solid var(--grid-strong);
+            pointer-events: none;
+        }
+
+        .reg::before {
+            top: 0;
+            left: 12px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .reg::after {
+            top: 0;
+            right: 12px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        /* ---------- Nav ---------- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(20, 51, 92, 0.92);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid var(--grid-strong);
+        }
+
+        nav.wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .brand {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: var(--paper);
+            letter-spacing: 0.08em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand .cross {
+            color: var(--red);
+        }
+
+        .navlinks {
+            display: flex;
+            gap: 24px;
+        }
+
+        .navlinks a {
+            text-decoration: none;
+            color: var(--ink-muted);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color .15s ease;
+        }
+
+        .navlinks a:hover,
+        .navlinks a:focus-visible {
+            color: var(--red);
+        }
+
+        @media (max-width:680px) {
+            .navlinks {
+                display: none;
+            }
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
+            padding: 64px 0 0;
+            border-bottom: 1px solid var(--grid-strong);
+        }
+
+        .hero-top {
+            padding-bottom: 36px;
+        }
+
+        .hero-top .label {
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.9rem, 4vw, 3rem);
+            line-height: 1.18;
+            max-width: 18ch;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 .red {
+            color: var(--red);
+        }
+
+        .hero p.lead {
+            max-width: 58ch;
+            font-size: 1rem;
+            color: var(--ink-muted);
+            font-family: 'IBM Plex Sans', sans-serif;
+            margin-bottom: 30px;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 12px 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--grid-strong);
+            transition: all .15s ease;
+        }
+
+        .btn-primary {
+            background: var(--red);
+            color: var(--blue-deep);
+            border-color: var(--red);
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: #ff7a5c;
+            transform: translateY(-2px);
+        }
+
+        .btn-ghost {
+            color: var(--paper);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--red);
+            color: var(--red);
+            transform: translateY(-2px);
+        }
+
+        /* ---- live grid specimen ---- */
+        .specimen {
+            margin-top: 44px;
+            border-top: 1px solid var(--grid-strong);
+        }
+
+        .specimen-tag {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 14px 0;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.66rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .specimen-tag .fig {
+            color: var(--red);
+        }
+
+        .grid-demo {
+            position: relative;
+            border: 1px solid var(--grid-strong);
+            background: var(--blue-deep);
+        }
+
+        .grid-head {
+            display: grid;
+            grid-template-columns: 70px 1fr 110px 90px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--red);
+            border-bottom: 1px solid var(--grid-strong);
+            padding: 8px 14px;
+        }
+
+        .grid-viewport {
+            position: relative;
+            height: 280px;
+            overflow-y: auto;
+        }
+
+        .grid-spacer {
+            position: relative;
+            width: 100%;
+        }
+
+        .grid-row {
+            position: absolute;
+            left: 0;
+            right: 0;
+            display: grid;
+            grid-template-columns: 70px 1fr 110px 90px;
+            align-items: center;
+            padding: 0 14px;
+            height: 28px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.72rem;
+            border-bottom: 1px solid rgba(232, 239, 247, 0.05);
+            color: var(--ink-muted);
+        }
+
+        .grid-row .amt {
+            color: var(--paper);
+        }
+
+        .st {
+            padding: 2px 6px;
+            font-size: 0.6rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+
+        .st-ok {
+            color: #7FD9A6;
+        }
+
+        .st-pend {
+            color: var(--red);
+        }
+
+        .grid-hud {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 14px;
+            border-top: 1px solid var(--grid-strong);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+        }
+
+        .grid-hud .live {
+            color: #7FD9A6;
+        }
+
+        .grid-viewport::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .grid-viewport::-webkit-scrollbar-track {
+            background: var(--blue-deep);
+        }
+
+        .grid-viewport::-webkit-scrollbar-thumb {
+            background: var(--grid-strong);
+        }
+
+        /* dimension-line stats */
+        .dims {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--grid-strong);
+        }
+
+        .dim {
+            padding: 26px 14px 30px;
+            text-align: center;
+            border-left: 1px solid var(--grid-strong);
+            position: relative;
+        }
+
+        .dim:first-child {
+            border-left: none;
+        }
+
+        .dim-tick {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: var(--ink-muted);
+            margin-bottom: 10px;
+        }
+
+        .dim-tick::before,
+        .dim-tick::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--grid-strong);
+        }
+
+        .dim-val {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--red);
+        }
+
+        .dim-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin-top: 8px;
+        }
+
+        @media (max-width:760px) {
+            .dims {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dim:nth-child(3) {
+                border-left: none;
+            }
+        }
+
+        /* ---------- Sections / sheets ---------- */
+        section {
+            padding: 64px 0;
+            border-bottom: 1px solid var(--grid-strong);
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .sheet-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 36px;
+            flex-wrap: wrap;
+            gap: 10px;
+            border-bottom: 1px solid var(--grid-strong);
+            padding-bottom: 16px;
+        }
+
+        .sheet-head h2 {
+            font-size: 1.4rem;
+        }
+
+        .sheet-no {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.66rem;
+            letter-spacing: 0.1em;
+            color: var(--ink-muted);
+        }
+
+        /* About */
+        .about-body {
+            max-width: 64ch;
+            font-size: 0.98rem;
+            color: var(--ink-muted);
+        }
+
+        .about-body p {
+            margin: 0 0 18px;
+        }
+
+        .about-body strong {
+            color: var(--paper);
+            font-weight: 600;
+        }
+
+        /* Experience */
+        .role {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 22px;
+            padding: 24px 0;
+            border-top: 1px solid var(--grid-strong);
+        }
+
+        .exp-list {
+            border-bottom: 1px solid var(--grid-strong);
+        }
+
+        .role-dates {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--red);
+            padding-top: 3px;
+        }
+
+        .role h3 {
+            font-size: 0.95rem;
+            color: var(--paper);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .role .company {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.68rem;
+            color: var(--ink-muted);
+            letter-spacing: 0.05em;
+            margin: 5px 0 10px;
+            text-transform: uppercase;
+        }
+
+        .role p {
+            margin: 0;
+            color: var(--ink-muted);
+            font-size: 0.9rem;
+            max-width: 60ch;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        @media (max-width:640px) {
+            .role {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+        }
+
+        /* Toolkit */
+        .comp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1px;
+            background: var(--grid-strong);
+            border: 1px solid var(--grid-strong);
+        }
+
+        .comp-card {
+            background: var(--blue-deep);
+            padding: 20px;
+        }
+
+        .comp-card h4 {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin: 0 0 12px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.66rem;
+            color: var(--ink-muted);
+            border: 1px solid var(--grid-strong);
+            padding: 4px 8px;
+        }
+
+        /* Work */
+        .subhead-small {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.66rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin: 40px 0 14px;
+        }
+
+        .subhead-small:first-child {
+            margin-top: 0;
+        }
+
+        .proj-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+            gap: 1px;
+            background: var(--grid-strong);
+            border: 1px solid var(--grid-strong);
+        }
+
+        .proj-card {
+            background: var(--blue-deep);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            transition: background .15s ease;
+        }
+
+        .proj-card:hover {
+            background: var(--blue-panel);
+        }
+
+        .proj-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .proj-card h3 {
+            font-size: 0.85rem;
+            color: var(--paper);
+            text-transform: none;
+            letter-spacing: 0;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+        }
+
+        .badge {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 3px 7px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .badge-live {
+            color: #7FD9A6;
+            border: 1px solid rgba(127, 217, 166, 0.35);
+        }
+
+        .badge-build {
+            color: var(--red);
+            border: 1px solid rgba(255, 90, 54, 0.4);
+        }
+
+        .proj-card p {
+            color: var(--ink-muted);
+            font-size: 0.85rem;
+            margin: 0 0 14px;
+            flex-grow: 1;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        .proj-meta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--ink-muted);
+            display: flex;
+            justify-content: space-between;
+            padding-top: 10px;
+            border-top: 1px solid var(--grid-strong);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        /* Writing */
+        #writing-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1px;
+            background: var(--grid-strong);
+            border: 1px solid var(--grid-strong);
+        }
+
+        .article-card {
+            background: var(--blue-deep);
+            padding: 18px;
+            text-decoration: none;
+            transition: background .15s ease;
+            display: block;
+        }
+
+        .article-card:hover {
+            background: var(--blue-panel);
+        }
+
+        .article-card h3 {
+            font-size: 0.82rem;
+            color: var(--paper);
+            text-transform: none;
+            letter-spacing: 0;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .article-card .article-meta {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.62rem;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .state-msg {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--ink-muted);
+            padding: 16px 0;
+            grid-column: 1/-1;
+        }
+
+        /* Contact */
+        .contact-panel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1px;
+            background: var(--grid-strong);
+            border: 1px solid var(--grid-strong);
+        }
+
+        .contact-item {
+            background: var(--blue-deep);
+            padding: 20px;
+            text-decoration: none;
+            transition: background .15s ease;
+        }
+
+        .contact-item:hover {
+            background: var(--blue-panel);
+        }
+
+        .contact-item .label {
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .contact-item .val {
+            font-size: 0.92rem;
+            color: var(--paper);
+            word-break: break-word;
+            font-family: 'Space Mono', monospace;
+        }
+
+        /* Title block footer */
+        footer {
+            padding: 0;
+        }
+
+        .titleblock {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            border-top: 2px solid var(--paper);
+        }
+
+        .tb-cell {
+            padding: 16px 18px;
+            border-left: 1px solid var(--grid-strong);
+        }
+
+        .tb-cell:first-child {
+            border-left: none;
+        }
+
+        .tb-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.58rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin-bottom: 4px;
+        }
+
+        .tb-val {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.78rem;
+            color: var(--paper);
+        }
+
+        @media (max-width:680px) {
+            .titleblock {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity .5s ease, transform .5s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skip {
+            position: absolute;
+            left: -999px;
+            top: 0;
+            background: var(--red);
+            color: var(--blue-deep);
+            padding: 10px 16px;
+            z-index: 100;
+        }
+
+        .skip:focus {
+            left: 12px;
+            top: 12px;
+        }
+
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--red);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <a href="#main" class="skip">Skip to content</a>
+
+    <header>
+        <nav class="wrap" aria-label="Primary">
+            <a href="#main" class="brand"><span class="cross">+</span>SID JAISWAL</a>
+            <div class="navlinks">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#work">Work</a>
+                <a href="#writing">Writing</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </nav>
+    </header>
+
+    <main id="main">
+
+        <section class="hero reg">
+            <div class="wrap">
+                <div class="hero-top">
+                    <span class="label">DWG SJ-2026 &nbsp;·&nbsp; LEAD FRONT-END ARCHITECT &nbsp;·&nbsp; BENGALURU,
+                        IN</span>
+                    <h1>Interfaces for systems that <span class="red">can't afford to break.</span></h1>
+                    <p class="lead">
+                        9.5+ years architecting enterprise Angular applications for global financial institutions —
+                        from the Finacle Design System running in 150+ banks, to AI-augmented engineering workflows
+                        that ship faster without cutting corners on rigor or accessibility.
+                    </p>
+                    <div class="cta-row">
+                        <a class="btn btn-primary" href="mailto:sid.jaiswal06@gmail.com">Email me</a>
+                        <a class="btn btn-ghost" href="Sid_Resume_2026.pdf" target="_blank" rel="noopener">Download
+                            resume ↓</a>
+                        <a class="btn btn-ghost" href="https://linkedin.com/in/iamsiddj" target="_blank"
+                            rel="noopener">LinkedIn ↗</a>
+                    </div>
+                </div>
+
+                <div class="specimen">
+                    <div class="specimen-tag">
+                        <span><span class="fig">FIG. 01</span> — LIVE SPECIMEN: VIRTUALIZED LEDGER GRID</span>
+                        <span>100,000 ROWS &nbsp;·&nbsp; WINDOWED RENDER &nbsp;·&nbsp; SCROLL TO INSPECT</span>
+                    </div>
+                    <div class="grid-demo">
+                        <div class="grid-head">
+                            <span>ROW</span><span>ACCOUNT REF</span><span>AMOUNT (₹)</span><span>STATUS</span>
+                        </div>
+                        <div class="grid-viewport" id="gridViewport">
+                            <div class="grid-spacer" id="gridSpacer" style="height: 2800000px;"></div>
+                            <div class="grid-row" style="top: 0px;"><span>1</span><span>SJ-AA-10000</span><span
+                                    class="amt">2.50</span><span class="st st-pend">PENDING</span></div>
+                            <div class="grid-row" style="top: 28px;"><span>2</span><span>SJ-BH-10001</span><span
+                                    class="amt">3.87</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 56px;"><span>3</span><span>SJ-CQ-10002</span><span
+                                    class="amt">5.24</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 84px;"><span>4</span><span>SJ-DX-10003</span><span
+                                    class="amt">6.61</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 112px;"><span>5</span><span>SJ-EE-10004</span><span
+                                    class="amt">7.98</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 140px;"><span>6</span><span>SJ-FM-10005</span><span
+                                    class="amt">9.35</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 168px;"><span>7</span><span>SJ-GU-10006</span><span
+                                    class="amt">10.72</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 196px;"><span>8</span><span>SJ-HB-10007</span><span
+                                    class="amt">12.09</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 224px;"><span>9</span><span>SJ-JJ-10008</span><span
+                                    class="amt">13.46</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 252px;"><span>10</span><span>SJ-KR-10009</span><span
+                                    class="amt">14.83</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 280px;"><span>11</span><span>SJ-LY-10010</span><span
+                                    class="amt">16.20</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 308px;"><span>12</span><span>SJ-MF-10011</span><span
+                                    class="amt">17.57</span><span class="st st-pend">PENDING</span></div>
+                            <div class="grid-row" style="top: 336px;"><span>13</span><span>SJ-NN-10012</span><span
+                                    class="amt">18.94</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 364px;"><span>14</span><span>SJ-PV-10013</span><span
+                                    class="amt">20.31</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 392px;"><span>15</span><span>SJ-QC-10014</span><span
+                                    class="amt">21.68</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 420px;"><span>16</span><span>SJ-RK-10015</span><span
+                                    class="amt">23.05</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 448px;"><span>17</span><span>SJ-SS-10016</span><span
+                                    class="amt">24.42</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 476px;"><span>18</span><span>SJ-TZ-10017</span><span
+                                    class="amt">25.79</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 504px;"><span>19</span><span>SJ-UG-10018</span><span
+                                    class="amt">27.16</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 532px;"><span>20</span><span>SJ-VP-10019</span><span
+                                    class="amt">28.53</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 560px;"><span>21</span><span>SJ-WW-10020</span><span
+                                    class="amt">29.90</span><span class="st st-ok">CLEARED</span></div>
+                            <div class="grid-row" style="top: 588px;"><span>22</span><span>SJ-XD-10021</span><span
+                                    class="amt">31.27</span><span class="st st-ok">CLEARED</span></div>
+                        </div>
+                        <div class="grid-hud">
+                            <span>RENDERED NODES: <span id="renderedCount" class="live">22</span> / 100,000</span>
+                            <span>SCROLL FPS: <span id="fpsCount" class="live">—</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dims">
+                    <div class="dim">
+                        <div class="dim-tick"><span class="dim-val">150+</span></div>
+                        <div class="dim-label">Banks on Finacle Design System</div>
+                    </div>
+                    <div class="dim">
+                        <div class="dim-tick"><span class="dim-val">40%↓</span></div>
+                        <div class="dim-label">Initial load time, Naviam</div>
+                    </div>
+                    <div class="dim">
+                        <div class="dim-tick"><span class="dim-val">30%↑</span></div>
+                        <div class="dim-label">Team velocity, AI-assisted</div>
+                    </div>
+                    <div class="dim">
+                        <div class="dim-tick"><span class="dim-val">9.5Y</span></div>
+                        <div class="dim-label">Enterprise front-end experience</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about">
+            <div class="wrap">
+                <div class="sheet-head reveal in">
+                    <h2>About</h2>
+                    <span class="sheet-no mono">SHEET 01/06</span>
+                </div>
+                <div class="about-body reveal">
+                    <p>
+                        I started out chasing the gap between how an interface looked and how people actually needed
+                        it to work — a self-taught developer figuring things out one component at a time. That instinct
+                        never left; it just moved upmarket. Today I lead front-end architecture for applications that
+                        banks, insurers, and enterprise IT teams depend on to work correctly the first time, every time.
+                    </p>
+                    <p>
+                        My focus is <strong>Angular at scale</strong> — component-based architecture, micro-frontends,
+                        design systems, and performance engineering for data-heavy, offline-capable applications. I led
+                        component engineering for Infosys's <strong>Finacle Design System</strong>, now deployed across
+                        150+ banking clients worldwide, and I've since carried that same design-system discipline into
+                        fintech and enterprise platforms at Naviam and LTI Mindtree.
+                    </p>
+                    <p>
+                        More recently, I've been embedding <strong>AI-assisted engineering</strong> — GitHub Copilot,
+                        Cursor, structured prompt workflows — directly into production delivery, which lifted my team's
+                        velocity by roughly 30% without loosening our standards on code review, accessibility, or test
+                        coverage. I'm currently deepening that into full-stack, AI-native engineering: building with
+                        LLM APIs, RAG pipelines, and agentic tooling alongside the Angular work.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="wrap">
+                <div class="sheet-head reveal">
+                    <h2>Experience</h2>
+                    <span class="sheet-no mono">SHEET 02/06</span>
+                </div>
+                <div class="exp-list reveal">
+                    <div class="role">
+                        <div class="role-dates mono">DEC 2022 — PRESENT</div>
+                        <div>
+                            <h3>Lead Product Development Professional</h3>
+                            <div class="company">Naviam · Bengaluru</div>
+                            <p>Architected offline-first Angular applications handling 100K+ records with virtual
+                                scrolling
+                                and background sync, cutting initial load times 40%. Owned frontend architecture
+                                end-to-end
+                                and introduced AI-assisted workflows that lifted team velocity ~30%.</p>
+                        </div>
+                    </div>
+                    <div class="role">
+                        <div class="role-dates mono">APR 2022 — DEC 2022</div>
+                        <div>
+                            <h3>Module Lead</h3>
+                            <div class="company">LTI Mindtree · Bengaluru</div>
+                            <p>Led front-end engineering for an AI-powered crypto trading platform — real-time market
+                                feed
+                                components, token-lifecycle HTTP interceptors, and Chart.js visualizations that
+                                contributed
+                                to a 30% lift in user engagement.</p>
+                        </div>
+                    </div>
+                    <div class="role">
+                        <div class="role-dates mono">APR 2021 — APR 2022</div>
+                        <div>
+                            <h3>Lead Experience Designer</h3>
+                            <div class="company">Infosys · Hyderabad</div>
+                            <p>Led engineering of core UI components for the Finacle Design System, deployed across 150+
+                                international banking clients. Drove adoption of WCAG 2.0-compliant, tokenized
+                                components
+                                and mentored junior developers on accessibility and component architecture.</p>
+                        </div>
+                    </div>
+                    <div class="role">
+                        <div class="role-dates mono">JAN 2020 — MAR 2021</div>
+                        <div>
+                            <h3>Technology Analyst</h3>
+                            <div class="company">Infosys · Hyderabad</div>
+                            <p>Built and maintained an enterprise ServiceNow portal for Welsh Water using AngularJS,
+                                working directly with international stakeholders on requirements and delivery.</p>
+                        </div>
+                    </div>
+                    <div class="role">
+                        <div class="role-dates mono">JAN 2017 — DEC 2019</div>
+                        <div>
+                            <h3>Systems Engineer</h3>
+                            <div class="company">Infosys · Hyderabad</div>
+                            <p>Automated Active Directory and Office 365 licensing workflows for US enterprise clients,
+                                cutting operational errors 40%.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="wrap">
+                <div class="sheet-head reveal">
+                    <h2>Toolkit</h2>
+                    <span class="sheet-no mono">SHEET 03/06</span>
+                </div>
+                <div class="comp-grid reveal">
+                    <div class="comp-card">
+                        <h4>Frameworks &amp; Languages</h4>
+                        <div class="tag-list">
+                            <span class="tag">Angular</span><span class="tag">Signals/RxJS</span><span
+                                class="tag">TypeScript</span>
+                            <span class="tag">JavaScript ES6+</span><span class="tag">Python</span><span
+                                class="tag">Dart / Flutter</span>
+                        </div>
+                    </div>
+                    <div class="comp-card">
+                        <h4>Architecture</h4>
+                        <div class="tag-list">
+                            <span class="tag">Design Systems</span><span class="tag">Micro-Frontends</span>
+                            <span class="tag">Monorepos</span><span class="tag">Web Components</span>
+                        </div>
+                    </div>
+                    <div class="comp-card">
+                        <h4>Performance &amp; A11y</h4>
+                        <div class="tag-list">
+                            <span class="tag">100K+ record virtual scroll</span><span class="tag">Offline sync</span>
+                            <span class="tag">Web Workers</span><span class="tag">WCAG 2.1</span>
+                        </div>
+                    </div>
+                    <div class="comp-card">
+                        <h4>AI-Assisted Engineering</h4>
+                        <div class="tag-list">
+                            <span class="tag">GitHub Copilot</span><span class="tag">Cursor</span>
+                            <span class="tag">Prompt Engineering</span><span class="tag">AI Code Audit</span>
+                        </div>
+                    </div>
+                    <div class="comp-card">
+                        <h4>Infrastructure</h4>
+                        <div class="tag-list">
+                            <span class="tag">Git</span><span class="tag">GitHub Actions</span><span
+                                class="tag">Jenkins</span>
+                            <span class="tag">Jasmine / Karma / Cypress</span>
+                        </div>
+                    </div>
+                    <div class="comp-card">
+                        <h4>Leadership</h4>
+                        <div class="tag-list">
+                            <span class="tag">Architecture Reviews</span><span class="tag">Mentorship</span>
+                            <span class="tag">Agile/Scrum</span><span class="tag">Risk Mitigation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work">
+            <div class="wrap">
+                <div class="sheet-head reveal">
+                    <h2>Work</h2>
+                    <span class="sheet-no mono">SHEET 04/06</span>
+                </div>
+
+                <p class="subhead-small reveal">Currently building</p>
+                <div class="proj-grid reveal">
+                    <div class="proj-card">
+                        <div class="proj-top">
+                            <h3>Maximo Integration Assistant</h3><span class="badge badge-build">Building</span>
+                        </div>
+                        <p>An AI-native assistant built on IBM's public Maximo REST API docs — exploring RAG and
+                            agentic patterns on top of the same MAS ecosystem I work in day-to-day on Fingertip.</p>
+                        <div class="proj-meta"><span>Python · FastAPI · RAG</span><span>2026</span></div>
+                    </div>
+                    <div class="proj-card">
+                        <div class="proj-top">
+                            <h3>AI Accessibility Auditor</h3><span class="badge badge-build">Building</span>
+                        </div>
+                        <p>A crawler that audits sites against WCAG criteria and uses an LLM to explain violations
+                            and suggest fixes in plain language — accessibility tooling meets AI-native engineering.</p>
+                        <div class="proj-meta"><span>Python · LLM APIs</span><span>2026</span></div>
+                    </div>
+                </div>
+
+                <p class="subhead-small reveal">Earlier builds</p>
+                <div class="proj-grid reveal">
+                    <a class="proj-card" href="https://authentic-weather.web.app" target="_blank" rel="noopener">
+                        <div class="proj-top">
+                            <h3>Authentic Weather App</h3><span class="badge badge-live">Live</span>
+                        </div>
+                        <p>Weather information delivered with a grain of salt.</p>
+                        <div class="proj-meta"><span>Angular</span><span>2021</span></div>
+                    </a>
+                    <a class="proj-card" href="https://toonify-me.web.app/" target="_blank" rel="noopener">
+                        <div class="proj-top">
+                            <h3>Toonify App</h3><span class="badge badge-live">Live</span>
+                        </div>
+                        <p>Turns a photo into an animated-movie-style character.</p>
+                        <div class="proj-meta"><span>Vue</span><span>2019</span></div>
+                    </a>
+                    <a class="proj-card" href="https://keepit-notes.web.app" target="_blank" rel="noopener">
+                        <div class="proj-top">
+                            <h3>Notes App</h3><span class="badge badge-live">Live</span>
+                        </div>
+                        <p>A notes app built on Angular and Firebase.</p>
+                        <div class="proj-meta"><span>Angular</span><span>2018</span></div>
+                    </a>
+                    <a class="proj-card" href="https://jaiswalswedding.web.app" target="_blank" rel="noopener">
+                        <div class="proj-top">
+                            <h3>Wedding Invite App</h3><span class="badge badge-live">Live</span>
+                        </div>
+                        <p>Built to invite guests to my sister's wedding.</p>
+                        <div class="proj-meta"><span>Vue</span><span>2021</span></div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="writing">
+            <div class="wrap">
+                <div class="sheet-head reveal">
+                    <h2>Writing</h2>
+                    <span class="sheet-no mono">SHEET 05/06</span>
+                </div>
+                <div id="writing-list" class="reveal">
+                    <a class="article-card"
+                        href="https://dev.to/playfulprogramming-angular/easy-modals-with-angular-3gdj" target="_blank"
+                        rel="noopener">
+                        <h3>Easy Modals with Angular</h3>
+                        <div class="article-meta">Jun 3 '22 · #angular</div>
+                    </a>
+
+                    <a class="article-card" href="https://dev.to/siddev/animating-svgs-4ajo" target="_blank"
+                        rel="noopener">
+                        <h3>Animating SVGs</h3>
+                        <div class="article-meta">Sep 5 '21 · #css</div>
+                    </a>
+
+                    <a class="article-card" href="https://dev.to/siddev/css-animations-5hah" target="_blank"
+                        rel="noopener">
+                        <h3>CSS Animations</h3>
+                        <div class="article-meta">Aug 27 '21 · #css</div>
+                    </a>
+
+                    <a class="article-card" href="https://dev.to/siddev/vuex-simplified-1df8" target="_blank"
+                        rel="noopener">
+                        <h3>Vuex Simplified</h3>
+                        <div class="article-meta">Apr 12 '21 · #vue</div>
+                    </a>
+
+                    <a class="article-card" href="https://dev.to/siddev/lightspeed-css-45km" target="_blank"
+                        rel="noopener">
+                        <h3>LightSpeed CSS</h3>
+                        <div class="article-meta">Mar 31 '21 · #css</div>
+                    </a>
+
+                    <a class="article-card" href="https://dev.to/siddev/customise-datalist-45p0" target="_blank"
+                        rel="noopener">
+                        <h3>Customise Datalist</h3>
+                        <div class="article-meta">Mar 24 '21 · #html</div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="wrap">
+                <div class="sheet-head reveal">
+                    <h2>Contact</h2>
+                    <span class="sheet-no mono">SHEET 06/06</span>
+                </div>
+                <div class="contact-panel reveal">
+                    <a class="contact-item" href="mailto:sid.jaiswal06@gmail.com">
+                        <span class="label">Email</span>
+                        <div class="val">sid.jaiswal06@gmail.com</div>
+                    </a>
+                    <a class="contact-item" href="https://linkedin.com/in/iamsiddj" target="_blank" rel="noopener">
+                        <span class="label">LinkedIn</span>
+                        <div class="val">linkedin.com/in/iamsiddj</div>
+                    </a>
+                    <div class="contact-item">
+                        <span class="label">Based in</span>
+                        <div class="val">Bengaluru, India</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="wrap">
+            <div class="titleblock">
+                <div class="tb-cell">
+                    <div class="tb-label">Title</div>
+                    <div class="tb-val">Siddhant Jaiswal — Portfolio</div>
+                </div>
+                <div class="tb-cell">
+                    <div class="tb-label">Drawn by</div>
+                    <div class="tb-val">S. Jaiswal</div>
+                </div>
+                <div class="tb-cell">
+                    <div class="tb-label">Rev</div>
+                    <div class="tb-val" id="revStamp">2026.08</div>
+                </div>
+                <div class="tb-cell">
+                    <div class="tb-label">Scale</div>
+                    <div class="tb-val">NTS</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const revealEls = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => io.observe(el));
+
+        // ---- Live virtualized ledger grid (real windowing, 100,000 rows) ----
+        (function () {
+            const TOTAL = 100000;
+            const ROW_H = 28;
+            const viewport = document.getElementById('gridViewport');
+            const spacer = document.getElementById('gridSpacer');
+            const renderedCountEl = document.getElementById('renderedCount');
+            const fpsEl = document.getElementById('fpsCount');
+            spacer.style.height = (TOTAL * ROW_H) + 'px';
+
+            function acctRef(i) {
+                const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+                const a = letters[i % letters.length];
+                const b = letters[(i * 7) % letters.length];
+                return 'SJ-' + a + b + '-' + String(10000 + (i % 89999));
+            }
+            function amount(i) {
+                const v = ((i * 137) % 998000 + 250) / 100;
+                return v.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
+            function status(i) { return (i % 11 === 0) ? 'PENDING' : 'CLEARED'; }
+
+            let pool = [];
+            function ensurePool(n) {
+                while (pool.length < n) {
+                    const el = document.createElement('div');
+                    el.className = 'grid-row';
+                    el.innerHTML = '<span></span><span></span><span class="amt"></span><span></span>';
+                    viewport.appendChild(el);
+                    pool.push(el);
+                }
+            }
+
+            function render() {
+                const scrollTop = viewport.scrollTop;
+                const viewH = viewport.clientHeight;
+                const buffer = 6;
+                const startIdx = Math.max(0, Math.floor(scrollTop / ROW_H) - buffer);
+                const visibleCount = Math.ceil(viewH / ROW_H) + buffer * 2;
+                const endIdx = Math.min(TOTAL, startIdx + visibleCount);
+                const count = endIdx - startIdx;
+                ensurePool(count);
+
+                for (let n = 0; n < pool.length; n++) {
+                    const el = pool[n];
+                    if (n < count) {
+                        const i = startIdx + n;
+                        el.style.display = '';
+                        el.style.top = (i * ROW_H) + 'px';
+                        const cells = el.children;
+                        cells[0].textContent = i + 1;
+                        cells[1].textContent = acctRef(i);
+                        cells[2].textContent = amount(i);
+                        cells[3].textContent = status(i);
+                        cells[3].className = status(i) === 'PENDING' ? 'st st-pend' : 'st st-ok';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                }
+                renderedCountEl.textContent = count.toLocaleString('en-US');
+            }
+
+            viewport.addEventListener('scroll', () => { render(); }, { passive: true });
+            render();
+
+            // FPS readout, active only while pointer is over the demo
+            let raf = null, frames = 0, lastTick = performance.now(), active = false;
+            function loop(now) {
+                frames++;
+                if (now - lastTick >= 500) {
+                    fpsEl.textContent = Math.round((frames * 1000) / (now - lastTick));
+                    frames = 0; lastTick = now;
+                }
+                if (active) raf = requestAnimationFrame(loop);
+            }
+            const demoEl = document.querySelector('.grid-demo');
+            demoEl.addEventListener('mouseenter', () => { active = true; lastTick = performance.now(); frames = 0; raf = requestAnimationFrame(loop); });
+            demoEl.addEventListener('mouseleave', () => { active = false; if (raf) cancelAnimationFrame(raf); fpsEl.textContent = '—'; });
+        })();
+
+        // Live articles from dev.to
+        const writingList = document.getElementById('writing-list');
+        fetch('https://dev.to/api/articles?username=siddev')
+            .then(res => { if (!res.ok) throw new Error('Request failed'); return res.json(); })
+            .then(articles => {
+                if (!Array.isArray(articles) || articles.length === 0) {
+                    writingList.innerHTML = '<p class="state-msg">No articles published yet — check back soon, or see <a href="https://dev.to/siddev" target="_blank" rel="noopener" style="color:var(--red)">dev.to/siddev</a>.</p>';
+                    return;
+                }
+                writingList.innerHTML = articles.slice(0, 6).map(a => `
+        <a class="article-card" href="${a.url}" target="_blank" rel="noopener">
+          <h3>${a.title}</h3>
+          <div class="article-meta">${a.readable_publish_date || ''}${a.tag_list && a.tag_list[0] ? ' · #' + a.tag_list[0] : ''}</div>
+        </a>
+      `).join('');
+            })
+            .catch(() => {
+                writingList.innerHTML = '<p class="state-msg">Couldn\'t load articles right now — read them directly at <a href="https://dev.to/siddev" target="_blank" rel="noopener" style="color:var(--red)">dev.to/siddev</a>.</p>';
+            });
+    </script>
+
+
+
+</body>
+
+</html>

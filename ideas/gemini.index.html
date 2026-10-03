@@ -1,0 +1,603 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siddhant Jaiswal | Lead Front-End Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b192c;
+            --bg-secondary: #1e293b;
+            --border-color: rgba(56, 189, 248, 0.25);
+            --border-active: #38bdf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.15);
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Fixed Blueprint Canvas Background */
+        .blueprint-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+            background-color: #0b192c;
+            background-image:
+                linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+                linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+        }
+
+        .blueprint-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(11, 25, 44, 0.8) 100%);
+        }
+
+        /* Layout Structure (Brittany Chiang style split layout) */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 48px;
+            }
+        }
+
+        /* Left Sidebar Header (Fixed on Desktop) */
+        header {
+            padding: 80px 0 32px;
+        }
+
+        @media (min-width: 1024px) {
+            header {
+                position: sticky;
+                top: 0;
+                max-height: 100vh;
+                width: 45%;
+                padding: 96px 0;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+        }
+
+        .meta-badge {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            display: inline-block;
+            padding: 4px 8px;
+            border: 1px dashed var(--border-active);
+            background: var(--accent-glow);
+        }
+
+        h1 {
+            font-size: 2.75rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            color: #fff;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-top: 8px;
+            font-family: var(--font-mono);
+        }
+
+        .lead-text {
+            margin-top: 16px;
+            color: var(--text-muted);
+            max-width: 320px;
+            font-size: 0.95rem;
+        }
+
+        nav {
+            margin-top: 48px;
+            display: none;
+        }
+
+        @media (min-width: 1024px) {
+            nav {
+                display: block;
+            }
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav a {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        nav a .nav-indicator {
+            width: 24px;
+            height: 1px;
+            background-color: var(--text-muted);
+            margin-right: 16px;
+            transition: all 0.2s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--accent);
+        }
+
+        nav a:hover .nav-indicator,
+        nav a.active .nav-indicator {
+            width: 48px;
+            background-color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Main Content Area */
+        main {
+            padding: 32px 0 96px;
+        }
+
+        @media (min-width: 1024px) {
+            main {
+                width: 50%;
+                padding: 96px 0;
+            }
+        }
+
+        section {
+            margin-bottom: 96px;
+            scroll-margin-top: 96px;
+        }
+
+        .section-title {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* Blueprint Card Component */
+        .blueprint-card {
+            position: relative;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 24px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(4px);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .blueprint-card:hover {
+            border-color: var(--border-active);
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Card Corner Marks for Drafting Feel */
+        .blueprint-card::before {
+            content: '+';
+            position: absolute;
+            top: -8px;
+            left: -5px;
+            color: var(--accent);
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+
+        .blueprint-card::after {
+            content: '+';
+            position: absolute;
+            bottom: -8px;
+            right: -5px;
+            color: var(--accent);
+            font-family: var(--font-mono);
+            font-size: 12px;
+        }
+
+        .card-meta {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .tag {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: var(--accent-glow);
+            padding: 2px 8px;
+            border-radius: 2px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        /* Interactive Lab Widget Styles */
+        .lab-container {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid var(--border-active);
+            padding: 16px;
+            margin-top: 16px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--border-active);
+            color: var(--accent);
+            padding: 6px 12px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--bg-color);
+        }
+
+        .metric-display {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .metric-box {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 8px;
+            border: 1px dashed var(--border-color);
+        }
+
+        .metric-val {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Accessibility Sandbox Specifics */
+        .wcag-preview-box {
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .low-contrast {
+            background: #1e293b;
+            color: #475569;
+        }
+
+        .high-contrast {
+            background: #000000;
+            color: #ffffff;
+            border: 2px solid #38bdf8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="blueprint-bg"></div>
+
+    <div class="container">
+        <!-- Left Sidebar Header -->
+        <header>
+            <div>
+                <span class="meta-badge">[SYS.ARCH // v10.0]</span>
+                <h1>Siddhant Jaiswal</h1>
+                <h2>Lead Front-End Engineer</h2>
+                <p class="lead-text">
+                    Architecting scalable Angular applications, high-performance virtualized rendering engines, and
+                    accessible design systems[cite: 1].
+                </p>
+
+                <nav>
+                    <ul>
+                        <li><a href="#about" class="active"><span class="nav-indicator"></span>01. ABOUT</a></li>
+                        <li><a href="#lab"><span class="nav-indicator"></span>02. INTERACTIVE LAB</a></li>
+                        <li><a href="#experience"><span class="nav-indicator"></span>03. EXPERIENCE</a></li>
+                        <li><a href="#articles"><span class="nav-indicator"></span>04. WRITING</a></li>
+                        <li><a href="#vault"><span class="nav-indicator"></span>05. RETRO VAULT</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="social-links">
+                <a href="https://linkedin.com/in/iamsiddj" target="_blank">LinkedIn</a>
+                <a href="https://github.com" target="_blank">GitHub</a>
+                <a href="https://dev.to" target="_blank">Dev.to</a>
+                <a href="mailto:sid.jaiswal06@gmail.com">Email</a>
+            </div>
+        </header>
+
+        <!-- Main Content Stream -->
+        <main>
+            <!-- About Section -->
+            <section id="about">
+                <div class="section-title">01 // Architectural Overview</div>
+                <p style="color: var(--text-muted); margin-bottom: 16px;">
+                    With a decade of hands-on software engineering experience, I specialize in building frontend
+                    architectures for complex enterprise environments[cite: 1].
+                </p>
+                <p style="color: var(--text-muted);">
+                    My focus centers on high-volume data visualization, offline-first synchronization with RxJS/Signals,
+                    and accessible design tokens adopted at global scale[cite: 1].
+                </p>
+            </section>
+
+            <!-- Interactive Lab Section -->
+            <section id="lab">
+                <div class="section-title">02 // Interactive Engineering Demos</div>
+
+                <!-- Sandbox 1: Virtualization -->
+                <div class="blueprint-card">
+                    <div class="card-meta">PERFORMANCE ENGINE SCHEMATIC</div>
+                    <div class="card-title">100K+ Record Virtual Scroll Engine</div>
+                    <div class="card-desc">
+                        Simulating Web Worker offloading and virtualized windowing vs. standard DOM rendering[cite: 1].
+                    </div>
+                    <div class="lab-container">
+                        <div class="controls-bar">
+                            <span>DATASET: 100,000 ITEMS</span>
+                            <button class="btn" id="toggleVirtualBtn" onclick="toggleVirtualization()">Mode:
+                                Virtualized</button>
+                        </div>
+                        <div class="metric-display">
+                            <div class="metric-box">
+                                <div>FPS Benchmark</div>
+                                <div class="metric-val" id="fpsVal">60 FPS</div>
+                            </div>
+                            <div class="metric-box">
+                                <div>DOM Nodes Active</div>
+                                <div class="metric-val" id="nodesVal">28 Nodes</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sandbox 2: WCAG -->
+                <div class="blueprint-card">
+                    <div class="card-meta">ACCESSIBILITY PROTOCOL</div>
+                    <div class="card-title">WCAG 2.0 / 2.1 Contrast &amp; Focus Engine</div>
+                    <div class="card-desc">
+                        Toggle accessibility tokens to demonstrate compliance thresholds built for enterprise design
+                        systems[cite: 1].
+                    </div>
+                    <div class="lab-container">
+                        <div class="controls-bar">
+                            <span>COMPLIANCE LEVEL</span>
+                            <button class="btn" onclick="toggleWCAG()">Toggle Contrast (AA / AAA)</button>
+                        </div>
+                        <div id="wcagBox" class="wcag-preview-box high-contrast">
+                            <strong>Interactive Component Preview</strong>
+                            <p style="font-size: 0.8rem; margin-top: 4px;">Keyboard focus ring and contrast ratio set to
+                                7:1 ratio compliant.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience Section -->
+            <section id="experience">
+                <div class="section-title">03 // Enterprise Experience</div>
+
+                <div class="blueprint-card">
+                    <div class="card-meta">DEC 2022 — PRESENT</div>
+                    <div class="card-title">Lead Product Development Professional · Naviam</div>
+                    <div class="card-desc">
+                        Architected modular Angular applications using Signals and custom virtualized rendering,
+                        reducing load times by 40%[cite: 1]. Designed offline-first architecture handling 100K+
+                        records[cite: 1].
+                    </div>
+                    <ul class="tag-list">
+                        <li class="tag">Angular</li>
+                        <li class="tag">Signals</li>
+                        <li class="tag">RxJS</li>
+                        <li class="tag">Web Workers</li>
+                        <li class="tag">WCAG</li>
+                    </ul>
+                </div>
+
+                <div class="blueprint-card">
+                    <div class="card-meta">APR 2021 — APR 2022</div>
+                    <div class="card-title">Lead Experience Designer · Infosys</div>
+                    <div class="card-desc">
+                        Led engineering of core UI components for Finacle Design System across 150+ international
+                        banking clients, maintaining WCAG 2.0 compliance[cite: 1].
+                    </div>
+                    <ul class="tag-list">
+                        <li class="tag">Design Systems</li>
+                        <li class="tag">Accessibility</li>
+                        <li class="tag">SASS</li>
+                        <li class="tag">JavaScript</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Articles Section -->
+            <section id="articles">
+                <div class="section-title">04 // Dev.to &amp; Tech Writing</div>
+
+                <div class="blueprint-card">
+                    <div class="card-meta">PUBLISHED ON DEV.TO</div>
+                    <div class="card-title">Optimizing High-Frequency Data Streams in Angular</div>
+                    <div class="card-desc">
+                        Deep dive into handling high-throughput feeds using RxJS operators, custom virtualized
+                        windowing, and Web Worker thread delegation[cite: 1].
+                    </div>
+                    <ul class="tag-list">
+                        <li class="tag">Architecture</li>
+                        <li class="tag">Angular</li>
+                        <li class="tag">Performance</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Retro Vault Section -->
+            <section id="vault">
+                <div class="section-title">05 // 10-Year Retro Vault</div>
+
+                <div class="blueprint-card">
+                    <div class="card-meta">CIRC A 2016 // FOUNDATIONAL ARCHIVE</div>
+                    <div class="card-title">Early DOM &amp; JavaScript Automation Experiments</div>
+                    <div class="card-desc">
+                        A look back at early scripting workflows and foundational UI components that laid the blueprint
+                        for large-scale enterprise application engineering[cite: 1].
+                    </div>
+                    <ul class="tag-list">
+                        <li class="tag">JavaScript (ES6)</li>
+                        <li class="tag">DOM API</li>
+                        <li class="tag">Automation</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Interactive Virtualization Demo Logic
+        let isVirtualized = true;
+        function toggleVirtualization() {
+            const btn = document.getElementById('toggleVirtualBtn');
+            const fps = document.getElementById('fpsVal');
+            const nodes = document.getElementById('nodesVal');
+
+            isVirtualized = !isVirtualized;
+
+            if (isVirtualized) {
+                btn.innerText = 'Mode: Virtualized';
+                fps.innerText = '60 FPS';
+                fps.style.color = '#38bdf8';
+                nodes.innerText = '28 Nodes';
+            } else {
+                btn.innerText = 'Mode: Standard DOM';
+                fps.innerText = '14 FPS (Degraded)';
+                fps.style.color = '#ef4444';
+                nodes.innerText = '100,000 Nodes';
+            }
+        }
+
+        // Interactive WCAG Demo Logic
+        function toggleWCAG() {
+            const box = document.getElementById('wcagBox');
+            box.classList.toggle('high-contrast');
+            box.classList.toggle('low-contrast');
+        }
+    </script>
+
+
+</body>
+
+</html>

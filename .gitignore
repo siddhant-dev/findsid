@@ -10,7 +10,7 @@
 # dependencies
 /node_modules
 /.firebase
-/ideas
+# /ideas
 # environment
 # /src/environments
 
