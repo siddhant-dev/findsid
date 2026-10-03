@@ -25,8 +25,8 @@ export const WORK_ROUTES: Routes = [
       },
       {
         path: 'art',
-        loadComponent: () =>
-          import('./work/art/art.component').then((m) => m.ArtComponent),
+        pathMatch: 'full',
+        redirectTo: 'articles',
       },
       {
         path: 'articles/:id',

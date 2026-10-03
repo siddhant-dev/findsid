@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
+import { ThemeService } from './services/theme.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
+      imports: [AppComponent],
+      providers: [
+        provideRouter([]),
+        { provide: ThemeService, useValue: { setTheme: jasmine.createSpy('setTheme') } },
       ],
     }).compileComponents();
   });
@@ -20,16 +20,14 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'findsid'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('findsid');
-  });
-
-  it('should render title', () => {
+  it('should retain other social links without linking to the artwork profile', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('findsid app is running!');
+    const links = Array.from(compiled.querySelectorAll<HTMLAnchorElement>('footer a'));
+    expect(links.map((link) => link.getAttribute('aria-label'))).toEqual([
+      'LinkedIn', 'Twitter', 'Github', 'Code Pen',
+    ]);
+    expect(links.some((link) => link.href.includes('instagram.com'))).toBeFalse();
   });
 });

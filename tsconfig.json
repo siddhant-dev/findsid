@@ -1,6 +1,5 @@
 {
-  "compileOnSave": false,
-  "files": [],
+  "compileOnSave": true,
   "compilerOptions": {
     "rootDir": "./src",
     "forceConsistentCasingInFileNames": true,
@@ -17,8 +16,9 @@
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
-    "lib": ["ES2022", "dom"],
-    "useDefineForClassFields": false
+    "lib": ["ES2022", "dom",],
+    "useDefineForClassFields": false,
+    "types": ["jest"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

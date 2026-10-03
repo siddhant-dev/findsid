@@ -2,6 +2,11 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.3.
 
+## Portfolio content
+
+The Work section contains Articles and Apps. The artwork showcase has been retired,
+and old `/work/art` links redirect to `/work/articles`. No Instagram API token is required.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
