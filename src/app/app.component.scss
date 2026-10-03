@@ -22,8 +22,15 @@
   display: block;
   max-width: none;
   padding: 0;
-  .content-column { padding: 0; }
-  .page-actions { max-width: 48rem; box-sizing: border-box; margin: 0 auto; padding: 0 1.5rem 3rem; }
+  .content-column {
+    padding: 0;
+  }
+  .page-actions {
+    max-width: 48rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+  }
 }
 
 .identity-column {

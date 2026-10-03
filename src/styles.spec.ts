@@ -58,7 +58,9 @@ describe('Blueprint style contract', () => {
       expect(styles.fontWeight).toBe(weight);
     }
 
-    expect(getComputedStyle(host.querySelector('.body-text')!).lineHeight).toBe('24.32px');
+    expect(getComputedStyle(host.querySelector('.body-text')!).lineHeight).toBe(
+      '24.32px',
+    );
   });
 
   it('uses the browser default root size and scales inherited text and control padding', () => {
@@ -116,14 +118,20 @@ describe('Blueprint style contract', () => {
     const styles = getComputedStyle(canvas);
 
     expect(styles.backgroundColor).toBe('rgb(11, 25, 44)');
-    expect(styles.backgroundImage).toBe([
-      'linear-gradient(rgba(56, 189, 248, 0.08) 1px, rgba(0, 0, 0, 0) 1px)',
-      'linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, rgba(0, 0, 0, 0) 1px)',
-      'linear-gradient(rgba(56, 189, 248, 0.03) 1px, rgba(0, 0, 0, 0) 1px)',
-      'linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, rgba(0, 0, 0, 0) 1px)',
-    ].join(', '));
-    expect(styles.backgroundSize).toBe('100px 100px, 100px 100px, 20px 20px, 20px 20px');
-    expect(styles.backgroundPosition).toBe('-1px -1px, -1px -1px, -1px -1px, -1px -1px');
+    expect(styles.backgroundImage).toBe(
+      [
+        'linear-gradient(rgba(56, 189, 248, 0.08) 1px, rgba(0, 0, 0, 0) 1px)',
+        'linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, rgba(0, 0, 0, 0) 1px)',
+        'linear-gradient(rgba(56, 189, 248, 0.03) 1px, rgba(0, 0, 0, 0) 1px)',
+        'linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, rgba(0, 0, 0, 0) 1px)',
+      ].join(', '),
+    );
+    expect(styles.backgroundSize).toBe(
+      '100px 100px, 100px 100px, 20px 20px, 20px 20px',
+    );
+    expect(styles.backgroundPosition).toBe(
+      '-1px -1px, -1px -1px, -1px -1px, -1px -1px',
+    );
 
     const vignette = getComputedStyle(canvas, '::after');
     expect(vignette.content).toBe('""');

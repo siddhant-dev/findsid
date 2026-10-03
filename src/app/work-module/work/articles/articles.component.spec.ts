@@ -15,8 +15,15 @@ describe('ArticlesComponent', () => {
   const page = (start: number, count: number): ArticlePage => ({
     rawCount: count,
     records: Array.from({ length: count }, (_, i) => ({
-      source: { id: start + i, title: `Article ${start + i}`, description: 'Full content',
-        tags: ['Angular', 'RxJS'], typeOf: 'article', published_date: 'Oct 4', cover_image: '/detail-only.svg' },
+      source: {
+        id: start + i,
+        title: `Article ${start + i}`,
+        description: 'Full content',
+        tags: ['Angular', 'RxJS'],
+        typeOf: 'article',
+        published_date: 'Oct 4',
+        cover_image: '/detail-only.svg',
+      },
       publicationInstant: 10000 - start - i,
     })),
   });
@@ -53,7 +60,9 @@ describe('ArticlesComponent', () => {
   it('starts only on mounted activation with ten inert skeletons and separate loading status', () => {
     expect(requests.length).toBe(1);
     expect(root.querySelectorAll('boneyard-skeleton').length).toBe(10);
-    expect(root.querySelector('[role="status"]')?.textContent).toContain('Loading articles');
+    expect(root.querySelector('[role="status"]')?.textContent).toContain(
+      'Loading articles',
+    );
     expect(root.querySelector('img')).toBeNull();
     expect(root.querySelector('h2')).toBeNull();
     expect(root.querySelector('[tabindex="0"]')).toBeNull();
@@ -110,9 +119,13 @@ describe('ArticlesComponent', () => {
   });
 
   it('captures real blueprint skeleton bones, fixed palette and reduced-motion binding with cleanup', async () => {
-    for (let i = 0; i < 3; i++) await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (let i = 0; i < 3; i++)
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
     changed();
-    const skeleton = fixture.debugElement.query(By.directive(SkeletonComponent)).componentInstance as SkeletonComponent;
+    const skeleton = fixture.debugElement.query(By.directive(SkeletonComponent))
+      .componentInstance as SkeletonComponent;
     expect(skeleton.activeBones?.bones.length ?? 0).toBeGreaterThan(0);
     expect(skeleton.resolvedColor).toBe('var(--text-muted)');
     fixture.componentInstance.reducedMotion = true;
@@ -122,7 +135,9 @@ describe('ArticlesComponent', () => {
     expect(skeleton.transitionMs).toBe(0);
     const uid = skeleton.uid;
     fixture.destroy();
-    expect(document.querySelector(`[data-boneyard-keyframes="${uid}"]`)).toBeNull();
+    expect(
+      document.querySelector(`[data-boneyard-keyframes="${uid}"]`),
+    ).toBeNull();
   });
 
   it('uses available-width rem tracks with at most three columns and shrinking narrow layout', () => {
@@ -132,11 +147,17 @@ describe('ArticlesComponent', () => {
     root.style.width = '1000px';
     document.body.appendChild(root);
     expect(getComputedStyle(grid).columnGap).toBe('24px');
-    expect(getComputedStyle(grid).gridTemplateColumns.split(' ').length).toBe(3);
+    expect(getComputedStyle(grid).gridTemplateColumns.split(' ').length).toBe(
+      3,
+    );
     root.style.width = '320px';
-    expect(getComputedStyle(grid).gridTemplateColumns.split(' ').length).toBe(1);
+    expect(getComputedStyle(grid).gridTemplateColumns.split(' ').length).toBe(
+      1,
+    );
     const card = grid.querySelector<HTMLElement>('.card')!;
-    expect(card.getBoundingClientRect().right).toBeLessThanOrEqual(grid.getBoundingClientRect().right);
+    expect(card.getBoundingClientRect().right).toBeLessThanOrEqual(
+      grid.getBoundingClientRect().right,
+    );
     const previous = document.documentElement.style.fontSize;
     document.documentElement.style.fontSize = '20px';
     expect(getComputedStyle(grid).columnGap).toBe('30px');
@@ -147,14 +168,19 @@ describe('ArticlesComponent', () => {
   it('moves keyboard append to the new link or Archived heading only after rendering', async () => {
     const navigation = TestBed.inject(SectionNavigationCoordinator);
     const moves: { target: HTMLElement; keyboard: boolean }[] = [];
-    const registration = navigation.registerAppendHandler((target, keyboard) => moves.push({ target, keyboard }));
+    const registration = navigation.registerAppendHandler((target, keyboard) =>
+      moves.push({ target, keyboard }),
+    );
     flush(page(1, 10));
     const next = page(11, 10);
     next.records[0].source.id = undefined;
     flush(next);
     root.querySelector<HTMLButtonElement>('button')!.click();
     flush(page(21, 1));
-    for (let i = 0; i < 3; i++) await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (let i = 0; i < 3; i++)
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
     expect(moves.length).toBe(1);
     expect(moves[0]?.target.tagName).toBe('H3');
     expect(moves[0]?.keyboard).toBeTrue();
@@ -171,22 +197,39 @@ describe('ArticlesComponent', () => {
     root.querySelector<HTMLButtonElement>('button')!.click();
     navigation.cancelAppendIntent();
     flush(page(21, 1));
-    for (let i = 0; i < 3; i++) await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (let i = 0; i < 3; i++)
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
     expect(moved).not.toHaveBeenCalled();
     registration.unsubscribe();
   });
 
   it('cancels all render intents when multiple buffered appends finish before departure', async () => {
     const moved = jasmine.createSpy('movement');
-    const registration = TestBed.inject(SectionNavigationCoordinator).registerAppendHandler(moved);
+    const registration = TestBed.inject(
+      SectionNavigationCoordinator,
+    ).registerAppendHandler(moved);
     flush(page(1, 10));
     flush(page(11, 10));
     root.querySelector<HTMLButtonElement>('button')!.click();
     flush(page(21, 1));
     root.querySelector<HTMLButtonElement>('button')!.click();
     fixture.destroy();
-    for (let i = 0; i < 3; i++) await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (let i = 0; i < 3; i++)
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
     expect(moved).not.toHaveBeenCalled();
     registration.unsubscribe();
+  });
+
+  it('renders a controlled empty response without a live article request', () => {
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+
+    expect(component.showSpinner).toBeFalse();
+    expect(element.querySelector('app-loader')).toBeNull();
+    expect(element.querySelector('.error')).toBeNull();
   });
 });

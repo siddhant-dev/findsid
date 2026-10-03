@@ -100,7 +100,15 @@ describe('AppComponent', () => {
     TestBed.resetTestingModule();
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-      providers: [provideRouter([{ path: 'reading', component: ReadingFixture, data: { layout: 'reading' } }])],
+      providers: [
+        provideRouter([
+          {
+            path: 'reading',
+            component: ReadingFixture,
+            data: { layout: 'reading' },
+          },
+        ]),
+      ],
     }).compileComponents();
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
@@ -121,9 +129,15 @@ describe('AppComponent', () => {
       compiled.querySelectorAll<HTMLAnchorElement>('footer a[aria-label]'),
     );
     expect(links.map((link) => link.getAttribute('aria-label'))).toEqual([
-      'LinkedIn', 'Twitter', 'GitHub', 'CodePen', 'Dev.to',
+      'LinkedIn',
+      'Twitter',
+      'GitHub',
+      'CodePen',
+      'Dev.to',
     ]);
-    expect(links.some((link) => link.href.includes('instagram.com'))).toBeFalse();
+    expect(
+      links.some((link) => link.href.includes('instagram.com')),
+    ).toBeFalse();
   });
 
   it('renders the approved identity and five ordered section destinations', () => {
@@ -164,16 +178,25 @@ describe('AppComponent', () => {
     const root = fixture.nativeElement as HTMLElement;
     const footer = root.querySelector('footer');
 
-    expect(footer?.querySelector('a[href="/contact"]')?.textContent?.trim()).toBe('Contact');
     expect(
-      Array.from(footer?.querySelectorAll<HTMLAnchorElement>('a[aria-label]') ?? [])
-        .map((link) => link.getAttribute('aria-label')),
+      footer?.querySelector('a[href="/contact"]')?.textContent?.trim(),
+    ).toBe('Contact');
+    expect(
+      Array.from(
+        footer?.querySelectorAll<HTMLAnchorElement>('a[aria-label]') ?? [],
+      ).map((link) => link.getAttribute('aria-label')),
     ).toEqual(['LinkedIn', 'Twitter', 'GitHub', 'CodePen', 'Dev.to']);
     expect(
-      Array.from(root.querySelectorAll('header a, header button'))
-        .some((link) => /contact|linkedin|twitter|github|codepen|dev\.to/i.test(link.textContent ?? '')),
+      Array.from(root.querySelectorAll('header a, header button')).some(
+        (link) =>
+          /contact|linkedin|twitter|github|codepen|dev\.to/i.test(
+            link.textContent ?? '',
+          ),
+      ),
     ).toBeFalse();
-    for (const link of footer?.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]') ?? []) {
+    for (const link of footer?.querySelectorAll<HTMLAnchorElement>(
+      'a[target="_blank"]',
+    ) ?? []) {
       expect(link.rel).toContain('noopener');
       expect(link.rel).toContain('noreferrer');
     }
@@ -194,8 +217,9 @@ describe('AppComponent', () => {
 
     expect(compiled.querySelector('input[type="checkbox"]')).toBeNull();
     expect(
-      Array.from(document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]'))
-        .some((link) => /(?:light|dark)\.css$/i.test(link.href)),
+      Array.from(
+        document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]'),
+      ).some((link) => /(?:light|dark)\.css$/i.test(link.href)),
     ).toBeFalse();
   });
 
@@ -218,7 +242,9 @@ describe('AppComponent', () => {
     expect(getComputedStyle(canvas).pointerEvents).toBe('none');
     expect(getComputedStyle(canvas).zIndex).toBe('-1');
     expect(getComputedStyle(root).isolation).toBe('isolate');
-    expect(root.querySelector('aside nav[aria-label="Portfolio sections"]')).not.toBeNull();
+    expect(
+      root.querySelector('aside nav[aria-label="Portfolio sections"]'),
+    ).not.toBeNull();
     expect(root.querySelector('main router-outlet')).not.toBeNull();
     expect(root.querySelector('footer')).not.toBeNull();
 

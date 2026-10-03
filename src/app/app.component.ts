@@ -44,7 +44,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ] as const;
   private readonly navigation = inject(SectionNavigationCoordinator);
   private readonly changeDetector = inject(ChangeDetectorRef);
-  private readonly view  = inject(ViewportScroller);
+  private readonly view = inject(ViewportScroller);
   readonly appVersion = APP_VERSION;
   readonly activeSection$ = this.navigation.activeSection$;
   stickyDisabled = false;
@@ -53,14 +53,15 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly routeSubscription: Subscription;
   private readonly metadata = inject(MetaTagService);
 
-  private identityContent = viewChild<ElementRef<HTMLElement>>('identityContent');
+  private identityContent =
+    viewChild<ElementRef<HTMLElement>>('identityContent');
   private resizeObserver?: ResizeObserver;
   private destroyed = false;
   private jobStartDate = '2017-01-01';
   currentWorkExperience: number = 0;
 
   constructor() {
-    this.routeSubscription = this.router.events.subscribe(event => {
+    this.routeSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         let route = this.router.routerState.snapshot.root;
         this.readingMode = false;
@@ -69,18 +70,28 @@ export class AppComponent implements OnInit, OnDestroy {
           if (!route.firstChild) break;
           route = route.firstChild;
         }
-        if (event.urlAfterRedirects !== '/contact' && !this.readingMode &&
-          this.router.parseUrl(event.urlAfterRedirects).root.children['primary'] === undefined) {
+        if (
+          event.urlAfterRedirects !== '/contact' &&
+          !this.readingMode &&
+          this.router.parseUrl(event.urlAfterRedirects).root.children[
+            'primary'
+          ] === undefined
+        ) {
           this.metadata.home();
         }
       }
     });
-    effect(() =>  {
+    effect(() => {
       this.resizeObserver?.disconnect();
       this.resizeObserver = undefined;
       queueMicrotask(this.updateStickyState);
-      if (typeof ResizeObserver !== 'undefined' && typeof this.identityContent() !=='undefined') {
-        this.resizeObserver = new ResizeObserver(() => this.updateStickyState());
+      if (
+        typeof ResizeObserver !== 'undefined' &&
+        typeof this.identityContent() !== 'undefined'
+      ) {
+        this.resizeObserver = new ResizeObserver(() =>
+          this.updateStickyState(),
+        );
         this.resizeObserver.observe(this.identityContent()!.nativeElement);
       }
       window.addEventListener('resize', this.updateStickyState);
@@ -90,13 +101,15 @@ export class AppComponent implements OnInit, OnDestroy {
           this.updateStickyState();
         }
       });
-  });
+    });
   }
 
   ngOnInit(): void {
     const currentDate = new Date();
     const startDate = new Date(this.jobStartDate);
-    this.currentWorkExperience = ((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 365));
+    this.currentWorkExperience =
+      (currentDate.getTime() - startDate.getTime()) /
+      (1000 * 60 * 60 * 24 * 365);
   }
 
   ngOnDestroy(): void {
@@ -113,14 +126,27 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   openContact(event: MouseEvent): void {
-    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    if (
+      event.button !== 0 ||
+      event.ctrlKey ||
+      event.metaKey ||
+      event.shiftKey ||
+      event.altKey
+    )
+      return;
     event.preventDefault();
     if (this.contactState.open() || this.contactState.pending()) return;
-    this.contactState.origin = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
-    void this.router.navigateByUrl('/contact', { state: {
-      contactModal: true, contactBackground: this.router.url,
-      contactOriginPage: history.state?.['ɵrouterPageId'] ?? 0,
-    } });
+    this.contactState.origin =
+      event.currentTarget instanceof HTMLElement
+        ? event.currentTarget
+        : undefined;
+    void this.router.navigateByUrl('/contact', {
+      state: {
+        contactModal: true,
+        contactBackground: this.router.url,
+        contactOriginPage: history.state?.['ɵrouterPageId'] ?? 0,
+      },
+    });
   }
 
   skipContent(event: MouseEvent): void {
