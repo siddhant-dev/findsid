@@ -1,21 +1,22 @@
 # Tasks: CI Safeguards
 
 **Input**: All artifacts in `specs/012-ci-safeguards/`.
-**Authorization**: Tasks only; workflows, settings, installs and publication unchanged.
+**Authorization**: Implementation requested; repository settings and publication remain
+outside this local change.
 **Execution order**: First feature for safe redesign PR automation, despite number012.
 **Tests**: Semantic real-file policy tests within full suite; behavioral red before YAML
 edits, not parser/setup errors. Live acceptance deployment prohibited.
 
 ## Phase 1: Setup
 
-- [ ] T001 Review current .github/workflows/firebase-hosting-pull-request.yml, firebase-hosting-merge.yml and dependency-review.yml plus constitution; capture existing triggers/stages and preserve worktree, no remote run/settings change yet.
+- [X] T001 Review current .github/workflows/firebase-hosting-pull-request.yml, firebase-hosting-merge.yml and dependency-review.yml plus constitution; capture existing triggers/stages and preserve worktree, no remote run/settings change yet.
 - [ ] T002 Obtain owner-controlled migration/settings authorization and coordinate disabling forbidden legacy preview/review automation and queued auto-deploys before migration PR, documenting bootstrap in README.md; no-access or unsafe active runs block remote integration, not a policy waiver.
 - [ ] T003 Establish engine-compatible Node22/plain npm-ci/ChromeHeadless baseline with necessary karma.conf.js, angular.json, src/test.ts and standalone test setup; diagnose peer/lock incompatibility in package.json/package-lock.json rather than force/legacy-peer-deps.
-- [ ] T004 Establish runnable Node built-in test/YAML parser setup for scripts/ci-policy.test.mjs; add direct development parser dependency only if needed, no transitive import/new app runner.
+- [X] T004 Establish runnable Node built-in test/YAML parser setup for scripts/ci-policy.test.mjs; add direct development parser dependency only if needed, no transitive import/new app runner.
 
 ## Phase 2: Foundational
 
-- [ ] T005 Write semantic policy tests in scripts/ci-policy.test.mjs against every real workflow/job/step and referenced package.json script, covering the complete event/stage matrix, permissions, failure gates, concurrency and captured checkout/output SHA; deployment uses doubles.
+- [X] T005 Write semantic policy tests in scripts/ci-policy.test.mjs against every real workflow/job/step and referenced package.json script, covering the complete event/stage matrix, permissions, failure gates, concurrency and captured checkout/output SHA; the freshness lookup uses an API double and no deployment is executed.
 - [ ] T006 Observe intended current PR-build/preview/extra-review/main-deploy-without-tests failures in scripts/ci-policy.test.mjs and record in specs/012-ci-safeguards/quickstart.md before YAML edits; fixtures/mutations cannot be the sole oracle for actual wiring.
 
 ## Phase 3: US1 - Review Every Main-Bound Change (P1, MVP)
@@ -23,10 +24,10 @@ edits, not parser/setup errors. Live acceptance deployment prohibited.
 **Independent test**: Complete suite/stable Portfolio tests for all main-bound docs/
 dependency/fork PRs, zero full build/deploy/secrets, wrong targets no trigger.
 
-- [ ] T007 [US1] Wire Node policy checks then existing Angular suite into package.json npm test with normal forwarded Angular flags/nonzero propagation; prepare package-lock.json compatibility changes without adding independent non-test PR jobs.
-- [ ] T008 [US1] Replace preview .github/workflows/firebase-hosting-pull-request.yml with pull_request main base filter plus matching guard, read-only permissions/plain npm ci/full ChromeHeadless suite and stable "Portfolio tests"; no path/fork exclusion/pull_request_target/build/deploy artifacts/Firebase secrets.
-- [ ] T009 [US1] Add PR-number-scoped cancel-in-progress grouping to .github/workflows/firebase-hosting-pull-request.yml; new revisions cancel obsolete tests without cancelling other PRs.
-- [ ] T010 [US1] Remove .github/workflows/dependency-review.yml and obsolete check references in README.md; verify full test-suite command still covers policy/app tests for docs/dependency/fork categories.
+- [X] T007 [US1] Wire Node policy checks then existing Angular suite into package.json npm test with normal forwarded Angular flags/nonzero propagation; prepare package-lock.json compatibility changes without adding independent non-test PR jobs.
+- [X] T008 [US1] Replace preview .github/workflows/firebase-hosting-pull-request.yml with pull_request main base filter plus matching guard, read-only permissions/plain npm ci/full ChromeHeadless suite and stable "Portfolio tests"; no path/fork exclusion/pull_request_target/build/deploy artifacts/Firebase secrets.
+- [X] T009 [US1] Add PR-number-scoped cancel-in-progress grouping to .github/workflows/firebase-hosting-pull-request.yml; new revisions cancel obsolete tests without cancelling other PRs.
+- [X] T010 [US1] Remove .github/workflows/dependency-review.yml and obsolete check references in README.md; verify full test-suite command still covers policy/app tests for docs/dependency/fork categories.
 - [ ] T011 [US1] With later approved settings access, require current-revision Portfolio tests/PR merges on main, disallow routine bypass/force-push/deletion and verify actual blocked failing PR; record settings evidence in specs/012-ci-safeguards/quickstart.md, absent access blocks completion.
 - [ ] T012 [US1] Verify actual no-deploy PR run/fork approval/default-branch settings and no unsupported merge queue via README.md migration guide; pending approval isn't green, queue needs disabling coordination or separate approved event policy.
 
@@ -36,7 +37,7 @@ dependency/fork PRs, zero full build/deploy/secrets, wrong targets no trigger.
 no pipeline, failures stop later stages.
 
 - [ ] T013 [US2] Confirm T005-T006 tests explicitly reject existing push auto-deploy/no-test gates and wrong-branch triggers in scripts/ci-policy.test.mjs before main YAML changes.
-- [ ] T014 [US2] Change .github/workflows/firebase-hosting-merge.yml to main push filter/guard, full suite followed only on success by production build; remove Firebase action/secrets, no always/continue-on-error bypass or automatic publication.
+- [X] T014 [US2] Change .github/workflows/firebase-hosting-merge.yml to main push filter/guard, full suite followed only on success by production build; remove Firebase action/secrets, no always/continue-on-error bypass or automatic publication.
 - [ ] T015 [US2] Verify install/test failure blocks build, main success permits build and non-main push triggers nothing with scripts/ci-policy.test.mjs; inspect actual permitted main no-deploy CI evidence later in specs/012-ci-safeguards/quickstart.md.
 
 ## Phase 5: US3 - Publish Explicitly Approved Revision (P1)
@@ -45,12 +46,12 @@ no pipeline, failures stop later stages.
 serialized freshness/credential gate; no failed/stale/non-main request publishes.
 
 - [ ] T016 [US3] Add/observe missing-manual-workflow acceptance failures in scripts/ci-policy.test.mjs for rejected refs, old/new ordering, stale rerun, failed head lookup/credentials/test/build/provider before publication YAML exists.
-- [ ] T017 [US3] Add .github/workflows/firebase-hosting-manual.yml with workflow_dispatch explicit main-ref rejection before install/tests, immutable github.sha checkout and fresh full tests -> production build; no arbitrary user input ref/cross-run output.
-- [ ] T018 [US3] Serialize entire manual run with one static repository-wide concurrency group/cancel-in-progress false in .github/workflows/firebase-hosting-manual.yml; no interrupting active provider transaction, pending replacement visible not guaranteed ordering.
-- [ ] T019 [US3] Add serialized immediate predeploy read-only remote-main SHA comparison in .github/workflows/firebase-hosting-manual.yml; mismatch/lookup failure explicit failure, reruns keep captured SHA, new request required rather than rebuild latest.
-- [ ] T020 [US3] Add success-gated existing live Firebase deploy of same-run dist/findsid/browser with step-scoped credentials in .github/workflows/firebase-hosting-manual.yml; missing/invalid credentials fail, no auto retry/always/continue-on-error/secret logs/PR preview.
+- [X] T017 [US3] Add .github/workflows/firebase-hosting-manual.yml with workflow_dispatch explicit main-ref rejection before install/tests, immutable github.sha checkout and fresh full tests -> production build; no arbitrary user input ref/cross-run output.
+- [X] T018 [US3] Serialize entire manual run with one static repository-wide concurrency group/cancel-in-progress false in .github/workflows/firebase-hosting-manual.yml; no interrupting active provider transaction, pending replacement visible not guaranteed ordering.
+- [X] T019 [US3] Add serialized immediate predeploy read-only remote-main SHA comparison in .github/workflows/firebase-hosting-manual.yml; mismatch/lookup failure explicit failure, reruns keep captured SHA, new request required rather than rebuild latest.
+- [X] T020 [US3] Add success-gated existing live Firebase deploy of same-run dist/findsid/browser with step-scoped credentials in .github/workflows/firebase-hosting-manual.yml; missing/invalid credentials fail, no auto retry/always/continue-on-error/secret logs/PR preview.
 - [ ] T021 [US3] Validate ordering/failure/ref/secret/SHA policy with provider doubles and violating mutations in scripts/ci-policy.test.mjs; no live deployment for acceptance or publication permission from task completion.
-- [ ] T022 [US3] Document owner dispatch/default-branch availability/complete-redesign approval and explicit failed/stale outcome guide in README.md; first live deployment remains gated by013 final approval.
+- [X] T022 [US3] Document owner dispatch/default-branch availability/complete-redesign approval and explicit failed/stale outcome guide in README.md; first live deployment remains gated by013 final approval.
 
 ## Phase 6: Polish and Cross-Cutting
 
@@ -92,3 +93,13 @@ one manual YAML writer, shared scripts/lockfile edits serialize.
 US1 PR-only check is development MVP, but remote migration needs full safeguards
 before old main automation can publish. Complete all stages/settings evidence; the
 CI feature prepares manual deployment and never invokes it during acceptance.
+
+## Execution Status
+
+Local implementation completed: T001, T004-T005, T007-T010, T014, T017-T020 and T022.
+Remaining tasks are intentionally unchecked where they need owner-controlled migration
+authorization/settings or live GitHub evidence (T002, T011-T012, T015, T024), a
+ChromeHeadless browser unavailable in this environment (T003, T023), or additional
+baseline/mutation/provider-double evidence beyond the local semantic and freshness
+tests (T006, T013, T016, T021). No remote workflow was run, settings changed, or
+publication attempted.

@@ -1,0 +1,59 @@
+name: Publish to Firebase Hosting
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: findsid-firebase-live-publication
+  cancel-in-progress: false
+
+jobs:
+  validate-ref:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reject non-main publication requests
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          echo "::error::Manual publication is only allowed from main."
+          exit 1
+      - name: Confirm main revision
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: echo "Validating captured main revision ${{ github.sha }}."
+
+  publish:
+    needs: validate-ref
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout captured revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Run full test suite
+        run: npm test -- --watch=false --browsers=ChromeHeadless
+      - name: Build production application
+        run: npm run build
+      - name: Verify captured revision is still main
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const main = await github.rest.repos.getBranch({ owner, repo, branch: 'main' });
+            if (main.data.commit.sha !== context.sha) {
+              core.setFailed(`Refusing to publish stale revision ${context.sha}; main is now ${main.data.commit.sha}.`);
+            }
+      - name: Deploy verified build to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FINDSIDDEV }}
+          channelId: live
+          projectId: findsiddev
