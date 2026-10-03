@@ -1,4 +1,5 @@
 @use "../../../vars.scss" as *;
+
 .form-container {
   form {
     width: 50%;
@@ -8,17 +9,19 @@
       display: flex;
       flex-direction: column;
       gap: 2rem;
-      border: 2px solid $black;
-      border-radius: 1rem;
+      @include surface-border;
       padding: 0 1.5rem 2rem;
+      background-color: $surface-color;
+
       legend {
-        color: $blue;
+        color: $accent;
       }
+
       p {
-        background-color: $yellow;
+        @include surface-border;
+        background-color: $bg-secondary;
         padding: 1rem;
         text-align: justify;
-        border-radius: 1rem;
         margin: 0;
         margin-top: 2rem;
       }
@@ -27,52 +30,50 @@
         display: flex;
         flex-direction: column;
         gap: 0.5rem;
+
         label {
           padding-left: 1rem;
         }
+
         input,
         textarea {
           padding: 0.875rem 1rem;
-          border: 2px solid $black;
-          border-radius: 1rem;
-          font-family: "Montserrat", sans-serif;
-          background-color: $white;
-          color: $black;
+          @include surface-border;
+          font-family: $font-sans;
+          font-size: 0.95rem;
+          line-height: 1.6;
+          background-color: $bg-secondary;
+
           &:focus {
-            outline: none;
-            border-color: $blue;
+            border-color: $border-active;
           }
+
           &.error-border {
-            border-color: $red;
+            border-color: $error-color;
           }
         }
       }
+
       .error-text {
-        color: $red;
+        color: $error-color;
         padding-left: 1rem;
       }
+
       button {
-        @include btn-blue;
+        @include blueprint-button;
         align-self: center;
-        transition: all 100ms ease-in;
-        &:disabled {
-          background-color: $black-100;
-          box-shadow: none;
-          border-color: $black-800;
-        }
       }
     }
   }
 }
 
 @media screen and (max-width: 811px) {
-  .form-container {
-    form {
-      width: 100%;
-      transform: translateX(0);
-      fieldset {
-        padding: 0 1rem 2rem;
-      }
+  .form-container form {
+    width: 100%;
+    transform: translateX(0);
+
+    fieldset {
+      padding: 0 1rem 2rem;
     }
   }
 }

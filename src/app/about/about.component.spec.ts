@@ -8,12 +8,13 @@ describe('AboutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AboutComponent ]
+      imports: [AboutComponent],
     })
     .compileComponents();
   });
 
   beforeEach(() => {
+    spyOn(window, 'setInterval').and.returnValue(0);
     fixture = TestBed.createComponent(AboutComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

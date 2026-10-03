@@ -9,7 +9,6 @@ import {
 
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app.routes';
-import { ThemeService } from './app/services/theme.service';
 import { environment } from './environments/environment';
 
 if (environment.production) {
@@ -21,6 +20,5 @@ bootstrapApplication(AppComponent, {
     provideZoneChangeDetection(),
     provideRouter(APP_ROUTES),
     provideHttpClient(withXhr(), withInterceptorsFromDi()),
-    ThemeService,
   ],
 }).catch((err) => console.error(err));

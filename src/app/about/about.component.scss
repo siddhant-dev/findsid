@@ -12,7 +12,7 @@
     background-repeat: no-repeat;
     height: 21rem;
     width: 21rem;
-    border: 2px solid $black;
+    border: 1px solid $border-color;
     box-sizing: border-box;
     border-radius: 1rem;
   }
@@ -20,7 +20,7 @@
     & span::after {
       content: "";
       animation: blink 0.5s linear infinite;
-      border-right: 0.25rem solid $black;
+      border-right: 0.25rem solid $accent;
     }
   }
   p {

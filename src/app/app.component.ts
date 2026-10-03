@@ -5,10 +5,8 @@ import {
   ViewChild,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { FeatherIconsModule } from './feather-icons/feather-icons.module';
-import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +16,6 @@ import { ThemeService } from './services/theme.service';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     RouterLink,
     RouterLinkActive,
     RouterOutlet,
@@ -28,24 +25,9 @@ import { ThemeService } from './services/theme.service';
 export class AppComponent {
   navbarOpen = false;
   menuIcon = 'menu';
-  theme: boolean = false;
   @ViewChild('skipper', { static: false }) skipper!: ElementRef;
 
-  constructor(
-    private view: ViewportScroller,
-    private themeService: ThemeService,
-  ) {
-    if (
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      this.theme = true;
-      this.onThemeChange();
-    } else {
-      this.theme = false;
-      this.onThemeChange();
-    }
-  }
+  constructor(private view: ViewportScroller) {}
 
   toggleNavbar() {
     this.navbarOpen = !this.navbarOpen;
@@ -60,9 +42,5 @@ export class AppComponent {
   skipContent() {
     this.skipper.nativeElement.focus();
     this.view.scrollToAnchor('main');
-  }
-
-  onThemeChange() {
-    this.themeService.setTheme(this.theme);
   }
 }

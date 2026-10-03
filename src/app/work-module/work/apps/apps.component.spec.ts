@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 
 import { AppsComponent } from './apps.component';
+import { AppService } from '../../services/app.service';
 
 describe('AppsComponent', () => {
   let component: AppsComponent;
@@ -8,7 +10,8 @@ describe('AppsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AppsComponent ]
+      imports: [AppsComponent],
+      providers: [{ provide: AppService, useValue: { getApps: () => of([]) } }],
     })
     .compileComponents();
   });
@@ -21,5 +24,14 @@ describe('AppsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('renders controlled empty data without a network dependency', () => {
+    fixture.detectChanges();
+    const element = fixture.nativeElement as HTMLElement;
+
+    expect(component.showSpinner).toBeFalse();
+    expect(element.querySelector('#apps')).not.toBeNull();
+    expect(element.querySelector('app-loader')).toBeNull();
   });
 });

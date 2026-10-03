@@ -50,6 +50,15 @@ mockup transplant (violates small-feature scope), guessing missing values (user 
 
 ## Test Strategy
 
+**Grid scope correction (2026-10-03)**: The owner moved the reference canvas into this
+foundation and confirmed mobile/zoom, scrolling, input layering and reduced-motion cases.
+Use a fixed inset-zero canvas with the reference's four gradients and radial vignette.
+An isolated root stacking context keeps the negative-z decoration above the document
+background but behind existing content/dialogs. This avoids positive content z-index
+overrides and does not require the later sticky-shell geometry.
+Real computed-style/root tests failed before implementation; viewport/scroll/hit-test
+evidence and its CSS-zoom limitation are recorded in `quickstart.md`.
+
 **Decision**: Reuse Jasmine/Karma real-browser computed-style tests and affected standalone
 component tests. Establish baseline, then actual missing-behavior red evidence.
 

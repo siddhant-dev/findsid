@@ -8,9 +8,8 @@
 
   img {
     align-self: center;
-    border-radius: 1rem;
-    border: 2px solid $black-800;
-    @include shadow-400($black-800);
+    border-radius: 4px;
+    border: 1px solid $border-color;
   }
   .full-article {
     text-align: justify;

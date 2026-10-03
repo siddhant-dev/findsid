@@ -1,85 +1,60 @@
+$bg-color: var(--bg-color);
+$bg-secondary: var(--bg-secondary);
+$surface-color: var(--surface-color);
+$border-color: var(--border-color);
+$border-active: var(--border-active);
+$text-main: var(--text-main);
+$text-muted: var(--text-muted);
+$accent: var(--accent);
+$accent-glow: var(--accent-glow);
+$error-color: var(--error-color);
+$modal-backdrop: var(--modal-backdrop);
+$font-sans: var(--font-sans);
+$font-mono: var(--font-mono);
 
-$blue: var(--primary-color);
-$blue-800: var(--primary-color-800);
-$blue-100: var(--primary-color-100);
-$green: var(--secondary-color);
-$green-800: var(--secondary-color-800);
-$green-100: var(--secondary-color-100);
-$yellow: var(--tertiary-color);
-$yellow-800: var(--tertiary-color-800);
-$yellow-100: var(--tertiary-color-100);
-$red: var(--quaternary-color);
-$red-800: var(--quaternary-color-800);
-$red-100: var(--quaternary-color-100);
-$black: var(--text-color);
-$white: var(--background-color);
-$black-800: var(--black-800);
-$black-100: var(--black-100);
-
-$line: inset 0px -1px 0px $black;
-$shadow-200: 0px 2px 0px $black;
-$shadow-400: 0px 4px 0px $black;
-$shadow-600: 0px 6px 0px $black;
-$shadow-y200: 0px -2px 0px $black;
-$shadow-y400: 0px -4px 0px $black;
-$shadow-y600: 0px -6px 0px $black;
-
-@mixin shadow-400($color) {
-  box-shadow:  0px 4px 0px $color;;
+@mixin surface-border {
+  border: 1px solid $border-color;
+  border-radius: 4px;
 }
 
-@mixin line($color) {
-    box-shadow: inset 0px -1px 0px $color;
-}
+@mixin blueprint-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 6px 12px;
+  border: 1px solid $border-active;
+  border-radius: 4px;
+  background: transparent;
+  color: $accent;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 
-@mixin shadow-600($color) {
-    box-shadow: 0px 6px 0px $color;
-}
+  &:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: $accent;
+    color: $bg-color;
+    box-shadow: 0 0 20px $accent-glow;
+  }
 
-
-@mixin blue-100 {
-    background-color: $blue-100;
+  &:disabled,
+  &[aria-disabled="true"] {
+    border-color: $border-color;
+    background: transparent;
+    color: $text-muted;
+    box-shadow: none;
+    cursor: not-allowed;
+    transition: none;
+  }
 }
 
 @mixin tag {
-    padding: .5rem .75rem;
-    border: 2px solid $black;
-    border-radius: 2rem;
-    font-weight: bold;
-}
-
-@mixin btn {
-    display: flex;
-    align-items: center;
-    padding: 1rem;
-    border: 2px solid $blue;
-    border-radius: 1rem;
-    gap: 1rem;
-    &:active {
-        box-shadow: $shadow-200;
-        transform: translateY(.25rem);
-    }
-    
-}
-
-@mixin btn-white {
-
-    @include btn;
-    color: $blue;
-    background-color: $white;
-    @include shadow-600($blue-800);
-    &:focus{
-        outline: none;
-    }
-}
-
-@mixin btn-blue {
-    @include btn;
-    background-color: $blue;
-    color: $white;
-    @include shadow-600($blue-800);
-    &:focus{
-        background-color: $blue-800;
-        outline: none;
-    }
+  padding: 2px 8px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 2px;
+  background-color: $accent-glow;
+  color: $accent;
+  font-family: $font-mono;
+  font-size: 0.75rem;
 }

@@ -1,7 +1,8 @@
+<div class="blueprint-bg" aria-hidden="true"></div>
 <header>
     <a role="button" href="javascript:void(0);" (click)="skipContent()" translate class="skip-nav">Skip to Content</a>
     <nav role="navigation">
-        <h6 role="link" tabindex="0" routerLink="/" class="bold blue">Siddhant Jaiswal<sup class="overline">βeta</sup>
+        <h6 role="link" tabindex="0" routerLink="/" class="content-title accent-text">Siddhant Jaiswal<sup class="metadata-text">βeta</sup>
         </h6>
         <div class="burger" role="button" tabindex="0" (click)="toggleNavbar()" (keyup.enter)="toggleNavbar()"
             aria-controls="nav-menu" [attr.aria-expanded]="navbarOpen" title="Menu Button">
@@ -9,37 +10,29 @@
         </div>
         <ul [ngClass]="{'open' : navbarOpen}" role="menubar" id="nav-menu">
             <li role=none>
-                <a role="menuitem" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular bold" routerLink="/"
-                    routerLinkActive="active extra-bold" [routerLinkActiveOptions]={exact:true}
+                <a role="menuitem" tabindex="0" aria-posinset="1" aria-setsize="4" class="navigation-text" routerLink="/"
+                    routerLinkActive="active" [routerLinkActiveOptions]={exact:true}
                     (click)="toggleNavbar()">
                     About
                 </a>
             </li>
             <li role=none>
-                <a role="menuitem" aria-posinset="2" aria-setsize="5" tabindex="0" class="regular bold"
-                    routerLink="/work" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
+                <a role="menuitem" aria-posinset="2" aria-setsize="4" tabindex="0" class="navigation-text"
+                    routerLink="/work" routerLinkActive="active" (click)="toggleNavbar()">
                     Work
                 </a>
             </li>
             <li role=none>
-                <a role="menuitem" aria-posinset="4" aria-setsize="5" tabindex="0" class="regular bold"
-                    routerLink="/resume" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
+                <a role="menuitem" aria-posinset="3" aria-setsize="4" tabindex="0" class="navigation-text"
+                    routerLink="/resume" routerLinkActive="active" (click)="toggleNavbar()">
                     Resume
                 </a>
             </li>
             <li role=none>
-                <a role="menuitem" aria-posinset="5" aria-setsize="5" tabindex="0" class="regular bold"
-                    routerLink="/contact" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
+                <a role="menuitem" aria-posinset="4" aria-setsize="4" tabindex="0" class="navigation-text"
+                    routerLink="/contact" routerLinkActive="active" (click)="toggleNavbar()">
                     Contact
                 </a>
-            </li>
-            <li role="none">
-                <label role="menuitem" aria-posinset="6" tabindex="0" class="toggle">
-                    <span>Light</span>
-                    <input type="checkbox" class="switch" [(ngModel)]="theme" #ctrl="ngModel"
-                        (change)="onThemeChange()">
-                    <span>Dark</span>
-                </label>
             </li>
         </ul>
     </nav>

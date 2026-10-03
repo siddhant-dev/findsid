@@ -21,6 +21,13 @@ Keep `src/vars.scss` as an import-only semantic SCSS module. Emit the single fix
 palette and shared styles from `src/styles.scss`. Each later component redesign gets
 its own specification, plan, tasks and test-first cycle.
 
+**Grid scope correction (2026-10-03)**: Include the reference major/minor grid and
+vignette in this foundation. Feature 002 reuses the canvas instead of creating it.
+Grid edge cases are recorded in the spec and were confirmed on 2026-10-03.
+Run failing computed-gradient/root-layer tests before production
+edits, add one decorative canvas through global styles/root markup, and verify
+unchanged geometry, pointer/focus access and static reduced-motion presentation.
+
 ## Technical Context
 
 **Language/Version**: TypeScript ~6.0.3, SCSS, HTML.
@@ -86,7 +93,8 @@ specs/001-blueprint-styles/
 └── contracts/style-contract.md
 ```
 
-`tasks.md` was generated separately with owner approval on 2026-10-03; no execution is authorized.
+`tasks.md` was generated separately with owner approval on 2026-10-03.
+The owner authorized implementation via `/speckit-implement`; publication remains prohibited.
 
 ### Source Code (repository root)
 
@@ -158,7 +166,9 @@ framework, theme abstraction, token service or replacement component suite.
    conditional, without deleting its component/route or recoloring branded artwork.
 5. Make loaders cyan and add minimal accessible status text. Disable decorative CSS
    animation and smooth scrolling under reduced motion. Do not rewrite loader/typewriter flows.
-6. Do not add sticky shell/background canvas, section navigation, new cards, photo removal,
+6. Add the shared reference grid/vignette under the grid amendment after its edge-case
+   confirmation and failing tests. Preserve root layout geometry; shell002 reuses it.
+7. Do not add sticky shell, section navigation, new cards, photo removal,
    new contact dialog behavior or section content here.
 
 ### D. Validation and Handoff
@@ -178,7 +188,7 @@ Their current artifacts and task dependency graphs supersede this historical tab
 |---------|------------------------|--------------|----------------------|
 | CI safeguards | Test-only PRs, main-only test/build/deploy, publication hold | Independent; required before PR/release automation | Publication-hold enforcement |
 | 001: Blueprint styles | Foundation and consumer migration | None | Confirmed |
-| Sticky shell | Root identity/sidebar, blueprint canvas, anchors, wrapping mobile links below 1024px | 001 | Planned in ../002-sticky-shell/plan.md; retain existing detail route |
+| Sticky shell | Root identity/sidebar, reuse foundation canvas, anchors, wrapping mobile links below 1024px | 001 | Planned in ../002-sticky-shell/plan.md; retain existing detail route |
 | About me | Existing About copy, remove photo | Shell | No replacement copy/photo |
 | Interaction Lab | New interactive lab component | Shell | Demo selection, actual behavior and measurable outputs |
 | Experiences | New experience component | Shell | Verified content, dates and order |

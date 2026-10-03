@@ -8,7 +8,7 @@ describe('ResumeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ResumeComponent ]
+      imports: [ResumeComponent],
     })
     .compileComponents();
   });
@@ -21,5 +21,15 @@ describe('ResumeComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('preserves the resume artwork and its download action in the fixed palette', () => {
+    const element = fixture.nativeElement as HTMLElement;
+    const artwork = element.querySelector<SVGElement>('#background');
+
+    expect(element.querySelector('svg')).not.toBeNull();
+    expect(element.querySelector('a.blueprint-button')).not.toBeNull();
+    expect(artwork).not.toBeNull();
+    expect(getComputedStyle(artwork!).fill).toBe('rgb(11, 25, 44)');
   });
 });
