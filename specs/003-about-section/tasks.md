@@ -5,38 +5,38 @@ contracts/about-contract.md. Task generation only; mandatory test-first.
 
 ## Phase 1: Setup
 
-- [ ] T001 Verify001/002/012 prerequisites and preserve src/app/about/ component identity/shared assets using specs/003-about-section/plan.md; no new dependency.
-- [ ] T002 Correct standalone imports/providers and controlled lifecycle clock in src/app/about/about.component.spec.ts; obtain runnable baseline before assertions.
+- [X] T001 Verify001/002/012 prerequisites and preserve src/app/about/ component identity/shared assets using specs/003-about-section/plan.md; no new dependency.
+- [X] T002 Correct standalone imports/providers and controlled lifecycle clock in src/app/about/about.component.spec.ts; obtain runnable baseline before assertions.
 
 ## Phase 2: Foundational
 
-- [ ] T003 Capture an independent whitespace-normalized exact paragraph fixture from specs/003-about-section/contracts/about-contract.md in src/app/about/about.component.spec.ts, preserving punctuation/case rather than deriving expectations from production text.
+- [X] T003 Capture an independent whitespace-normalized exact paragraph fixture from specs/003-about-section/contracts/about-contract.md in src/app/about/about.component.spec.ts, preserving punctuation/case rather than deriving expectations from production text.
 
 ## Phase 3: US1 - Read a Static Introduction (P1, MVP)
 
 **Independent test**: One unchanged paragraph under one Home heading, no photo/
 greeting/typewriter and exact full-column text style.
 
-- [ ] T004 [P] [US1] Add content/removed-element/computed-style/no-text-Tab-stop/narrow-zoom-font and pre-lifecycle timer/meta/teardown failures in src/app/about/about.component.spec.ts for paragraph-only, muted Inter0.95rem/1.6, left/full width and no card; observe these coupled failures before T007-T008 removes markup/tabindex or changes text styles, restoring About-only spies/clocks after each case.
-- [ ] T005 [P] [US1] Add single-about-heading/eager-paragraph/unchanged-fragment tests in src/app/home/home.component.spec.ts.
-- [ ] T006 [US1] Observe intended T004-T005 failures and record in specs/003-about-section/quickstart.md before template/style edits.
-- [ ] T007 [US1] Replace src/app/about/about.component.html with exact paragraph only; remove photo/Hello/typewriter markup without replacement, remove paragraph tabindex and keep shell-owned heading; remove dependent ViewChild/typing/timer/metadata machinery in about.component.ts in the same runnable increment after T004-T006 red, never leave removed DOM references executing.
-- [ ] T008 [US1] Simplify src/app/about/about.component.scss to approved full-width left muted body text; remove centering/70%-width/justification/photo/cursor/keyframes, no new numerical values.
-- [ ] T009 [US1] Rerun content/style/Home assertions in src/app/about/about.component.spec.ts and src/app/home/home.component.spec.ts.
+- [X] T004 [P] [US1] Add content/removed-element/computed-style/no-text-Tab-stop/narrow-zoom-font and pre-lifecycle timer/meta/teardown failures in src/app/about/about.component.spec.ts for paragraph-only, muted Inter0.95rem/1.6, left/full width and no card; observe these coupled failures before T007-T008 removes markup/tabindex or changes text styles, restoring About-only spies/clocks after each case.
+- [X] T005 [P] [US1] Add single-about-heading/eager-paragraph/unchanged-fragment tests in src/app/app.routes.spec.ts.
+- [X] T006 [US1] Observe intended T004-T005 failures and record in specs/003-about-section/quickstart.md before template/style edits.
+- [X] T007 [US1] Replace src/app/about/about.component.html with exact paragraph only; remove photo/Hello/typewriter markup without replacement, remove paragraph tabindex and keep shell-owned heading; remove dependent ViewChild/typing/timer/metadata machinery in about.component.ts in the same runnable increment after T004-T006 red, never leave removed DOM references executing.
+- [X] T008 [US1] Simplify src/app/about/about.component.scss to approved full-width left muted body text; remove centering/70%-width/justification/photo/cursor/keyframes, no new numerical values.
+- [X] T009 [US1] Rerun content/style/Home assertions in src/app/about/about.component.spec.ts and src/app/app.routes.spec.ts.
 
 ## Phase 4: US2 - Read Accessibly Without Side Effects (P1)
 
 **Independent test**: No About timer/meta/photo work on mount/unmount; readable
 320px/zoom/blocked fonts and no static text Tab stop.
 
-- [ ] T010 [US2] Rerun T004 pre-lifecycle timer/meta spies and teardown assertions in src/app/about/about.component.spec.ts; add an observed failing reproducer before correcting any remaining lifecycle defect, count About work only and restore clocks/spies.
-- [ ] T011 [US2] Audit src/app/about/about.component.ts for any typing fields/methods/ViewChild/interval or metadata injection/hooks left after T007; remove only residual machinery covered by T010, retaining standalone/change-detection pattern, shared MetaTagService and photo asset.
-- [ ] T012 [US2] Verify zero timer/meta operations/no photo request/Tab stops plus320px/200% zoom/font fallbacks through src/app/about/about.component.spec.ts and specs/003-about-section/quickstart.md.
+- [X] T010 [US2] Rerun T004 pre-lifecycle timer/meta spies and teardown assertions in src/app/about/about.component.spec.ts; add an observed failing reproducer before correcting any remaining lifecycle defect, count About work only and restore clocks/spies.
+- [X] T011 [US2] Audit src/app/about/about.component.ts for any typing fields/methods/ViewChild/interval or metadata injection/hooks left after T007; remove only residual machinery covered by T010, retaining standalone/change-detection pattern, shared MetaTagService and photo asset.
+- [X] T012 [US2] Verify zero timer/meta operations/no photo request/Tab stops plus320px/200% zoom/font fallbacks through src/app/about/about.component.spec.ts and specs/003-about-section/quickstart.md.
 
 ## Phase 5: Polish and Cross-Cutting
 
-- [ ] T013 Run combined About/Home suite and native /#about/reduced-motion checks from specs/003-about-section/quickstart.md; expand only on integration regressions.
-- [ ] T014 Record behavioral red/green/native evidence in specs/003-about-section/quickstart.md, scan src/app/about/ for removed machinery and leave shared assets/services/routes/version unchanged.
+- [X] T013 Run combined About/Home suite and native /#about/reduced-motion checks from specs/003-about-section/quickstart.md; expand only on integration regressions.
+- [X] T014 Record behavioral red/green/native evidence in specs/003-about-section/quickstart.md, scan src/app/about/ for removed machinery and leave shared assets/services/routes/version unchanged.
 
 ## Dependencies and Execution Order
 
