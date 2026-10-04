@@ -477,3 +477,38 @@ describe('Home Experiences direct fragment', () => {
     http.verify({ ignoreCancelled: true });
   });
 });
+
+describe('Home Experiences direct fragment', () => {
+  it('mounts all roles for /#experience with one shell heading', async () => {
+    await TestBed.configureTestingModule({
+      providers: [
+        provideRouter([{ path: '', component: HomeComponent }]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+      ],
+    }).compileComponents();
+    const http = TestBed.inject(HttpTestingController);
+    const harness = await RouterTestingHarness.create();
+    await harness.navigateByUrl('/#experience', HomeComponent);
+    for (
+      let i = 0;
+      i < 30 && !harness.routeNativeElement?.querySelector('app-experiences');
+      i++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+    }
+    harness.detectChanges();
+    expect(TestBed.inject(Router).url).toBe('/#experience');
+    expect(
+      harness.routeNativeElement?.querySelectorAll('#experience h2').length,
+    ).toBe(1);
+    expect(
+      harness.routeNativeElement?.querySelectorAll('#experience article')
+        .length,
+    ).toBe(5);
+    harness.fixture.destroy();
+    http.verify({ ignoreCancelled: true });
+  });
+});
