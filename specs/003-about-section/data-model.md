@@ -4,9 +4,10 @@ No business entity, API, storage or state machine added.
 
 ## About Content
 
-Fields: unchanged paragraph text and presentation role.
-Authority: current approved copy captured in [about-contract.md](contracts/about-contract.md).
-Validation: whitespace-normalized exact equality; no interpolation, typing state or fetched text.
+Fields: owner-maintained paragraph text and presentation role.
+Authority: owner's current static template; see [about-contract.md](contracts/about-contract.md).
+Validation: structural/accessibility/lifecycle checks, not exact wording or text size/length;
+no typing state or fetched text.
 
 ## Shell Relationship
 

@@ -3,6 +3,12 @@
 **Input**: All artifacts in `specs/003-about-section/`; exact text authority is
 contracts/about-contract.md. Task generation only; mandatory test-first.
 
+**Owner amendment (2026-10-04)**: T003's exact-copy fixture and T007's frozen-copy
+requirement are superseded by owner-maintained static content. Completed markers
+below describe historical implementation, not a continuing requirement to freeze
+copy. Current tests preserve structure, reflow, accessibility and side-effect checks
+without wording/text-size/length or numerical font-size/line-height assertions.
+
 ## Phase 1: Setup
 
 - [X] T001 Verify001/002/012 prerequisites and preserve src/app/about/ component identity/shared assets using specs/003-about-section/plan.md; no new dependency.

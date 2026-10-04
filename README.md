@@ -33,6 +33,13 @@ remove obsolete required-check references. Merge queues are not covered; disable
 or obtain separate approval for a `merge_group` policy. If settings access is
 unavailable, safeguards completion remains blocked.
 
+On2026-10-04, after the owner made the repository public, approved `main` protection
+was configured and verified: PRs required, strict **Portfolio tests** from GitHub
+Actions required, administrators included, no PR bypass allowances, force pushes or
+deletion. No merge queue or queued/active legacy workflow was found. This removes
+the settings-access blocker, but actual blocked-failing-PR/fork acceptance and a
+successful candidate main build remain required; see012/013 quickstarts.
+
 Before merging a workflow migration, coordinate pausing the existing preview/deployment
 automation and any queued automatic deployments through owner-controlled settings.
 Changing local workflow files does not stop already-active or queued workflows. Check

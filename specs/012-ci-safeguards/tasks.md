@@ -10,8 +10,8 @@ edits, not parser/setup errors. Live acceptance deployment prohibited.
 ## Phase 1: Setup
 
 - [X] T001 Review current .github/workflows/firebase-hosting-pull-request.yml, firebase-hosting-merge.yml and dependency-review.yml plus constitution; capture existing triggers/stages and preserve worktree, no remote run/settings change yet.
-- [ ] T002 Obtain owner-controlled migration/settings authorization and coordinate disabling forbidden legacy preview/review automation and queued auto-deploys before migration PR, documenting bootstrap in README.md; no-access or unsafe active runs block remote integration, not a policy waiver.
-- [ ] T003 Establish engine-compatible Node22/plain npm-ci/ChromeHeadless baseline with necessary karma.conf.js, angular.json, src/test.ts and standalone test setup; diagnose peer/lock incompatibility in package.json/package-lock.json rather than force/legacy-peer-deps.
+- [X] T002 Obtain owner-controlled migration/settings authorization and coordinate disabling forbidden legacy preview/review automation and queued auto-deploys before migration PR, documenting bootstrap in README.md; no-access or unsafe active runs block remote integration, not a policy waiver.
+- [X] T003 Establish engine-compatible Node22/plain npm-ci/ChromeHeadless baseline with necessary karma.conf.js, angular.json, src/test.ts and standalone test setup; diagnose peer/lock incompatibility in package.json/package-lock.json rather than force/legacy-peer-deps.
 - [X] T004 Establish runnable Node built-in test/YAML parser setup for scripts/ci-policy.test.mjs; add direct development parser dependency only if needed, no transitive import/new app runner.
 
 ## Phase 2: Foundational
@@ -55,7 +55,7 @@ serialized freshness/credential gate; no failed/stale/non-main request publishes
 
 ## Phase 6: Polish and Cross-Cutting
 
-- [ ] T023 Run full suite including scripts/ci-policy.test.mjs, inspect all .github/workflows/ for hidden non-test PR/build/deploy paths and confirm ordinary npm flags/generator hooks remain composable in package.json.
+- [X] T023 Run full suite including scripts/ci-policy.test.mjs, inspect all .github/workflows/ for hidden non-test PR/build/deploy paths and confirm ordinary npm flags/generator hooks remain composable in package.json.
 - [ ] T024 Record red-green/real PR-main observations/settings/bootstrap evidence in specs/012-ci-safeguards/quickstart.md; no declared safeguards completion without actual protection, no publication or version bump.
 
 ## Dependencies and Execution Order
@@ -95,6 +95,14 @@ before old main automation can publish. Complete all stages/settings evidence; t
 CI feature prepares manual deployment and never invokes it during acceptance.
 
 ## Execution Status
+
+**Update2026-10-04**: T002/T003/T023 are complete with individual current evidence
+and preserved historical dispositions in quickstart.md. Owner-approved main
+protection is configured/read-back verified after the owner made the repository
+public. T011 is only partially satisfied: actual failing-PR blockage is still
+required. T012/T015/T024 and historical/mutation/provider evidence remain open.
+The older status below describes the initial local implementation, not current
+browser availability or authorization.
 
 Local implementation completed: T001, T004-T005, T007-T010, T014, T017-T020 and T022.
 Remaining tasks are intentionally unchecked where they need owner-controlled migration

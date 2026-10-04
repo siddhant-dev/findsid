@@ -2,6 +2,20 @@
 
 For later implementation; the planning command does not execute application tests.
 
+## Owner Content Amendment (2026-10-04)
+
+The owner approved the replacement paragraph and requested tests that do not freeze
+wording or text size/length as content evolves. The prior exact-copy expectations
+below are historical and superseded by the updated about-contract.md.
+Removed the independent old-copy fixture, both About copy-equality checks, the
+route-level copy-equality check and About-specific numerical font-size/line-height
+assertions. Kept one-paragraph/single-heading structure, no decorative/interactive
+elements, width/overflow, muted presentation, no timers and no metadata side effects.
+No production About content was changed by this amendment.
+
+The three observed copy-mismatch failures are resolved: the full suite passes
+191 Jasmine tests and12 Node checks (`release-content-green.log`).
+
 ## Prerequisites
 
 Complete features 001 and 002. Reuse existing Angular 22-compatible Node/npm and

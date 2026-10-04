@@ -4,6 +4,12 @@
 
 **Input**: `specs/003-about-section/spec.md`
 
+**Owner amendment (2026-10-04)**: Preserve the current owner-authored paragraph and
+permit future copy edits without exact wording/text-size/length assertions. Earlier
+unchanged-copy and exact-copy test instructions are historical and superseded by
+the amended about-contract.md. Retain structural/accessibility/overflow/lifecycle
+checks; do not freeze numerical font-size/line-height in About-specific tests.
+
 ## Summary
 
 **Global loading amendment (2026-10-03)**: Keep About eager with shell/styles; no

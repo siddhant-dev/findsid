@@ -6,6 +6,7 @@ import {
   viewChild,
   inject,
   effect,
+  OnInit,
 } from '@angular/core';
 import { AsyncPipe, CommonModule, ViewportScroller } from '@angular/common';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
@@ -31,7 +32,7 @@ import { ContactNavigationState } from './shared/contact-navigation-state';
     ExternalLinksDirective,
   ],
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit, OnDestroy {
   readonly contactState = inject(ContactNavigationState);
   readonly sections = [
     { id: 'about', label: '01. About me' },
@@ -53,6 +54,8 @@ export class AppComponent implements OnDestroy {
   private identityContent = viewChild<ElementRef<HTMLElement>>('identityContent');
   private resizeObserver?: ResizeObserver;
   private destroyed = false;
+  private jobStartDate = '2017-01-01';
+  currentWorkExperience: number = 0;
 
   constructor() {
     this.routeSubscription = this.router.events.subscribe(event => {
@@ -86,6 +89,12 @@ export class AppComponent implements OnDestroy {
         }
       });
   });
+  }
+
+  ngOnInit(): void {
+    const currentDate = new Date();
+    const startDate = new Date(this.jobStartDate);
+    this.currentWorkExperience = ((currentDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24 * 365));
   }
 
   ngOnDestroy(): void {

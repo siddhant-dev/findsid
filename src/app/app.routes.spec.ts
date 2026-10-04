@@ -96,9 +96,6 @@ describe('application routes', () => {
     expect(about?.querySelectorAll('#about-heading').length).toBe(1);
     expect(about?.querySelectorAll('h1, h2, h3, h4, h5, h6').length).toBe(1);
     expect(about?.querySelectorAll('app-about p').length).toBe(1);
-    expect(about?.querySelector('app-about p')?.textContent?.replace(/\s+/g, ' ').trim()).toBe(
-      'I am a millennial born in Kolkata, Enjoy working as UI Developer and moved to UX design to strengthen my knowledge and bridge the gap between user interfaces and user need. Beyond work you’ll find me smashing and killing enemies in RPG games, dribbling in football games, travelling, watching movies/shows, designing or sleeping. For me learning never stops and I work on small personal projects to improve my skill.',
-    );
   });
 
   for (const path of ['/resume', '/work/art', '/work/not-a-section', '/work/articles/42/unknown']) {

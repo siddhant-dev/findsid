@@ -1,6 +1,6 @@
 {
   "name": "findsid",
-  "version": "0.9.9",
+  "version": "26.0.0",
   "scripts": {
     "ng": "ng",
     "prestart": "node scripts/generate-app-version.mjs",

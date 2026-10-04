@@ -3,6 +3,12 @@
 **Feature Branch**: `feat/blueprint`
 **Created**: 2026-10-03
 **Status**: Ready for planning
+**Content amendment (2026-10-04)**: The owner approved the replacement About paragraph
+and future owner edits. Exact-copy/wording and text-size/length acceptance assertions
+are retired. This amendment supersedes FR-001, the copy-equality part of SC-001 and
+earlier unchanged-copy references below. Structure, accessibility, static rendering,
+side-effect isolation and responsive overflow requirements remain. About tests do
+not assert numerical font-size/line-height; shared style-contract tests remain separate.
 **Input**: Redesign only About me after styles and shell. Keep existing paragraph wording;
 remove photo, greeting and typewriter. Use muted, left-aligned Inter 0.95rem text with
 line-height 1.6 across the content column, without a card. User confirmed all decisions
@@ -64,8 +70,8 @@ is satisfied by static content. No additional user-supplied cases.
 
 ### Functional Requirements
 
-- **FR-001**: The existing paragraph wording MUST remain unchanged, including punctuation;
-  line wrapping/HTML formatting may normalize whitespace, not rewrite text.
+- **FR-001**: The paragraph MUST remain owner-maintained static content. Tests MUST NOT
+  constrain wording, punctuation, text size or length as the owner updates it.
 - **FR-002**: The About section MUST contain exactly one heading and one paragraph.
   The shell-owned heading MUST NOT be duplicated inside the embedded component.
 - **FR-003**: Photo and greeting/typewriter content MUST be removed without replacement.
@@ -85,8 +91,8 @@ is satisfied by static content. No additional user-supplied cases.
 
 ### Measurable Outcomes
 
-- **SC-001**: One heading/one paragraph within About; paragraph equals the approved
-  baseline after whitespace normalization.
+- **SC-001**: One heading/one static paragraph within About, independent of its wording
+  and text length.
 - **SC-002**: Zero About photos, greetings, typing timers, cursor animations or photo requests.
 - **SC-003**: Computed paragraph styles match all confirmed values and column width.
 - **SC-004**: Zero text Tab stops and zero About metadata writes/removals across mount/unmount.

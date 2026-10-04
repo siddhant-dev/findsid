@@ -15,6 +15,13 @@ The full current baseline passes191 Jasmine/12 Node checks, but no dependent tas
 version/publication gate or missing historical red gate is claimed satisfied.
 See quickstart.md for revision-bound findings. Version remains0.9.9.
 
+**Public-repository update (2026-10-04)**: Owner-approved main protection is now
+configured and verified; the provider plan restriction is resolved.012 closes
+T002/T003/T023 using current evidence and explicit historical dispositions. Actual
+blocked-failing-PR acceptance, successful main build, remaining prerequisite cases
+and owner-run browser/device results still prevent T001/T002 completion. No
+dependent version/publication task is unblocked merely by public visibility.
+
 ## Phase 1: Setup
 
 - [ ] T001 Verify001-012 tasks/acceptance/red-green evidence and012 main protection in specs/001-blueprint-styles/ through specs/012-ci-safeguards/; record blockers, missing tasks/evidence cannot equal release readiness.

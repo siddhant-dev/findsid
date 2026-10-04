@@ -7,13 +7,13 @@
   @if (!readingMode) {
   <aside class="identity-column" [class.sticky-disabled]="stickyDisabled">
     <div class="identity-content" #identityContent>
-      <p class="eyebrow navigation-text">PORTFOLIO / 2026</p>
+      <p class="eyebrow navigation-text">PORTFOLIO / {{appVersion}}</p>
       <h1 class="owner-name">Siddhant Jaiswal</h1>
       <p class="owner-title">Lead Product Development Professional</p>
       <p class="owner-summary">
         Architecting scalable Angular applications, high-performance virtualized rendering engines, and accessible design systems
       </p>
-      <span class="version-badge">v{{ appVersion }}</span>
+      <span class="version-badge">SYS.ARCH | {{ currentWorkExperience | number : '1.1-1'}} years</span>
 
       <nav class="section-navigation" aria-label="Portfolio sections">
         @for (section of sections; track section.id) {

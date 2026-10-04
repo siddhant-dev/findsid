@@ -3,14 +3,15 @@
 Consumes [style foundation](../../001-blueprint-styles/contracts/style-contract.md) and
 [shell contract](../../002-sticky-shell/contracts/shell-contract.md).
 
-## Exact Copy
+## Owner-Maintained Content (Amended 2026-10-04)
 
-Whitespace-normalized text must equal:
-
-> I am a millennial born in Kolkata, Enjoy working as UI Developer and moved to UX design to strengthen my knowledge and bridge the gap between user interfaces and user need. Beyond work you’ll find me smashing and killing enemies in RPG games, dribbling in football games, travelling, watching movies/shows, designing or sleeping. For me learning never stops and I work on small personal projects to improve my skill.
-
-The typographic apostrophe above is preserved from the existing content. Do not copy-edit
-grammar, capitalize differently or add the reference's unverified claims.
+The owner maintains the paragraph in `src/app/about/about.component.html` and may
+update it over time. The replacement professional introduction is approved.
+Automated tests MUST NOT freeze its wording, punctuation, character/word count,
+text length or rendered text dimensions. About tests also do not fix numerical
+font-size or line-height values. Structural, accessibility, overflow and lifecycle
+checks remain required. This supersedes the original exact-copy fixture requirement;
+historical implementation evidence is retained, not rewritten.
 
 ## Structure
 
@@ -34,7 +35,7 @@ No changes to fragment navigation, other sections or release/version behavior.
 
 ## Evidence
 
-Component tests assert exact normalized copy, one paragraph, no removed content/Tab stops,
-zero timer/meta operations and exact computed styles. Home test asserts a single section
+Component tests assert one paragraph, no removed decoration/Tab stops,
+zero timer/meta operations and readable noninteractive presentation. Home test asserts a single section
 heading and unchanged `/#about` navigation. Browser checks cover 320px, 200% zoom and
 fonts unavailable. No live service dependency required.

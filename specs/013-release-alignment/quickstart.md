@@ -24,7 +24,82 @@ or creating/merging a PR must be explicitly scoped before execution. No remote
 administrative operation, commit, merge, version bump or publication is implied by
 this follow-up. Final publication approval remains separately bound to the main SHA.
 
+## Resumed Assessment After Approval (2026-10-04)
+
+The owner approved the historical exception and scoped safeguards configuration.
+Constitution2.0.0 now governs individual exception dispositions; approval does not
+automatically complete tasks. The requirements checklist still passes16/16 and
+implementation hooks are empty.
+
+Authenticated read-only GitHub API access through the existing git credential
+helper succeeded. Credentials were neither printed nor written to evidence.
+The private repository's default branch is main and the authenticated account has
+admin permission. Both `/branches/main/protection` and `/rulesets` return403 with
+the provider message: "Upgrade to GitHub Pro or make this repository public to
+enable this feature." This is a plan/visibility restriction, not missing admin
+access. No protection can be claimed enforced from local workflow files. No billing,
+visibility, settings or workflow operation was performed.
+
+The three active remote workflows are Portfolio tests, Validate main and the
+manual Publish to Firebase Hosting workflow. No queued or in-progress workflow run
+was found at inspection, so no legacy run was cancelled. Main validation run
+`37142607610` at SHA `62f5db7a6f2be1002b931352afaabee3f49cf48c` failed its full
+test step; the production build was correctly skipped. This supplies actual
+failure-gating evidence, not a successful candidate build.
+
+The current local full baseline now reports188 passing and3 failing Jasmine tests;
+the12 Node checks pass (`release-approved-baseline.log`). All three failures compare
+the changed About paragraph in `src/app/about/about.component.html` against feature003's
+approved exact copy (two About component assertions and one actual app-route assertion).
+That staged content change predates this resumed implementation and was preserved.
+It must not be reverted or silently accepted by weakening the tests. Owner clarification
+is required: approve the replacement copy and update its contract/tests, or explicitly
+authorize restoring the previously approved paragraph.
+
+Task closure is paused while the full suite fails and the content contract conflicts.
+The provider's protection restriction also requires an owner decision: upgrade the
+private-repository plan, or separately authorize public visibility after considering
+repository contents/history. Neither choice is implied by safeguards approval.
+Version remains0.9.9; browser acceptance remains owner-owned and pending.
+
+### About Conflict Resolved (2026-10-04)
+
+The owner confirmed keeping the new paragraph and future editable content, with
+no wording/text-size/length assertions. Feature003's contract/spec/model/plan/tasks
+now record that amendment without rewriting historical evidence. About and route
+tests assert structure, accessibility, static lifecycle and reflow instead of
+frozen copy; numerical font-size/line-height assertions in About tests were removed.
+The full suite again passes191 Jasmine tests and12 Node checks
+(`release-content-green.log`). No production text was replaced.
+This resolves the content blocker only; the GitHub private-repository protection
+plan restriction and remaining release acceptance gates still apply.
+
 ## Current Readiness Assessment (2026-10-04)
+
+### Public Visibility Follow-up
+
+The owner made the repository public and authorized continuing approved safeguards.
+Authenticated inspection now confirms public/default-main/admin access. Main
+protection is configured and read-back verified: strict current-revision Portfolio
+tests from GitHub Actions app15368, PR-only changes, admin enforcement, no bypass
+allowances, force pushes or deletion. No ruleset/merge queue is configured;
+automatic merging is disabled. The default branch exposes all three intended
+workflows, fork approval is first_time_contributors, and queued/in-progress run
+queries returned no runs. The former403 plan restriction is resolved.
+See012 quickstart for request/read-back evidence and remaining live-CI acceptance.
+
+The current working tree based on972fa11a1bb3a1339b251c814b401789fc08c0e1 passes
+191 Jasmine/12 Node checks (`release-public-protection-green.log`). This is not a
+matching main production-build or browser/device acceptance record. Latest observed
+main run37142607610 still failed tests and skipped build. An actual failing PR
+blocked by protection and successful main build remain unverified; no test PR or
+workflow run was created.012 T002/T003/T023 are now closed with explicit evidence,
+leaving33 unchecked prerequisite tasks rather than the earlier36.
+
+013 T001/T002 remain incomplete because remaining prerequisite evidence and the
+owner's actual five-browser/device matrix are pending. Dependent release/version
+tasks remain gated; version stays0.9.9. No commit, merge, publication or release
+record was made. The following original assessment remains historical evidence.
 
 **State: implementing / blocked, not integrated ready.** Baseline commit:
 `26418f2389f70d2a531d45780bb290ecaf1b017b`, branch `feat/release-check`.
