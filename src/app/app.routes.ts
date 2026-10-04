@@ -40,13 +40,6 @@ export const APP_ROUTES: Routes = [
     component: HomeComponent,
   },
   {
-    path: 'resume',
-    loadComponent: () =>
-      import('./resume-module/resume/resume.component').then(
-        (module) => module.ResumeComponent,
-      ),
-  },
-  {
     path: 'contact',
     outlet: 'contact',
     component: ContactModalHost,

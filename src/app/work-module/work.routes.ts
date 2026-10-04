@@ -24,11 +24,6 @@ export const WORK_ROUTES: Routes = [
           import('./work/apps/apps.component').then((m) => m.AppsComponent),
       },
       {
-        path: 'art',
-        pathMatch: 'full',
-        redirectTo: 'articles',
-      },
-      {
         path: 'articles/:id',
         loadComponent: () =>
           import('./work/article-page/article-page.component').then(

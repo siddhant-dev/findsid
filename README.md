@@ -1,8 +1,13 @@
 # Findsid
 
-This Angular portfolio showcases the owner's projects, articles and skills. The Work
-section contains Articles and Apps. The artwork showcase has been retired, and old
-`/work/art` links redirect to `/work/articles`. No Instagram API token is required.
+This Angular portfolio showcases the owner's projects, articles and skills through
+the homepage Articles and Retro Vault sections. Resume and artwork routes are retired:
+`/resume` and `/work/art` use the general unknown-route fallback to `/`, without
+dedicated redirects or retired component/download requests. `/work` and
+`/work/articles` remain exact aliases to `/#articles`; `/work/apps` goes to `/#vault`.
+Article detail and Contact remain active. The remote Resume PDF and Firebase
+resources are unchanged; only the application's download reference was removed.
+No Instagram API token is required.
 
 ## CI and publication
 
@@ -34,6 +39,14 @@ Changing local workflow files does not stop already-active or queued workflows. 
 that the manual workflow is available from the default branch. Manual publication is
 for an explicitly approved, completed redesign only; a workflow dispatch is not
 approval to publish unfinished work.
+
+Release013 readiness is currently blocked by outstanding prerequisite acceptance/
+test-first evidence, the actual desktop Chrome/Firefox/Safari and mobile Safari/
+Chrome matrix, and verified main protection/build evidence. A green local suite
+alone does not authorize the26.0.0 bump. Keep package/lock/generated badge metadata
+at0.9.9 until integrated readiness; publication additionally needs explicit approval
+of the final versioned main SHA. See `specs/013-release-alignment/quickstart.md`
+for the current assessment. No release was published by this implementation.
 
 Run `npm ci` with a Node 22 release satisfying the lockfile engines, then run the
 complete suite with:

@@ -101,6 +101,20 @@ describe('application routes', () => {
     );
   });
 
+  for (const path of ['/resume', '/work/art', '/work/not-a-section', '/work/articles/42/unknown']) {
+    it(`resolves ${path} through the general Home fallback without a retired view`, async () => {
+      await harness.navigateByUrl(path);
+      await harness.fixture.whenStable();
+      harness.detectChanges();
+      http.match(request => request.url.startsWith('https://dev.to/api/articles?'))
+        .forEach(request => request.flush([]));
+      expect(router.url).toBe('/');
+      expect(harness.routeNativeElement?.querySelector('#about-heading')).not.toBeNull();
+      expect(harness.routeNativeElement?.querySelector('app-resume, app-art')).toBeNull();
+      http.expectNone(request => /firebasestorage|graph\.instagram/.test(request.url));
+    });
+  }
+
   for (const [path, destination] of [
     ['/work', '/#articles'],
     ['/work/articles', '/#articles'],

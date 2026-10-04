@@ -47,9 +47,11 @@ describe('Whole-viewport routed contact host', () => {
     const home = fixture.nativeElement.querySelector('app-home');
     expect(home).not.toBeNull();
     TestBed.inject(ContactNavigationState).pending.set(true);
-    expect(await router.navigateByUrl('/resume')).toBeFalse();
-    expect(router.url).toBe('/contact');
-    expect(fixture.nativeElement.querySelector('app-home')).toBe(home);
+    for (const path of ['/resume', '/work/art', '/work/unknown', '/work/articles', '/work/apps', '/work/articles/42']) {
+      expect(await router.navigateByUrl(path)).toBeFalse();
+      expect(router.url).toBe('/contact');
+      expect(fixture.nativeElement.querySelector('app-home')).toBe(home);
+    }
     TestBed.inject(ContactNavigationState).pending.set(false);
     await router.navigateByUrl('/');
     expect(fixture.nativeElement.querySelector('app-home')).toBe(home);

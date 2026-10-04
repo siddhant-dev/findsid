@@ -8,6 +8,13 @@ Recovery operational task T023 is conditional on a regression and new approval.
 **Tests**: Mandatory runnable behavioral red before integrated fixes/release logic;
 controlled HTTP/provider responses, real browser evidence, no live Contact sends.
 
+**Execution status (2026-10-04)**: Requested after011, which is now complete.
+Setup readiness remains blocked by open001/002/009/010/012 evidence, missing actual
+five-browser/device acceptance and unverified protection/main-build evidence.
+The full current baseline passes191 Jasmine/12 Node checks, but no dependent task,
+version/publication gate or missing historical red gate is claimed satisfied.
+See quickstart.md for revision-bound findings. Version remains0.9.9.
+
 ## Phase 1: Setup
 
 - [ ] T001 Verify001-012 tasks/acceptance/red-green evidence and012 main protection in specs/001-blueprint-styles/ through specs/012-ci-safeguards/; record blockers, missing tasks/evidence cannot equal release readiness.
