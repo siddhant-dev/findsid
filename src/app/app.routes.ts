@@ -2,7 +2,10 @@ import { inject } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ArticleRouteComponent } from './article-route.component';
-import { ContactModalHost, contactCanDeactivate } from './shared/contact-modal-host';
+import {
+  ContactModalHost,
+  contactCanDeactivate,
+} from './shared/contact-modal-host';
 
 export const APP_ROUTES: Routes = [
   {
@@ -31,7 +34,9 @@ export const APP_ROUTES: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./work-module/work.routes').then((module) => module.WORK_ROUTES),
+          import('./work-module/work.routes').then(
+            (module) => module.WORK_ROUTES,
+          ),
       },
     ],
   },

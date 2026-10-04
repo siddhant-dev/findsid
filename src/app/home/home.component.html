@@ -10,12 +10,12 @@
     <h2 id="lab-heading" class="section-heading" tabindex="-1">Interaction Lab</h2>
     <div #sectionBody class="section-body">
       @if (state('lab').status === 'loading') {
-        <p class="section-loading" role="status">Loading Interaction Lab…</p>
+      <p class="section-loading" role="status">Loading Interaction Lab…</p>
       } @else if (state('lab').status === 'error') {
-        <div class="section-load-error" role="alert">
-          <p>This section couldn't be loaded.</p>
-          <button type="button" class="blueprint-button" (click)="retry('lab')">Retry Interaction Lab</button>
-        </div>
+      <div class="section-load-error" role="alert">
+        <p>This section couldn't be loaded.</p>
+        <button type="button" class="blueprint-button" (click)="retry('lab')">Retry Interaction Lab</button>
+      </div>
       }
       <ng-container #labHost></ng-container>
     </div>
@@ -25,12 +25,12 @@
     <h2 id="experience-heading" class="section-heading" tabindex="-1">Experiences</h2>
     <div #sectionBody class="section-body">
       @if (state('experience').status === 'loading') {
-        <p class="section-loading" role="status">Loading Experiences…</p>
+      <p class="section-loading" role="status">Loading Experiences…</p>
       } @else if (state('experience').status === 'error') {
-        <div class="section-load-error" role="alert">
-          <p>This section couldn't be loaded.</p>
-          <button type="button" class="blueprint-button" (click)="retry('experience')">Retry Experiences</button>
-        </div>
+      <div class="section-load-error" role="alert">
+        <p>This section couldn't be loaded.</p>
+        <button type="button" class="blueprint-button" (click)="retry('experience')">Retry Experiences</button>
+      </div>
       }
       <ng-container #experienceHost></ng-container>
     </div>
@@ -40,12 +40,12 @@
     <h2 id="articles-heading" class="section-heading" tabindex="-1">Articles</h2>
     <div #sectionBody class="section-body">
       @if (state('articles').status === 'loading') {
-        <p class="section-loading" role="status">Loading Articles…</p>
+      <p class="section-loading" role="status">Loading Articles…</p>
       } @else if (state('articles').status === 'error') {
-        <div class="section-load-error" role="alert">
-          <p>This section couldn't be loaded.</p>
-          <button type="button" class="blueprint-button" (click)="retry('articles')">Retry Articles</button>
-        </div>
+      <div class="section-load-error" role="alert">
+        <p>This section couldn't be loaded.</p>
+        <button type="button" class="blueprint-button" (click)="retry('articles')">Retry Articles</button>
+      </div>
       }
       <ng-container #articlesHost></ng-container>
     </div>
@@ -55,12 +55,12 @@
     <h2 id="vault-heading" class="section-heading" tabindex="-1">Retro Vault</h2>
     <div #sectionBody class="section-body">
       @if (state('vault').status === 'loading') {
-        <p class="section-loading" role="status">Loading Retro Vault…</p>
+      <p class="section-loading" role="status">Loading Retro Vault…</p>
       } @else if (state('vault').status === 'error') {
-        <div class="section-load-error" role="alert">
-          <p>This section couldn't be loaded.</p>
-          <button type="button" class="blueprint-button" (click)="retry('vault')">Retry Retro Vault</button>
-        </div>
+      <div class="section-load-error" role="alert">
+        <p>This section couldn't be loaded.</p>
+        <button type="button" class="blueprint-button" (click)="retry('vault')">Retry Retro Vault</button>
+      </div>
       }
       <ng-container #vaultHost></ng-container>
     </div>
