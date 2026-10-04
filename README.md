@@ -93,7 +93,7 @@ have no links or expansion controls, and disable hover transitions under reduced
 Shared blueprint cards show complete text, optional dates and all available tags without
 cover images or truncation. Valid destinations use one title-named card-wide native link;
 invalid or missing destinations remain static **Archived** cards. Article detail routes
-and their cover images/metadata are preserved. External web links open in a new tab with
+and valid social-image metadata are preserved without a visible cover banner. External web links open in a new tab with
 `noopener noreferrer`, including scoped annotation of replaced article-body links.
 Same-origin links, mail actions and downloads retain their native behavior. Card/detail
 code stays deferred with its consumers; the shell's link policy does not import them.
@@ -111,5 +111,39 @@ genuinely empty source; **Retry loading more** resumes the failed page without r
 cards or restarting successful pages. The available-width grid uses 17.5rem minimum
 tracks, 1.5rem gaps and at most three columns. Home owns append scrolling and keyboard
 focus, respects reduced motion and cancels stale movement after user interruption.
-Departure cancels requests/render work while exposing an inert committed checkpoint;
-feature 009 owns its later in-memory detail-return restoration.
+Departure cancels requests/render work. A single in-memory committed checkpoint restores
+cards, buffered records, paging progress and section-relative reading offset on return
+from detail. Keyboard-initiated visits restore the live initiating-card focus; refresh
+starts a fresh listing.
+
+## Article detail
+
+`/work/articles/:id` uses a centered 48rem reading surface without the identity/sidebar,
+retaining the shared blueprint canvas and bottom Contact/social actions. Owner and
+requested ID are validated; complete article HTML uses normal framework sanitization,
+scoped descendant styles, responsive inline images and keyboard-scrollable code/tables.
+Broken images become literal alt text or `Article image unavailable.` No API HTML is
+marked trusted. Current-route metadata is generation-owned and Home restores canonical
+tags without allowing obsolete cleanup to erase a newer page.
+
+Invalid IDs, 404 and wrong-owner responses show `Article not found.` Other data failures
+have a current-ID Retry. A lightweight eager boundary handles deferred-code failures and
+keeps Back to Articles available even when detail code cannot mount. **Known incomplete
+requirement:** native Chrome caches a failed dynamic import, so same-loader Retry cannot
+recover an actual chunk-fetch failure in that document. The spec prohibits reload and
+cache-busted imports; that recovery requirement remains blocked pending an approved
+policy change. Controlled loader recovery is not evidence of native chunk recovery.
+
+## Retro Vault
+
+Vault retains the five approved projects in their original order, with full copy,
+historical dates, tags and URLs. Home activates its code within 20rem of the viewport
+or immediately on `/#vault`; the JSON module loads only inside that deferred feature
+graph, without a separate asset-data request or project URL probes.
+
+All accepted projects render at once in the same rem-based grid as Articles. Five
+inert boneyard skeletons cover real data loading, with a fixed palette and static
+reduced-motion treatment. Individual invalid records are diagnosed and skipped; the
+first accepted valid ID wins. Empty data, collection errors and section-code errors
+remain distinct. Retry revalidates the actual bundled source without claiming to
+repair immutable invalid content, and departure cancels owned subscriptions/render work.

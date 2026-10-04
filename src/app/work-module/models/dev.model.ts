@@ -1,5 +1,3 @@
-import { SafeHtml } from "@angular/platform-browser";
-
 export interface Articles {
     id?: number;
     title: string;
@@ -8,7 +6,15 @@ export interface Articles {
     cover_image: string;
     tags: readonly string[];
     typeOf: 'article';
-    body_html?: SafeHtml;
+    body_html?: string;
+}
+
+export interface ArticleDetail extends Articles {
+    id: number;
+    body_html: string;
+    ownerUsername: 'siddev';
+    readingTimeMinutes?: number;
+    sourceUrl?: string;
 }
 
 export interface ListingArticle {

@@ -1,7 +1,8 @@
 <div class="blueprint-bg" aria-hidden="true"></div>
 <a class="skip-nav" href="#main" (click)="skipContent($event)">Skip to content</a>
 
-<div class="shell">
+<div class="shell" [class.reading]="readingMode">
+  @if (!readingMode) {
   <aside class="identity-column" [class.sticky-disabled]="stickyDisabled">
     <div class="identity-content" #identityContent>
       <p class="eyebrow navigation-text">PORTFOLIO / 2026</p>
@@ -25,6 +26,7 @@
       </nav>
     </div>
   </aside>
+  }
 
   <main id="main" class="content-column" tabindex="-1">
     <router-outlet></router-outlet>

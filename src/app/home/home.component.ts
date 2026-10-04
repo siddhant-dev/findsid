@@ -15,6 +15,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ArticleListSnapshot, ArticleListSnapshotService } from '../work-module/work/articles/article-list-snapshot.service';
 import { AboutComponent } from '../about/about.component';
 import {
   LazySectionId,
@@ -92,15 +93,22 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   private requestedTarget: string | null = null;
   private userIntentGeneration = 0;
   private destroyed = false;
+  private restoration?: ArticleListSnapshot;
 
   constructor(
     private readonly element: ElementRef<HTMLElement>,
     private readonly navigation: SectionNavigationCoordinator,
     private readonly router: Router,
     private readonly changeDetector: ChangeDetectorRef,
+    private readonly snapshots: ArticleListSnapshotService,
   ) {}
 
   ngAfterViewInit(): void {
+    this.restoration = this.snapshots.takeReturn();
+    if (this.restoration) {
+      this.requestedTarget = 'articles';
+      this.activate('articles');
+    }
     this.previousScrollRestoration = history.scrollRestoration;
     history.scrollRestoration = 'manual';
     this.activationSubscription = this.navigation.registerHome((intent) =>
@@ -192,8 +200,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
           if (host) {
             const component = host.createComponent(state.value);
             component.setInput('embedded', true);
+            if (id === 'articles' && this.restoration) component.setInput('checkpoint', this.restoration.checkpoint);
             component.changeDetectorRef.detectChanges();
             this.renderedComponents[id] = component;
+            if (id === 'articles' && this.restoration) this.restoreArticles();
           }
         }
         this.changeDetector.markForCheck();
@@ -270,6 +280,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     if (intent.id === 'lab' || intent.id === 'experience' || intent.id === 'articles' || intent.id === 'vault') {
       this.activate(intent.id);
     }
+    if (intent.id === 'articles' && this.restoration) return;
 
     const target = this.element.nativeElement.querySelector<HTMLElement>(
       `#${intent.id}-heading`,
@@ -327,6 +338,29 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     } else {
       this.scrollEndTimer = window.setTimeout(() => this.finishIntent('articles'), 1200);
     }
+  }
+
+  private restoreArticles(): void {
+    const snapshot = this.restoration!;
+    const generation = this.userIntentGeneration;
+    const frame = requestAnimationFrame(() => {
+      this.renderFrames.delete(frame);
+      this.restoration = undefined;
+      if (this.destroyed || generation !== this.userIntentGeneration) return;
+      const section = this.sectionElement('articles');
+      if (!section) return;
+      const card = [...section.querySelectorAll<HTMLElement>('[data-article-key]')]
+        .find(node => node.dataset['articleKey'] === snapshot.initiatingCardKey);
+      const target = card?.querySelector<HTMLElement>('a, h3');
+      if (snapshot.keyboard && target) {
+        if (target.tagName !== 'A') target.tabIndex = -1;
+        target.focus({ preventScroll: true });
+      }
+      window.scrollTo({ top: Math.max(0, window.scrollY + section.getBoundingClientRect().top + snapshot.sectionOffset),
+        behavior: 'instant' });
+      this.finishIntent('articles');
+    });
+    this.renderFrames.add(frame);
   }
 
   private updateActiveSection(): void {
@@ -406,6 +440,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   };
 
   private readonly onScrollEnd = (): void => {
+    if (this.restoration) return;
     if (this.requestedTarget) {
       this.finishIntent(this.requestedTarget);
     }

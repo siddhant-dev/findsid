@@ -22,6 +22,7 @@ describe('Work routes', () => {
   });
 
   afterEach(() => {
+    harness.fixture.destroy();
     http.expectNone((request) => request.url.includes('graph.instagram.com'));
     http.verify();
   });
@@ -29,7 +30,7 @@ describe('Work routes', () => {
   for (const path of ['/work', '/work/art', '/work/articles']) {
     it(`should show articles at ${path} without requesting artwork`, async () => {
       await harness.navigateByUrl(path);
-      http.expectOne('https://dev.to/api/articles?username=siddev').flush([]);
+      http.expectOne('https://dev.to/api/articles?username=siddev&page=1&per_page=10').flush([]);
       harness.detectChanges();
 
       expect(TestBed.inject(Router).url).toBe('/work/articles');
@@ -54,6 +55,7 @@ describe('Work routes', () => {
     await harness.navigateByUrl('/work/articles/123');
     http.expectOne('https://dev.to/api/articles/123').flush({
       id: 123,
+      user: { username: 'siddev' },
       title: 'Article title',
       description: 'Article description',
       readable_publish_date: 'Oct 3',

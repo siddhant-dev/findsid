@@ -1,6 +1,9 @@
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Type } from '@angular/core';
+import { AppsComponent } from '../work-module/work/apps/apps.component';
+import { LazySectionId, SectionActivationCoordinator, SectionLoader } from './section-activation';
 import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { HomeComponent } from './home.component';
@@ -162,6 +165,63 @@ describe('Home Experiences activation', () => {
     await frames(2);
     expect(scroll.calls.count()).toBe(1);
     card.remove();
+  });
+
+  it('defers Vault, retains its permanent heading and mounts actual bundled cards without JSON HTTP', async () => {
+    const root: HTMLElement = fixture.nativeElement;
+    expect(root.querySelector('app-apps')).toBeNull();
+    expect(root.querySelectorAll('#vault-heading').length).toBe(1);
+    http.expectNone(request => request.url.includes('data.json'));
+    await TestBed.inject(SectionNavigationCoordinator).select('vault');
+    await frames();
+    expect(root.querySelectorAll('#vault app-card').length).toBe(5);
+    expect(root.querySelectorAll('#vault h2').length).toBe(1);
+    http.expectNone(request => request.url.includes('data.json'));
+    expect(TestBed.inject(Meta).updateTag).not.toHaveBeenCalled();
+  });
+
+  it('shows scoped Vault code failure and shares pending Retry without a late destroyed-owner mount', async () => {
+    const activation = Reflect.get(fixture.componentInstance, 'activation') as SectionActivationCoordinator<Type<unknown>>;
+    const loaders = Reflect.get(activation, 'loaders') as Partial<Record<LazySectionId, SectionLoader<Type<unknown>>>>;
+    let resolve!: (value: Type<unknown>) => void;
+    const loader = jasmine.createSpy('vaultLoader').and.returnValues(
+      Promise.reject(new Error('Controlled chunk failure')),
+      new Promise<Type<unknown>>(done => resolve = done),
+    );
+    loaders.vault = loader;
+    const root: HTMLElement = fixture.nativeElement;
+    await TestBed.inject(SectionNavigationCoordinator).select('vault');
+    await frames(3);
+    expect(root.querySelector('#vault [role="alert"]')?.textContent).toContain("This section couldn't be loaded.");
+    expect(root.querySelector('#about app-about')).not.toBeNull();
+    fixture.componentInstance.retry('vault');
+    fixture.componentInstance.retry('vault');
+    await frames(2);
+    expect(loader.calls.count()).toBe(2);
+    expect(root.querySelector('#vault [role="status"]')?.textContent).toContain('Loading Retro Vault');
+    fixture.destroy();
+    resolve(AppsComponent);
+    await Promise.resolve();
+    expect(root.querySelector('app-apps')).toBeNull();
+    expect(activation.state('vault').status).toBe('disposed');
+  });
+
+  it('preserves the reader and mounted Vault across same-Home navigation and delayed layout', async () => {
+    const root: HTMLElement = fixture.nativeElement;
+    const navigation = TestBed.inject(SectionNavigationCoordinator);
+    await navigation.select('vault');
+    await frames();
+    const mounted = root.querySelector('app-apps');
+    await navigation.select('about');
+    await navigation.select('vault');
+    await frames(3);
+    expect(root.querySelector('app-apps')).toBe(mounted);
+    const scroll = spyOn(window, 'scrollTo');
+    resized([], resizeObserver);
+    await frames(2);
+    expect(scroll).not.toHaveBeenCalled();
+    expect(root.querySelectorAll('#vault-heading').length).toBe(1);
+    http.expectNone(request => request.url.includes('data.json'));
   });
 });
 

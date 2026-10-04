@@ -42,6 +42,19 @@ export class ArticleListSession {
     this.started = true;
     this.run(false);
   }
+  restore(checkpoint: ArticleCheckpoint): void {
+    if (this.started || this.state === 'disposed') throw new Error('Cannot restore an active article session');
+    this.committed = structuredClone(checkpoint);
+    if (!checkpoint.displayed.length && !checkpoint.sourceExhausted) {
+      this.start();
+      return;
+    }
+    this.displayed = [...this.committed.displayed];
+    this.hasMore = this.committed.hasMore;
+    this.state = this.displayed.length ? 'ready' : 'empty';
+    this.started = true;
+    this.changed();
+  }
   append(): void {
     if (this.active || this.state !== 'ready' || !this.hasMore) return;
     this.run(true);

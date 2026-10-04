@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -9,11 +8,13 @@ import {
   effect,
 } from '@angular/core';
 import { AsyncPipe, CommonModule, ViewportScroller } from '@angular/common';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { FeatherIconsModule } from './feather-icons/feather-icons.module';
 import { SectionNavigationCoordinator } from './home/section-navigation';
 import { APP_VERSION } from './generated/app-version';
 import { ExternalLinksDirective } from './shared/links/external-links.directive';
+import { MetaTagService } from './services/meta-tag.service';
 
 @Component({
   selector: 'app-root',
@@ -43,13 +44,33 @@ export class AppComponent implements OnDestroy {
   readonly appVersion = APP_VERSION;
   readonly activeSection$ = this.navigation.activeSection$;
   stickyDisabled = false;
+  readingMode = false;
+  private readonly router = inject(Router);
+  private readonly routeSubscription: Subscription;
+  private readonly metadata = inject(MetaTagService);
 
   private identityContent = viewChild<ElementRef<HTMLElement>>('identityContent');
   private resizeObserver?: ResizeObserver;
   private destroyed = false;
 
   constructor() {
+    this.routeSubscription = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        let route = this.router.routerState.snapshot.root;
+        this.readingMode = false;
+        while (route) {
+          this.readingMode ||= route.data['layout'] === 'reading';
+          if (!route.firstChild) break;
+          route = route.firstChild;
+        }
+        if (!this.readingMode && this.router.parseUrl(event.urlAfterRedirects).root.children['primary'] === undefined) {
+          this.metadata.home();
+        }
+      }
+    });
     effect(() =>  {
+      this.resizeObserver?.disconnect();
+      this.resizeObserver = undefined;
       this.updateStickyState();
       if (typeof ResizeObserver !== 'undefined' && typeof this.identityContent() !=='undefined') {
         this.resizeObserver = new ResizeObserver(() => this.updateStickyState());
@@ -66,6 +87,7 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
     this.destroyed = true;
     this.resizeObserver?.disconnect();
     window.removeEventListener('resize', this.updateStickyState);

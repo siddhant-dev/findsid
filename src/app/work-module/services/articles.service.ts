@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, SecurityContext } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ArticlePage, Articles } from '../models/dev.model';
+import { ArticleDetail, ArticlePage, Articles } from '../models/dev.model';
 import { Card, cardTags, optionalText } from '../models/card.model';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { classifyWebLink } from '../../shared/links/link-policy';
+
+export class ArticleNotFoundError extends Error {}
 
 export function articleCard(source: Articles): Card {
   if (!source.title.trim()) throw new Error('Card title must be nonblank');
@@ -60,19 +63,54 @@ export class ArticlesService {
     );
   }
 
-  getArticleById(id: number): Observable<Articles> {
+  getArticleById(id: number): Observable<ArticleDetail> {
+    if (!Number.isSafeInteger(id) || id <= 0) return throwError(() => new ArticleNotFoundError('Invalid article ID'));
     return this.http.get<unknown>(`${this.devURL}/${id}`).pipe(
       map(data => {
-        const article = this.readArticle(data);
-        if (!data || typeof data !== 'object' || !('body_html' in data) ||
-          typeof data.body_html !== 'string') throw new Error('Article body must be HTML text');
+        if (!data || typeof data !== 'object') throw new Error('Article detail must be an object');
+        if (!('id' in data) || data.id !== id) throw new Error('Article identity must match the request');
+        const owner = Reflect.get(data, 'user');
+        if (!owner || typeof owner !== 'object' || Reflect.get(owner, 'username') !== this.userName) {
+          throw new ArticleNotFoundError('Article owner does not match');
+        }
+        const text = (field: string): string | undefined => {
+          const value = Reflect.get(data, field);
+          return typeof value === 'string' ? value : undefined;
+        };
+        const article = this.readArticle({
+          ...data, description: text('description'), readable_publish_date: text('readable_publish_date'),
+          social_image: text('social_image'),
+          tag_list: this.readDetailTags(data),
+        });
+        const raw = Reflect.get(data, 'body_html');
+        if (typeof raw !== 'string' || !raw.trim()) throw new Error('Article body must be nonblank HTML text');
+        const body = this.domSanitizer.sanitize(SecurityContext.HTML, raw) ?? '';
+        const parsed = document.createElement('template');
+        parsed.innerHTML = body;
+        if (!parsed.content.textContent?.trim() && !parsed.content.querySelector('img[src]')) {
+          throw new Error('Sanitized article body contains no usable content');
+        }
+        const time = Reflect.get(data, 'reading_time_minutes');
+        const timestamp = ['published_at', 'published_timestamp']
+          .map(field => Reflect.get(data, field))
+          .map(value => typeof value === 'string' && value.trim() ? Date.parse(value) : NaN).find(Number.isFinite);
         return {
-          ...article,
-          body_html: this.domSanitizer.bypassSecurityTrustHtml(data.body_html),
+          ...article, id, ownerUsername: 'siddev' as const, body_html: body,
+          published_date: timestamp === undefined ? '' : article.published_date,
+          cover_image: classifyWebLink(article.cover_image)?.href ?? '',
+          sourceUrl: classifyWebLink(Reflect.get(data, 'url'))?.href,
+          readingTimeMinutes: typeof time === 'number' && Number.isFinite(time) && time > 0 ? time : undefined,
         };
       }),
       catchError(this.handleError),
     );
+  }
+
+  private readDetailTags(data: object): readonly string[] {
+    const tags = Reflect.get(data, 'tags');
+    if (tags !== null && tags !== undefined) return cardTags(tags);
+    const tagList = Reflect.get(data, 'tag_list');
+    return cardTags(typeof tagList === 'string' ? tagList.split(',').map(tag => tag.trim()) : tagList);
   }
 
   private readArticle(data: unknown): Articles {

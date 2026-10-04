@@ -1,18 +1,13 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  ChangeDetectionStrategy,
+  Component, Input, OnDestroy, OnInit, AfterViewInit, ChangeDetectionStrategy,
+  ChangeDetectorRef, ViewChildren, QueryList,
 } from '@angular/core';
-import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
-import { ArchiveSource, archiveCard, Card } from '../../models/card.model';
+import { SkeletonComponent } from 'boneyard-js/angular';
+import { SkeletonResult, snapshotBones } from 'boneyard-js';
+import { archiveCard, Card } from '../../models/card.model';
 import { AppService } from '../../services/app.service';
-import { MetaTagService } from '../../../services/meta-tag.service';
 import { CardComponent } from '../card/card.component';
-import { LoaderComponent } from '../../loader/loader.component';
 
 @Component({
   selector: 'app-apps',
@@ -20,77 +15,73 @@ import { LoaderComponent } from '../../loader/loader.component';
   styleUrls: ['./apps.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
-  imports: [CardComponent, LoaderComponent],
+  imports: [CardComponent, SkeletonComponent],
 })
-export class AppsComponent implements OnInit, OnDestroy {
+export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() embedded = false;
-  constructor(
-    private appService: AppService,
-    private meta: Meta,
-    private metaTag: MetaTagService,
-  ) {}
-
-  apps: ArchiveSource[] = [];
   cards: Card[] = [];
-  error: string = '';
-  sub?: Subscription;
-  showSpinner: boolean = false;
+  state: 'loading' | 'ready' | 'empty' | 'error' | 'disposed' = 'loading';
+  readonly skeletons = Array.from({ length: 5 }, (_, i) => i);
+  bones?: SkeletonResult;
+  @ViewChildren(SkeletonComponent) private skeletonComponents!: QueryList<SkeletonComponent>;
+  private sub?: Subscription;
+  private skeletonSubscription?: Subscription;
+  private skeletonFrame = 0;
+  private active = false;
+  private readonly motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  reducedMotion = this.motion.matches;
+
+  constructor(private readonly service: AppService, private readonly detector: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    if (!this.embedded) {
-      this.meta.removeTag('name="description"');
-    }
-    this.sub = this.appService.getApps().subscribe({
-      next: (data: ArchiveSource[]) => {
-        this.apps = data;
+    this.motion.addEventListener('change', this.onMotionChange);
+    this.load();
+  }
+  retry(): void {
+    if (this.state === 'error') this.load();
+  }
+  private load(): void {
+    if (this.active || this.state === 'disposed') return;
+    this.active = true;
+    this.state = 'loading';
+    this.sub = this.service.getApps().subscribe({
+      next: data => {
         this.cards = data.map(archiveCard);
-        if (!this.embedded) {
-          this.addTags();
-        }
-        this.showSpinner = false;
+        this.active = false;
+        this.state = this.cards.length ? 'ready' : 'empty';
+        this.detector.markForCheck();
       },
-      error: (err: HttpErrorResponse) => {
-        this.error = err.toString();
-        this.showSpinner = false;
+      error: () => {
+        this.active = false;
+        this.state = 'error';
+        this.detector.markForCheck();
       },
     });
   }
-
-  ngOnDestroy() {
+  ngAfterViewInit(): void {
+    this.skeletonSubscription = this.skeletonComponents.changes.subscribe(() => this.captureSkeleton());
+    this.captureSkeleton();
+  }
+  private captureSkeleton(): void {
+    if (this.bones || this.skeletonFrame || !this.skeletonComponents.first) return;
+    this.skeletonFrame = requestAnimationFrame(() => {
+      this.skeletonFrame = 0;
+      const skeleton = this.skeletonComponents.first;
+      if (skeleton) {
+        this.bones = snapshotBones(skeleton.containerRef.nativeElement, 'vault-loading');
+        this.detector.markForCheck();
+      }
+    });
+  }
+  ngOnDestroy(): void {
+    this.state = 'disposed';
     this.sub?.unsubscribe();
-    if (!this.embedded && this.apps.length) {
-      this.apps.forEach(() => {
-        this.metaTag.removeMetaTags();
-      });
-    }
+    this.skeletonSubscription?.unsubscribe();
+    if (this.skeletonFrame) cancelAnimationFrame(this.skeletonFrame);
+    this.motion.removeEventListener('change', this.onMotionChange);
   }
-
-  addTags() {
-    this.apps.forEach((app) => {
-      this.meta.addTag({ name: 'description', content: app.description });
-      this.meta.addTag({ property: 'og:title', content: app.title });
-      this.meta.addTag({
-        property: 'og:description',
-        content: app.description,
-      });
-      this.meta.addTag({ property: 'og:image', content: app.cover_image });
-      this.meta.addTag({ property: 'og:url', content: window.location.href });
-      this.meta.addTag({ property: 'twitter:title', content: app.title });
-      this.meta.addTag({
-        property: 'twitter:description',
-        content: app.description,
-      });
-      this.meta.addTag({ property: 'twitter:image', content: app.cover_image });
-    });
-  }
-
-  private handleError(err: HttpErrorResponse) {
-    let errMsg = '';
-    if (err.error instanceof Error) {
-      errMsg = err.error.message;
-    } else {
-      errMsg = `Backend returned code ${err.status}`;
-    }
-    return errMsg;
-  }
+  private readonly onMotionChange = (): void => {
+    this.reducedMotion = this.motion.matches;
+    this.detector.markForCheck();
+  };
 }
