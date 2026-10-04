@@ -1,9 +1,16 @@
 import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Type } from '@angular/core';
 import { AppsComponent } from '../work-module/work/apps/apps.component';
-import { LazySectionId, SectionActivationCoordinator, SectionLoader } from './section-activation';
+import {
+  LazySectionId,
+  SectionActivationCoordinator,
+  SectionLoader,
+} from './section-activation';
 import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { HomeComponent } from './home.component';
@@ -21,25 +28,35 @@ describe('Home Experiences activation', () => {
 
   beforeEach(async () => {
     observed = [];
-    spyOn(window, 'IntersectionObserver').and.callFake(function(callback) {
+    spyOn(window, 'IntersectionObserver').and.callFake(function (callback) {
       intersect = callback;
       observer = {
         observe: (target: Element) => observed.push(target),
-        unobserve: () => undefined, disconnect: () => undefined,
-        takeRecords: () => [], root: null, rootMargin: '0px', scrollMargin: '0px', thresholds: [0],
+        unobserve: () => undefined,
+        disconnect: () => undefined,
+        takeRecords: () => [],
+        root: null,
+        rootMargin: '0px',
+        scrollMargin: '0px',
+        thresholds: [0],
       };
       return observer;
     });
-    spyOn(window, 'ResizeObserver').and.callFake(function(callback) {
+    spyOn(window, 'ResizeObserver').and.callFake(function (callback) {
       resized = callback;
-      resizeObserver = { observe: () => undefined, unobserve: () => undefined, disconnect: () => undefined };
+      resizeObserver = {
+        observe: () => undefined,
+        unobserve: () => undefined,
+        disconnect: () => undefined,
+      };
       return resizeObserver;
     });
     await TestBed.configureTestingModule({
       imports: [HomeComponent],
       providers: [
         provideRouter([{ path: '', component: HomeComponent }]),
-        provideHttpClient(), provideHttpClientTesting(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
     http = TestBed.inject(HttpTestingController);
@@ -56,17 +73,31 @@ describe('Home Experiences activation', () => {
 
   async function frames(count = 30): Promise<void> {
     for (let i = 0; i < count; i++) {
-      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
     }
     fixture.detectChanges();
   }
 
   function activate(): void {
-    const section = fixture.nativeElement.querySelector('#experience') as HTMLElement;
-    intersect([{
-      target: section, isIntersecting: true, boundingClientRect: new DOMRect(),
-      intersectionRect: new DOMRect(), rootBounds: null, time: 0, intersectionRatio: 1,
-    }], observer);
+    const section = fixture.nativeElement.querySelector(
+      '#experience',
+    ) as HTMLElement;
+    intersect(
+      [
+        {
+          target: section,
+          isIntersecting: true,
+          boundingClientRect: new DOMRect(),
+          intersectionRect: new DOMRect(),
+          rootBounds: null,
+          time: 0,
+          intersectionRatio: 1,
+        },
+      ],
+      observer,
+    );
   }
 
   it('keeps the heading permanent and defers all roles until viewport activation', async () => {
@@ -74,7 +105,7 @@ describe('Home Experiences activation', () => {
     expect(root.querySelectorAll('#experience-heading').length).toBe(1);
     expect(root.querySelector('app-experiences')).toBeNull();
     expect(root.textContent).not.toContain('Naviam');
-    expect(observed.map(element => element.id)).toContain('experience');
+    expect(observed.map((element) => element.id)).toContain('experience');
     activate();
     await frames();
     expect(root.querySelectorAll('#experience article').length).toBe(5);
@@ -92,7 +123,9 @@ describe('Home Experiences activation', () => {
     await TestBed.inject(SectionNavigationCoordinator).select('experience');
     await frames();
     expect(router.url).toBe('/#experience');
-    expect(fixture.nativeElement.querySelectorAll('#experience article').length).toBe(5);
+    expect(
+      fixture.nativeElement.querySelectorAll('#experience article').length,
+    ).toBe(5);
   });
 
   for (const [source, fontSize] of [
@@ -171,10 +204,17 @@ describe('Home Experiences activation', () => {
 
   it('preserves a later heading reading position when lazy Experiences increases height', async () => {
     const root: HTMLElement = fixture.nativeElement;
-    for (const [id, top] of [['about', -900], ['lab', -700], ['experience', -500],
-      ['articles', 80], ['vault', 900]] as const) {
-      spyOn(root.querySelector<HTMLElement>(`#${id}-heading`)!, 'getBoundingClientRect')
-        .and.returnValue(new DOMRect(0, top, 320, 24));
+    for (const [id, top] of [
+      ['about', -900],
+      ['lab', -700],
+      ['experience', -500],
+      ['articles', 80],
+      ['vault', 900],
+    ] as const) {
+      spyOn(
+        root.querySelector<HTMLElement>(`#${id}-heading`)!,
+        'getBoundingClientRect',
+      ).and.returnValue(new DOMRect(0, top, 320, 24));
     }
     window.dispatchEvent(new Event('scroll'));
     await frames(2);
@@ -182,17 +222,24 @@ describe('Home Experiences activation', () => {
     activate();
     await frames();
     const heading = root.querySelector<HTMLElement>('#articles-heading')!;
-    (heading.getBoundingClientRect as jasmine.Spy).and.returnValue(new DOMRect(0, 280, 320, 24));
+    (heading.getBoundingClientRect as jasmine.Spy).and.returnValue(
+      new DOMRect(0, 280, 320, 24),
+    );
     resized([], resizeObserver);
     await frames(2);
-    expect(scroll.calls.mostRecent()?.args[0]).toEqual(jasmine.objectContaining({
-      top: Math.max(0, window.scrollY + 200), behavior: 'instant',
-    }));
+    expect(scroll.calls.mostRecent()?.args[0]).toEqual(
+      jasmine.objectContaining({
+        top: Math.max(0, window.scrollY + 200),
+        behavior: 'instant',
+      }),
+    );
     expect(root.querySelectorAll('#experience article').length).toBe(5);
   });
 
   it('requests Articles only on activation and retains the mounted session across Home fragments', async () => {
-    http.expectNone(request => request.url.startsWith('https://dev.to/api/articles'));
+    http.expectNone((request) =>
+      request.url.startsWith('https://dev.to/api/articles'),
+    );
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelector('app-articles')).toBeNull();
     const navigation = TestBed.inject(SectionNavigationCoordinator);
@@ -200,9 +247,18 @@ describe('Home Experiences activation', () => {
     await frames();
     const mounted = root.querySelector('app-articles');
     expect(mounted).not.toBeNull();
-    http.expectOne('https://dev.to/api/articles?username=siddev&page=1&per_page=10').flush([{
-      id: 1, title: 'Owner article', user: { username: 'siddev' }, published_at: '2026-10-03T00:00:00Z',
-    }]);
+    http
+      .expectOne(
+        'https://dev.to/api/articles?username=siddev&page=1&per_page=10',
+      )
+      .flush([
+        {
+          id: 1,
+          title: 'Owner article',
+          user: { username: 'siddev' },
+          published_at: '2026-10-03T00:00:00Z',
+        },
+      ]);
     await frames(2);
     expect(root.querySelectorAll('#articles h2').length).toBe(1);
     expect(root.querySelectorAll('#articles app-card').length).toBe(1);
@@ -210,7 +266,9 @@ describe('Home Experiences activation', () => {
     await navigation.select('articles');
     await frames(2);
     expect(root.querySelector('app-articles')).toBe(mounted);
-    http.expectNone(request => request.url.startsWith('https://dev.to/api/articles'));
+    http.expectNone((request) =>
+      request.url.startsWith('https://dev.to/api/articles'),
+    );
     expect(TestBed.inject(Title).setTitle).not.toHaveBeenCalled();
     expect(TestBed.inject(Meta).updateTag).not.toHaveBeenCalled();
   });
@@ -222,20 +280,30 @@ describe('Home Experiences activation', () => {
     card.href = '/work/articles/1';
     card.textContent = 'New card';
     heading.parentElement!.appendChild(card);
-    spyOn(card, 'getBoundingClientRect').and.returnValue(new DOMRect(0, 300, 320, 24));
+    spyOn(card, 'getBoundingClientRect').and.returnValue(
+      new DOMRect(0, 300, 320, 24),
+    );
     const scroll = spyOn(window, 'scrollTo');
     const original = window.matchMedia('(prefers-reduced-motion: reduce)');
     spyOn(window, 'matchMedia').and.returnValue({
-      matches: true, media: original.media, onchange: null,
-      addListener: () => undefined, removeListener: () => undefined,
-      addEventListener: () => undefined, removeEventListener: () => undefined, dispatchEvent: () => true,
+      matches: true,
+      media: original.media,
+      onchange: null,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      dispatchEvent: () => true,
     });
     const navigation = TestBed.inject(SectionNavigationCoordinator);
     navigation.completeAppendIntent(navigation.beginAppendIntent(), card, true);
     expect(document.activeElement).toBe(card);
-    expect(scroll.calls.mostRecent().args[0]).toEqual(jasmine.objectContaining({
-      top: Math.max(0, window.scrollY + 204), behavior: 'instant',
-    }));
+    expect(scroll.calls.mostRecent().args[0]).toEqual(
+      jasmine.objectContaining({
+        top: Math.max(0, window.scrollY + 204),
+        behavior: 'instant',
+      }),
+    );
     await frames(2);
     expect(scroll.calls.count()).toBe(1);
     card.remove();
@@ -277,34 +345,45 @@ describe('Home Experiences activation', () => {
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelector('app-apps')).toBeNull();
     expect(root.querySelectorAll('#vault-heading').length).toBe(1);
-    http.expectNone(request => request.url.includes('data.json'));
+    http.expectNone((request) => request.url.includes('data.json'));
     await TestBed.inject(SectionNavigationCoordinator).select('vault');
     await frames();
     expect(root.querySelectorAll('#vault app-card').length).toBe(5);
     expect(root.querySelectorAll('#vault h2').length).toBe(1);
-    http.expectNone(request => request.url.includes('data.json'));
+    http.expectNone((request) => request.url.includes('data.json'));
     expect(TestBed.inject(Meta).updateTag).not.toHaveBeenCalled();
   });
 
   it('shows scoped Vault code failure and shares pending Retry without a late destroyed-owner mount', async () => {
-    const activation = Reflect.get(fixture.componentInstance, 'activation') as SectionActivationCoordinator<Type<unknown>>;
-    const loaders = Reflect.get(activation, 'loaders') as Partial<Record<LazySectionId, SectionLoader<Type<unknown>>>>;
+    const activation = Reflect.get(
+      fixture.componentInstance,
+      'activation',
+    ) as SectionActivationCoordinator<Type<unknown>>;
+    const loaders = Reflect.get(activation, 'loaders') as Partial<
+      Record<LazySectionId, SectionLoader<Type<unknown>>>
+    >;
     let resolve!: (value: Type<unknown>) => void;
-    const loader = jasmine.createSpy('vaultLoader').and.returnValues(
-      Promise.reject(new Error('Controlled chunk failure')),
-      new Promise<Type<unknown>>(done => resolve = done),
-    );
+    const loader = jasmine
+      .createSpy('vaultLoader')
+      .and.returnValues(
+        Promise.reject(new Error('Controlled chunk failure')),
+        new Promise<Type<unknown>>((done) => (resolve = done)),
+      );
     loaders.vault = loader;
     const root: HTMLElement = fixture.nativeElement;
     await TestBed.inject(SectionNavigationCoordinator).select('vault');
     await frames(3);
-    expect(root.querySelector('#vault [role="alert"]')?.textContent).toContain("This section couldn't be loaded.");
+    expect(root.querySelector('#vault [role="alert"]')?.textContent).toContain(
+      "This section couldn't be loaded.",
+    );
     expect(root.querySelector('#about app-about')).not.toBeNull();
     fixture.componentInstance.retry('vault');
     fixture.componentInstance.retry('vault');
     await frames(2);
     expect(loader.calls.count()).toBe(2);
-    expect(root.querySelector('#vault [role="status"]')?.textContent).toContain('Loading Retro Vault');
+    expect(root.querySelector('#vault [role="status"]')?.textContent).toContain(
+      'Loading Retro Vault',
+    );
     fixture.destroy();
     resolve(AppsComponent);
     await Promise.resolve();
@@ -327,7 +406,7 @@ describe('Home Experiences activation', () => {
     await frames(2);
     expect(scroll).not.toHaveBeenCalled();
     expect(root.querySelectorAll('#vault-heading').length).toBe(1);
-    http.expectNone(request => request.url.includes('data.json'));
+    http.expectNone((request) => request.url.includes('data.json'));
   });
 });
 
@@ -343,8 +422,15 @@ describe('Home Lab activation', () => {
     const http = TestBed.inject(HttpTestingController);
     const harness = await RouterTestingHarness.create();
     await harness.navigateByUrl('/#lab', HomeComponent);
-    for (let i = 0; i < 30 && !harness.routeNativeElement?.querySelector('app-interaction-lab'); i++) {
-      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (
+      let i = 0;
+      i < 30 &&
+      !harness.routeNativeElement?.querySelector('app-interaction-lab');
+      i++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
     }
     harness.detectChanges();
     const section = harness.routeNativeElement?.querySelector('#lab');
@@ -355,7 +441,6 @@ describe('Home Lab activation', () => {
     harness.fixture.destroy();
     http.verify({ ignoreCancelled: true });
   });
-
 });
 
 describe('Home Experiences direct fragment', () => {
@@ -363,19 +448,31 @@ describe('Home Experiences direct fragment', () => {
     await TestBed.configureTestingModule({
       providers: [
         provideRouter([{ path: '', component: HomeComponent }]),
-        provideHttpClient(), provideHttpClientTesting(),
+        provideHttpClient(),
+        provideHttpClientTesting(),
       ],
     }).compileComponents();
     const http = TestBed.inject(HttpTestingController);
     const harness = await RouterTestingHarness.create();
     await harness.navigateByUrl('/#experience', HomeComponent);
-    for (let i = 0; i < 30 && !harness.routeNativeElement?.querySelector('app-experiences'); i++) {
-      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (
+      let i = 0;
+      i < 30 && !harness.routeNativeElement?.querySelector('app-experiences');
+      i++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
     }
     harness.detectChanges();
     expect(TestBed.inject(Router).url).toBe('/#experience');
-    expect(harness.routeNativeElement?.querySelectorAll('#experience h2').length).toBe(1);
-    expect(harness.routeNativeElement?.querySelectorAll('#experience article').length).toBe(5);
+    expect(
+      harness.routeNativeElement?.querySelectorAll('#experience h2').length,
+    ).toBe(1);
+    expect(
+      harness.routeNativeElement?.querySelectorAll('#experience article')
+        .length,
+    ).toBe(5);
     harness.fixture.destroy();
     http.verify({ ignoreCancelled: true });
   });
