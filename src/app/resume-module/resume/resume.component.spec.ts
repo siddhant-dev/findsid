@@ -32,4 +32,15 @@ describe('ResumeComponent', () => {
     expect(artwork).not.toBeNull();
     expect(getComputedStyle(artwork!).fill).toBe('rgb(11, 25, 44)');
   });
+
+  it('applies actual-origin external navigation while preserving mail and download actions', () => {
+    const root: HTMLElement = fixture.nativeElement;
+    for (const anchor of root.querySelectorAll('a[href^="https://findsid.dev"]')) {
+      expect(anchor.getAttribute('target')).toBe('_blank');
+      expect(anchor.getAttribute('rel')).toContain('noopener');
+      expect(anchor.getAttribute('rel')).toContain('noreferrer');
+    }
+    expect(root.querySelector('a[href^="mailto:"]')?.getAttribute('target')).toBeNull();
+    expect(root.querySelector('a.blueprint-button')).not.toBeNull();
+  });
 });

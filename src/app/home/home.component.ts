@@ -82,6 +82,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   private activationObserver?: IntersectionObserver;
   private resizeObserver?: ResizeObserver;
   private activationSubscription?: Subscription;
+  private appendSubscription?: Subscription;
   private scrollFrame = 0;
   private correctionFrame = 0;
   private scrollEndTimer?: number;
@@ -105,6 +106,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.activationSubscription = this.navigation.registerHome((intent) =>
       this.handleNavigationIntent(intent),
     );
+    this.appendSubscription = this.navigation.registerAppendHandler((target, keyboard) =>
+      this.handleAppendNavigation(target, keyboard),
+    );
     this.setupActivationObserver();
     this.setupResizeObserver();
     window.addEventListener('scroll', this.onScroll, { passive: true });
@@ -121,6 +125,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed = true;
     this.activationSubscription?.unsubscribe();
+    this.appendSubscription?.unsubscribe();
     this.activationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.activation.destroy();
@@ -260,10 +265,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   }
 
   private handleNavigationIntent(intent: NavigationIntent): void {
+    const generation = ++this.userIntentGeneration;
     this.requestedTarget = intent.id;
     if (intent.id === 'lab' || intent.id === 'experience' || intent.id === 'articles' || intent.id === 'vault') {
       this.activate(intent.id);
     }
+
     const target = this.element.nativeElement.querySelector<HTMLElement>(
       `#${intent.id}-heading`,
     );
@@ -271,7 +278,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       return;
     }
     requestAnimationFrame(() => {
-      if (this.destroyed || this.requestedTarget !== intent.id) {
+      if (this.destroyed || this.requestedTarget !== intent.id || generation !== this.userIntentGeneration) {
         return;
       }
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -291,6 +298,35 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         this.finishIntent(intent.id);
       }
     });
+  }
+
+  private handleAppendNavigation(target: HTMLElement, keyboard: boolean): void {
+    if (this.destroyed || !this.element.nativeElement.contains(target)) return;
+    this.userIntentGeneration++;
+    if (this.correctionFrame) {
+      cancelAnimationFrame(this.correctionFrame);
+      this.correctionFrame = 0;
+    }
+    if (this.scrollEndTimer !== undefined) window.clearTimeout(this.scrollEndTimer);
+    if (this.requestedTarget) this.navigation.finishIntent(this.requestedTarget);
+    this.requestedTarget = 'articles';
+    if (keyboard) {
+      if (target.tagName !== 'A') {
+        target.setAttribute('tabindex', '-1');
+        target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+      }
+      target.focus({ preventScroll: true });
+    }
+    const behavior: ScrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'instant' : 'smooth';
+    window.scrollTo({
+      top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - 96), behavior,
+    });
+    if (behavior === 'instant') {
+      this.finishIntent('articles');
+    } else {
+      this.scrollEndTimer = window.setTimeout(() => this.finishIntent('articles'), 1200);
+    }
   }
 
   private updateActiveSection(): void {
@@ -376,6 +412,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   };
 
   private readonly onUserIntent = (): void => {
+    this.navigation.cancelAppendIntent();
     this.userIntentGeneration += 1;
     if (this.requestedTarget) {
       const requested = this.requestedTarget;
@@ -386,6 +423,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   };
 
   private readonly onKeyIntent = (event: KeyboardEvent): void => {
+    this.navigation.cancelAppendIntent();
     if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) {
       this.onUserIntent();
     }

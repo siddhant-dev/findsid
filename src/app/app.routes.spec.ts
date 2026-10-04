@@ -47,7 +47,7 @@ describe('application routes', () => {
     await harness.fixture.whenStable();
     harness.detectChanges();
     expect(harness.routeNativeElement?.querySelector('#articles app-articles')).not.toBeNull();
-    http.expectOne('https://dev.to/api/articles?username=siddev');
+    http.expectOne('https://dev.to/api/articles?username=siddev&page=1&per_page=10').flush([]);
   }
 
   async function settleVault(home: HomeComponent): Promise<void> {

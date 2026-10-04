@@ -2,7 +2,7 @@
   <div class="container">
     <img role="presentation" [src]="article.cover_image" alt="banner" height="500" width="1000" loading="lazy">
     <h1>{{article.title}}</h1>
-    <div tabindex="0" class="full-article" [innerHtml]="article.body_html"></div>
+    <div appExternalLinks tabindex="0" class="full-article" [innerHtml]="article.body_html"></div>
   </div>
 }
 

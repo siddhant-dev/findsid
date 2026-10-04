@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
-import { Card, CardClass } from '../../models/card.model';
+import { ArchiveSource, archiveCard, Card } from '../../models/card.model';
 import { AppService } from '../../services/app.service';
 import { MetaTagService } from '../../../services/meta-tag.service';
 import { CardComponent } from '../card/card.component';
@@ -30,7 +30,8 @@ export class AppsComponent implements OnInit, OnDestroy {
     private metaTag: MetaTagService,
   ) {}
 
-  apps: Card[] = [];
+  apps: ArchiveSource[] = [];
+  cards: Card[] = [];
   error: string = '';
   sub?: Subscription;
   showSpinner: boolean = false;
@@ -40,8 +41,9 @@ export class AppsComponent implements OnInit, OnDestroy {
       this.meta.removeTag('name="description"');
     }
     this.sub = this.appService.getApps().subscribe({
-      next: (data: Card[]) => {
+      next: (data: ArchiveSource[]) => {
         this.apps = data;
+        this.cards = data.map(archiveCard);
         if (!this.embedded) {
           this.addTags();
         }

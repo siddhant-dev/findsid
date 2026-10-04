@@ -1,14 +1,24 @@
 import { SafeHtml } from "@angular/platform-browser";
 
 export interface Articles {
-    id: number;
+    id?: number;
     title: string;
     description: string;
     published_date: string;
     cover_image: string;
-    tag: string;
-    typeOf: string;
+    tags: readonly string[];
+    typeOf: 'article';
     body_html?: SafeHtml;
+}
+
+export interface ListingArticle {
+    source: Articles;
+    publicationInstant?: number;
+}
+
+export interface ArticlePage {
+    rawCount: number;
+    records: readonly ListingArticle[];
 }
 
 export class ArticlesClass {

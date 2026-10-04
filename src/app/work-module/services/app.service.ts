@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Card } from '../models/card.model';
+import { ArchiveSource } from '../models/card.model';
 import apps from '../../../assets/data.json';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppService {
-  getApps(): Observable<Card[]> {
+  getApps(): Observable<ArchiveSource[]> {
     return of(apps);
   }
 }

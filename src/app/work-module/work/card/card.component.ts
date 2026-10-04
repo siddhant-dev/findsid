@@ -1,12 +1,10 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  ChangeDetectionStrategy,
-} from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Card } from '../../models/card.model';
-import { FeatherIconsModule } from '../../../feather-icons/feather-icons.module';
+import { classifyWebLink, LinkDestination } from '../../../shared/links/link-policy';
+
+let nextCardId = 0;
 
 @Component({
   selector: 'app-card',
@@ -14,20 +12,22 @@ import { FeatherIconsModule } from '../../../feather-icons/feather-icons.module'
   styleUrls: ['./card.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
-  imports: [FeatherIconsModule],
+  imports: [NgTemplateOutlet, RouterLink],
 })
-export class CardComponent implements OnInit {
-  @Input() card_data!: Card;
+export class CardComponent implements OnChanges {
+  @Input({ required: true }) card_data!: Card;
+  readonly titleId = `blueprint-card-title-${++nextCardId}`;
+  destination: LinkDestination | null = null;
+  internalRoute?: string;
 
-  constructor(private route: Router) {}
-
-  ngOnInit(): void {}
-
-  navigate() {
-    if (this.card_data.typeOf === 'article') {
-      this.route.navigateByUrl('work/articles/' + this.card_data.id);
-    } else if (this.card_data.typeOf === 'app') {
-      window.open(this.card_data.url, '_blank');
+  ngOnChanges(): void {
+    if (!this.card_data.title.trim()) throw new Error('Card title must be nonblank');
+    this.destination = classifyWebLink(this.card_data.destination);
+    if (this.destination && !this.destination.external) {
+      const url = new URL(this.destination.href);
+      this.internalRoute = url.pathname + url.search + url.hash;
+    } else {
+      this.internalRoute = undefined;
     }
   }
 }

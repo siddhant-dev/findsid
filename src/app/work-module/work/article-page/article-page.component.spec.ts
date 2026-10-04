@@ -55,4 +55,24 @@ describe('ArticlePageComponent', () => {
     expect(article.textContent).toContain('Article content remains readable.');
     expect(getComputedStyle(code).overflowX).toBe('auto');
   });
+
+  it('annotates replaced article HTML without affecting detail images and native internal links', async () => {
+    const root: HTMLElement = fixture.nativeElement;
+    for (const host of ['external.example', 'replacement.example']) {
+      component.article = {
+        ...component.article, body_html: `<p><a href="https://${host}">External</a>` +
+          '<a href="/#about">Internal</a><a href="mailto:hi@example.com">Mail</a></p>',
+      };
+      fixture.changeDetectorRef.markForCheck();
+      fixture.detectChanges();
+      await new Promise<void>(resolve => setTimeout(resolve, 0));
+      const external = root.querySelector<HTMLAnchorElement>('.full-article a')!;
+      expect(external.target).toBe('_blank');
+      expect(external.rel).toContain('noopener');
+      expect(external.rel).toContain('noreferrer');
+      expect(root.querySelector('.full-article a:nth-child(2)')?.getAttribute('target')).toBeNull();
+      expect(root.querySelector('img')).not.toBeNull();
+    }
+    fixture.destroy();
+  });
 });

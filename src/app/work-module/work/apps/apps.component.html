@@ -8,7 +8,7 @@
     [attr.aria-labelledby]="embedded ? 'vault-heading' : 'tab-apps'"
     tabindex="0"
   >
-    @for (data of apps; track data) {
+    @for (data of cards; track data) {
       <app-card [card_data]=data></app-card>
     }
   </div>

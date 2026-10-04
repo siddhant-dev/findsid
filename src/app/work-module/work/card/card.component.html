@@ -1,26 +1,40 @@
-<div class="card">
-  <div class="banner" >
-    <img [src]="card_data.cover_image" role="presentation" alt="cover-image" height="172.5" width="345"
-      [attr.loading]="card_data.id ? 'eager':'lazy'">
-  </div>
-  <div class="card-body">
-    <section class="header">
-      <h6 class="content-title" tabindex="0">{{card_data.title}}</h6>
-      <span class="tag">#{{card_data.tag}}</span>
-    </section>
-    <p class="description description-text" tabindex="0">
-      {{card_data.description}}
-    </p>
-    <section class="footer">
-      <a class="blueprint-button" role="button" title="Open" href="javascript:void(0);" (click)="navigate()" tabindex="0">
-        Open @if (card_data.external) {
-        <i-feather name = "external-link"></i-feather>
+<ng-template #content>
+  @if (card_data.publishedDate) {
+    <p class="date metadata-text">{{ card_data.publishedDate }}</p>
+  }
+  <h3 [id]="titleId" class="content-title">{{ card_data.title }}</h3>
+  @if (card_data.description) {
+    <p class="description description-text">{{ card_data.description }}</p>
+  }
+  @if (card_data.tags.length) {
+    <ul class="tags">
+      @for (tag of card_data.tags; track $index) {
+        <li class="tag">{{ tag }}</li>
       }
+    </ul>
+  }
+  <span class="corner top-left" aria-hidden="true"></span>
+  <span class="corner bottom-right" aria-hidden="true"></span>
+</ng-template>
+
+@if (destination; as link) {
+  @if (link.external) {
+    <a class="card interactive" [href]="link.href" target="_blank" rel="noopener noreferrer"
+      [attr.aria-labelledby]="titleId" aria-description="Opens in a new tab">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
     </a>
-    <div class="pub" tabindex="0">
-      <span class="metadata-text">Published On</span>
-      <span class="metadata-text">{{card_data.published_date}}</span>
-    </div>
-  </section>
-</div>
-</div>
+  } @else if (card_data.kind === 'article') {
+    <a class="card interactive" [routerLink]="internalRoute" [attr.aria-labelledby]="titleId">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </a>
+  } @else {
+    <a class="card interactive" [href]="link.href" [attr.aria-labelledby]="titleId">
+      <ng-container [ngTemplateOutlet]="content"></ng-container>
+    </a>
+  }
+} @else {
+  <article class="card" [attr.aria-labelledby]="titleId">
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
+    <p class="archived metadata-text">Archived</p>
+  </article>
+}
