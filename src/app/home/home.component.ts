@@ -42,10 +42,15 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     LazySectionId,
     SectionActivationState<Type<unknown>>
   > = {
+    lab: { status: 'idle' },
     articles: { status: 'idle' },
     vault: { status: 'idle' },
   };
   private readonly activation = new SectionActivationCoordinator<Type<unknown>>({
+    lab: () =>
+      import('../interaction-lab/interaction-lab.component').then(
+        module => module.InteractionLabComponent,
+      ),
     articles: () =>
       import('../work-module/work/articles/articles.component').then(
         (module) => module.ArticlesComponent,
@@ -57,6 +62,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   });
 
   @ViewChildren('sectionBody') sectionBodies!: QueryList<ElementRef<HTMLElement>>;
+  @ViewChild('labHost', { read: ViewContainerRef })
+  private labHost?: ViewContainerRef;
   @ViewChild('articlesHost', { read: ViewContainerRef })
   private articlesHost?: ViewContainerRef;
   @ViewChild('vaultHost', { read: ViewContainerRef })
@@ -110,6 +117,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.activationObserver?.disconnect();
     this.resizeObserver?.disconnect();
     this.activation.destroy();
+    this.labHost?.clear();
     this.articlesHost?.clear();
     this.vaultHost?.clear();
     this.sectionBodies?.forEach(({ nativeElement }) =>
@@ -165,7 +173,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const state = this.activation.state(id);
         this.renderedStates[id] = state;
         if (state.status === 'ready' && !this.renderedComponents[id]) {
-          const host = id === 'articles' ? this.articlesHost : this.vaultHost;
+          const host = id === 'lab' ? this.labHost :
+            id === 'articles' ? this.articlesHost : this.vaultHost;
           if (host) {
             const component = host.createComponent(state.value);
             component.setInput('embedded', true);
@@ -184,7 +193,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       return;
     }
     this.recreateActivationObserver();
-    for (const id of ['articles', 'vault'] as const) {
+    for (const id of ['lab', 'articles', 'vault'] as const) {
       const section = this.sectionElement(id);
       if (section) {
         this.activationObserver?.observe(section);
@@ -214,7 +223,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       },
       { rootMargin, threshold: 0 },
     );
-    for (const id of ['articles', 'vault'] as const) {
+    for (const id of ['lab', 'articles', 'vault'] as const) {
       const section = this.sectionElement(id);
       if (section && this.state(id).status === 'idle') {
         this.activationObserver.observe(section);
@@ -243,7 +252,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   private handleNavigationIntent(intent: NavigationIntent): void {
     this.requestedTarget = intent.id;
-    if (intent.id === 'articles' || intent.id === 'vault') {
+    if (intent.id === 'lab' || intent.id === 'articles' || intent.id === 'vault') {
       this.activate(intent.id);
     }
     const target = this.element.nativeElement.querySelector<HTMLElement>(

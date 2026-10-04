@@ -1,0 +1,82 @@
+@use "../../../vars.scss" as *;
+
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.lab-demo {
+  padding: 16px;
+  border: 1px solid $border-active;
+  background: $surface-color;
+  min-width: 0;
+}
+
+.controls-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid $border-color;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: 100%;
+}
+
+input,
+select {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+  padding: 6px 12px;
+  border: 1px solid $border-color;
+  border-radius: 4px;
+  font: inherit;
+  color: $text-main;
+  background: $bg-secondary;
+}
+
+.record-viewport {
+  box-sizing: border-box;
+  height: 400px;
+  max-height: 60vh;
+  overflow: auto;
+  overflow-anchor: none;
+  width: 100%;
+  border-top: 1px solid $border-color;
+
+  &.idle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.record-row {
+  padding: 8px;
+  border-bottom: 1px solid $border-color;
+  overflow-wrap: anywhere;
+
+  p {
+    margin: 0;
+  }
+}
+
+.metric-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+
+  p {
+    margin: 0;
+    padding: 8px;
+    border: 1px dashed $border-color;
+  }
+}

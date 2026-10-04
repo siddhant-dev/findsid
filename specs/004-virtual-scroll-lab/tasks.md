@@ -5,57 +5,57 @@ are authoritative. Task generation only, no organization code reuse or execution
 
 ## Phase 1: Setup
 
-- [ ] T001 Verify001/002/012 runner/shell/fixed-style prerequisites using specs/004-virtual-scroll-lab/quickstart.md; preserve unrelated work and prohibit organization/@fingertip source/interfaces/tokens/data in every new file.
-- [ ] T002 Verify actual entrypoints/peers/licenses for candidate ngx-ui-scroll4.2.0,vscroll1.8.4,boneyard-js1.10.0 before package.json/package-lock.json changes; normal peer resolution only, incompatibility blocks/report rather than forced install/substitution.
-- [ ] T003 Establish runnable real-library smoke fixtures in src/app/interaction-lab/virtual-scroll/library-integration.spec.ts for Angular22 mount/window/reset/empty/dynamic rows and boneyard capture/resize/cleanup; package/setup failure is not behavioral red.
+- [X] T001 Verify001/002/012 runner/shell/fixed-style prerequisites using specs/004-virtual-scroll-lab/quickstart.md; preserve unrelated work and prohibit organization/@fingertip source/interfaces/tokens/data in every new file.
+- [X] T002 Verify actual entrypoints/peers/licenses for candidate ngx-ui-scroll4.2.0,vscroll1.8.4,boneyard-js1.10.0 before package.json/package-lock.json changes; normal peer resolution only, incompatibility blocks/report rather than forced install/substitution.
+- [X] T003 Establish runnable real-library smoke fixtures in src/app/interaction-lab/virtual-scroll/library-integration.spec.ts for Angular22 mount/window/reset/empty/dynamic rows and boneyard capture/resize/cleanup; package/setup failure is not behavioral red.
 
 ## Phase 2: Foundational
 
-- [ ] T004 Verify boneyard actual Angular entrypoint/fixed color=darkColor/reduced-motion solid/no-stagger/teardown in src/app/interaction-lab/virtual-scroll/library-integration.spec.ts; record reusable smoke evidence in specs/004-virtual-scroll-lab/quickstart.md for007/008/009 without requiring whole-demo completion.
-- [ ] T005 Create minimal runnable demo/service/measurement scaffolds in src/app/interaction-lab/virtual-scroll/ and generator test harness scripts/generate-lab-records.test.mjs without accepted records/query implementation; independent fixtures must be runnable before red.
+- [X] T004 Verify boneyard actual Angular entrypoint/fixed color=darkColor/reduced-motion solid/no-stagger/teardown in src/app/interaction-lab/virtual-scroll/library-integration.spec.ts; record reusable smoke evidence in specs/004-virtual-scroll-lab/quickstart.md for007/008/009 without requiring whole-demo completion.
+- [X] T005 Create minimal runnable demo/service/measurement scaffolds in src/app/interaction-lab/virtual-scroll/ and generator test harness scripts/generate-lab-records.test.mjs without accepted records/query implementation; independent fixtures must be runnable before red.
 
 ## Phase 3: US1 - Start and Explore a Large List (P1, MVP)
 
 **Independent test**: Explicit Start alone loads exactly100K validated records,
 real bounded scrolling reaches first/last ID in min(400px,60vh) region.
 
-- [ ] T006 [P] [US1] Add failing generator/count/uniqueness/schema/check-mode assertions in scripts/generate-lab-records.test.mjs for "exactly 100,000 records with IDs 1..100000 unique".
-- [ ] T007 [P] [US1] Add failing no-pre-Start-request/load/whole-dataset validation/negative-window-intersection/finite-boundary/virtual-DOM/400px-max60vh tests in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.spec.ts and mock-records.service.spec.ts plus code-only Lab activation/permanent-heading tests in src/app/home/home.component.spec.ts; include coupled provider/adapter-error distinction, keyboard/no-Tab-trap, fixed palette/static motion, cancellation and destroyed-response cases before first service/demo/window/loader edits.
-- [ ] T008 [US1] Record actual T006-T007 failures in specs/004-virtual-scroll-lab/quickstart.md before dataset/service/demo implementation.
-- [ ] T009 [US1] Implement original deterministic generator/check mode in scripts/generate-lab-records.mjs and src/assets/lab/records.json with id "positive safe integer", name/description "nonempty strings"; exactly100000 synthetic IDs1..100000, no eager JSON import.
-- [ ] T010 [US1] Define typed MockRecord in src/app/interaction-lab/virtual-scroll/mock-record.model.ts and fetch unknown JSON only on Start in mock-records.service.ts; reject entire wrong-count/schema/duplicate/missing-fields array, cache successful validated data for mounted session.
-- [ ] T011 [US1] Implement Lab/demo templates/components in src/app/interaction-lab/interaction-lab.component.{ts,html,scss} and virtual-scroll/virtual-scroll-demo.component.{ts,html,scss}: Start notice, fixed-palette/static-motion skeleton/status, wrapped ID/name/description, min(400px,60vh) labelled native scroll region, no duplicate lab heading; implement only coupled states/cleanup covered by T007-T008, leaving full Retry/measurement UX for US3.
-- [ ] T012 [US1] Connect verified typed ngx datasource finite bounds/zero-based windows in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.ts; negative requested indices return only true range intersections, serialize adapter resets, no fake [] error EOF.
-- [ ] T013 [US1] Register scoped Lab loader in src/app/home/home.component.ts and test code-only activation in src/app/home/home.component.spec.ts; never eagerly import libraries/asset, preserve permanent lab anchor.
-- [ ] T014 [US1] Verify actual full src/assets/lab/records.json first/last traversal and noncumulative record DOM growth with real-library tests; small fixtures alone do not satisfy100K requirement.
+- [X] T006 [P] [US1] Add failing generator/count/uniqueness/schema/check-mode assertions in scripts/generate-lab-records.test.mjs for "exactly 100,000 records with IDs 1..100000 unique".
+- [X] T007 [P] [US1] Add failing no-pre-Start-request/load/whole-dataset validation/negative-window-intersection/finite-boundary/virtual-DOM/400px-max60vh tests in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.spec.ts and mock-records.service.spec.ts plus code-only Lab activation/permanent-heading tests in src/app/home/home.component.spec.ts; include coupled provider/adapter-error distinction, keyboard/no-Tab-trap, fixed palette/static motion, cancellation and destroyed-response cases before first service/demo/window/loader edits.
+- [X] T008 [US1] Record actual T006-T007 failures in specs/004-virtual-scroll-lab/quickstart.md before dataset/service/demo implementation.
+- [X] T009 [US1] Implement original deterministic generator/check mode in scripts/generate-lab-records.mjs and src/assets/lab/records.json with id "positive safe integer", name/description "nonempty strings"; exactly100000 synthetic IDs1..100000, no eager JSON import.
+- [X] T010 [US1] Define typed MockRecord in src/app/interaction-lab/virtual-scroll/mock-record.model.ts and fetch unknown JSON only on Start in mock-records.service.ts; reject entire wrong-count/schema/duplicate/missing-fields array, cache successful validated data for mounted session.
+- [X] T011 [US1] Implement Lab/demo templates/components in src/app/interaction-lab/interaction-lab.component.{ts,html,scss} and virtual-scroll/virtual-scroll-demo.component.{ts,html,scss}: Start notice, fixed-palette/static-motion skeleton/status, wrapped ID/name/description, min(400px,60vh) labelled native scroll region, no duplicate lab heading; implement only coupled states/cleanup covered by T007-T008, leaving full Retry/measurement UX for US3.
+- [X] T012 [US1] Connect verified typed ngx datasource finite bounds/zero-based windows in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.ts; negative requested indices return only true range intersections, serialize adapter resets, no fake [] error EOF.
+- [X] T013 [US1] Register scoped Lab loader in src/app/home/home.component.ts and test code-only activation in src/app/home/home.component.spec.ts; never eagerly import libraries/asset, preserve permanent lab anchor.
+- [X] T014 [US1] Verify actual full src/assets/lab/records.json first/last traversal and noncumulative record DOM growth with real-library tests; small fixtures alone do not satisfy100K requirement.
 
 ## Phase 4: US2 - Search, Sort and Reset (P1)
 
 **Independent test**: Global matching/all four sort modes, deterministic ties,
 latest-only updates and cached Reset to top.
 
-- [ ] T015 [US2] Write and observe failures for global search/ID-name asc-desc/negative windows/ties/rapid superseded work/Reset in src/app/interaction-lab/virtual-scroll/mock-records.service.spec.ts before querying implementation.
-- [ ] T016 [US2] Implement immutable full-result query in src/app/interaction-lab/virtual-scroll/mock-records.service.ts: "trimmed search", "case-insensitive substring OR matching", ID numeric, normalized lexical code-point name order with ID ascending tie-break; query once then slice, no regex/per-window sorting.
-- [ ] T017 [US2] Add failing latest-selection adapter/scroll/control tests then wire controls/generation/top reset in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.{ts,html}; Reset empty/ID asc uses cache, no refetch; if measured stalls occur chunk work without claiming workers.
-- [ ] T018 [US2] Verify newest-only rows/status after shrink/grow/empty/reset/out-of-order adapter work in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.spec.ts; cached query failure retry differs from asset refetch.
+- [X] T015 [US2] Write and observe failures for global search/ID-name asc-desc/negative windows/ties/rapid superseded work/Reset in src/app/interaction-lab/virtual-scroll/mock-records.service.spec.ts before querying implementation.
+- [X] T016 [US2] Implement immutable full-result query in src/app/interaction-lab/virtual-scroll/mock-records.service.ts: "trimmed search", "case-insensitive substring OR matching", ID numeric, normalized lexical code-point name order with ID ascending tie-break; query once then slice, no regex/per-window sorting.
+- [X] T017 [US2] Add failing latest-selection adapter/scroll/control tests then wire controls/generation/top reset in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.{ts,html}; Reset empty/ID asc uses cache, no refetch; if measured stalls occur chunk work without claiming workers.
+- [X] T018 [US2] Verify newest-only rows/status after shrink/grow/empty/reset/out-of-order adapter work in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.spec.ts; cached query failure retry differs from asset refetch.
 
 ## Phase 5: US3 - Understand Honest Results and Failures (P2)
 
 **Independent test**: Measured current first-visible-row/actual DOM count, explicit
 states/retry, accessible static motion and complete cleanup.
 
-- [ ] T019 [P] [US3] Add failing controlled generation/clock/viewport/render-frame/count tests in src/app/interaction-lab/virtual-scroll/demo-measurement.spec.ts; exclude skeleton/old rows and nullable timing for empty/error.
-- [ ] T020 [P] [US3] Extend T007-T008 provider-error/keyboard/teardown/native-motion coverage in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.spec.ts with failing missing Retry/query-lifecycle/owner-outcome cases; rerun already-green coupled behaviors rather than requiring them to fail again.
-- [ ] T021 [US3] Record T019-T020 behavioral failures in specs/004-virtual-scroll-lab/quickstart.md before measurements/error/lifecycle changes.
-- [ ] T022 [US3] Implement scoped real first-connected-current-row viewport intersection after frame/performance.now timing and actual record-element count in src/app/interaction-lab/virtual-scroll/demo-measurement.ts; Start includes fetch, search/sort/reset don't invent network, scrolling doesn't restart operation time.
-- [ ] T023 [US3] Render distinct loading/ready/querying/empty/error/Retry and separate owner-reported40-60%/80% claim in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.html; no fake FPS/guaranteed counts/improvement, no timing for empty/failure.
-- [ ] T024 [US3] Implement request/query/adapter/frame/observer/skeleton disposal and stale-generation protection in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.ts and demo-measurement.ts; dispose failed directives, never broad catch-to-empty or pause-only cleanup.
-- [ ] T025 [US3] Validate labelled native scroll region/no row Tab stops/no focus trap, min400px/60vh,320px/200%zoom/fixed OS palette/static reduced-motion skeleton in specs/004-virtual-scroll-lab/quickstart.md and actual component/library fixtures.
+- [X] T019 [P] [US3] Add failing controlled generation/clock/viewport/render-frame/count tests in src/app/interaction-lab/virtual-scroll/demo-measurement.spec.ts; exclude skeleton/old rows and nullable timing for empty/error.
+- [X] T020 [P] [US3] Extend T007-T008 provider-error/keyboard/teardown/native-motion coverage in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.spec.ts with failing missing Retry/query-lifecycle/owner-outcome cases; rerun already-green coupled behaviors rather than requiring them to fail again.
+- [X] T021 [US3] Record T019-T020 behavioral failures in specs/004-virtual-scroll-lab/quickstart.md before measurements/error/lifecycle changes.
+- [X] T022 [US3] Implement scoped real first-connected-current-row viewport intersection after frame/performance.now timing and actual record-element count in src/app/interaction-lab/virtual-scroll/demo-measurement.ts; Start includes fetch, search/sort/reset don't invent network, scrolling doesn't restart operation time.
+- [X] T023 [US3] Render distinct loading/ready/querying/empty/error/Retry and separate owner-reported40-60%/80% claim in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.html; no fake FPS/guaranteed counts/improvement, no timing for empty/failure.
+- [X] T024 [US3] Implement request/query/adapter/frame/observer/skeleton disposal and stale-generation protection in src/app/interaction-lab/virtual-scroll/virtual-scroll-demo.component.ts and demo-measurement.ts; dispose failed directives, never broad catch-to-empty or pause-only cleanup.
+- [X] T025 [US3] Validate labelled native scroll region/no row Tab stops/no focus trap, min400px/60vh,320px/200%zoom/fixed OS palette/static reduced-motion skeleton in specs/004-virtual-scroll-lab/quickstart.md and actual component/library fixtures.
 
 ## Phase 6: Polish and Cross-Cutting
 
-- [ ] T026 Run generator --check/Node tests, query/component/real-library/Home suites from specs/004-virtual-scroll-lab/quickstart.md and verify src/assets/lab/records.json exact shape/count.
-- [ ] T027 Record actual device/red-green/compatibility/DOM/timing/teardown evidence in specs/004-virtual-scroll-lab/quickstart.md; audit src/app/interaction-lab/ and asset for prohibited organization reuse, no accessibility-demo/render-all/release expansion.
+- [X] T026 Run generator --check/Node tests, query/component/real-library/Home suites from specs/004-virtual-scroll-lab/quickstart.md and verify src/assets/lab/records.json exact shape/count.
+- [X] T027 Record actual device/red-green/compatibility/DOM/timing/teardown evidence in specs/004-virtual-scroll-lab/quickstart.md; audit src/app/interaction-lab/ and asset for prohibited organization reuse, no accessibility-demo/render-all/release expansion.
 
 ## Dependencies and Execution Order
 
