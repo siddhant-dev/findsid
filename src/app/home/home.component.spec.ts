@@ -113,6 +113,56 @@ describe('Home Experiences activation', () => {
     }));
     expect(root.querySelectorAll('#experience article').length).toBe(5);
   });
+
+  it('requests Articles only on activation and retains the mounted session across Home fragments', async () => {
+    http.expectNone(request => request.url.startsWith('https://dev.to/api/articles'));
+    const root: HTMLElement = fixture.nativeElement;
+    expect(root.querySelector('app-articles')).toBeNull();
+    const navigation = TestBed.inject(SectionNavigationCoordinator);
+    await navigation.select('articles');
+    await frames();
+    const mounted = root.querySelector('app-articles');
+    expect(mounted).not.toBeNull();
+    http.expectOne('https://dev.to/api/articles?username=siddev&page=1&per_page=10').flush([{
+      id: 1, title: 'Owner article', user: { username: 'siddev' }, published_at: '2026-10-03T00:00:00Z',
+    }]);
+    await frames(2);
+    expect(root.querySelectorAll('#articles h2').length).toBe(1);
+    expect(root.querySelectorAll('#articles app-card').length).toBe(1);
+    await navigation.select('about');
+    await navigation.select('articles');
+    await frames(2);
+    expect(root.querySelector('app-articles')).toBe(mounted);
+    http.expectNone(request => request.url.startsWith('https://dev.to/api/articles'));
+    expect(TestBed.inject(Title).setTitle).not.toHaveBeenCalled();
+    expect(TestBed.inject(Meta).updateTag).not.toHaveBeenCalled();
+  });
+
+  it('owns append focus/instant scroll and suppresses queued reading-position compensation', async () => {
+    const root: HTMLElement = fixture.nativeElement;
+    const heading = root.querySelector<HTMLElement>('#articles-heading')!;
+    const card = document.createElement('a');
+    card.href = '/work/articles/1';
+    card.textContent = 'New card';
+    heading.parentElement!.appendChild(card);
+    spyOn(card, 'getBoundingClientRect').and.returnValue(new DOMRect(0, 300, 320, 24));
+    const scroll = spyOn(window, 'scrollTo');
+    const original = window.matchMedia('(prefers-reduced-motion: reduce)');
+    spyOn(window, 'matchMedia').and.returnValue({
+      matches: true, media: original.media, onchange: null,
+      addListener: () => undefined, removeListener: () => undefined,
+      addEventListener: () => undefined, removeEventListener: () => undefined, dispatchEvent: () => true,
+    });
+    const navigation = TestBed.inject(SectionNavigationCoordinator);
+    navigation.completeAppendIntent(navigation.beginAppendIntent(), card, true);
+    expect(document.activeElement).toBe(card);
+    expect(scroll.calls.mostRecent().args[0]).toEqual(jasmine.objectContaining({
+      top: Math.max(0, window.scrollY + 204), behavior: 'instant',
+    }));
+    await frames(2);
+    expect(scroll.calls.count()).toBe(1);
+    card.remove();
+  });
 });
 
 describe('Home Lab activation', () => {

@@ -13,6 +13,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { FeatherIconsModule } from './feather-icons/feather-icons.module';
 import { SectionNavigationCoordinator } from './home/section-navigation';
 import { APP_VERSION } from './generated/app-version';
+import { ExternalLinksDirective } from './shared/links/external-links.directive';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ import { APP_VERSION } from './generated/app-version';
     RouterLink,
     RouterOutlet,
     FeatherIconsModule,
+    ExternalLinksDirective,
   ],
 })
 export class AppComponent implements OnDestroy {

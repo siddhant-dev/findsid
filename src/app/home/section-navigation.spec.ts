@@ -2,6 +2,9 @@ import {
   activeSectionFromPositions,
   shouldPushSectionHistory,
 } from './section-navigation';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
+import { SectionNavigationCoordinator } from './section-navigation';
 
 describe('section navigation rules', () => {
   it('selects the last ordered heading at the 96px reading line', () => {
@@ -36,5 +39,28 @@ describe('section navigation rules', () => {
   it('pushes changed section selections but not repeats', () => {
     expect(shouldPushSectionHistory('about', 'articles')).toBeTrue();
     expect(shouldPushSectionHistory('articles', 'articles')).toBeFalse();
+  });
+
+  it('arbitrates append movement without history and invalidates interrupted/late intents', () => {
+    TestBed.configureTestingModule({ providers: [provideRouter([])] });
+    const coordinator = TestBed.inject(SectionNavigationCoordinator);
+    const router = TestBed.inject(Router);
+    const navigate = spyOn(router, 'navigateByUrl');
+    const handler = jasmine.createSpy('movement');
+    const registration = coordinator.registerAppendHandler(handler);
+    const target = document.createElement('a');
+    const cancelled = coordinator.beginAppendIntent();
+    coordinator.cancelAppendIntent();
+    coordinator.completeAppendIntent(cancelled, target, true);
+    expect(handler).not.toHaveBeenCalled();
+    const accepted = coordinator.beginAppendIntent();
+    coordinator.completeAppendIntent(accepted, target, true);
+    expect(handler).toHaveBeenCalledOnceWith(target, true);
+    coordinator.completeAppendIntent(accepted, target, true);
+    expect(handler.calls.count()).toBe(1);
+    expect(navigate).not.toHaveBeenCalled();
+    registration.unsubscribe();
+    coordinator.completeAppendIntent(coordinator.beginAppendIntent(), target, false);
+    expect(handler.calls.count()).toBe(1);
   });
 });

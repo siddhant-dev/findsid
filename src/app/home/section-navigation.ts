@@ -30,10 +30,29 @@ export class SectionNavigationCoordinator implements OnDestroy {
   private currentTrigger: 'imperative' | 'popstate' | 'hashchange' | undefined;
   private hasNavigated = false;
   private requestedSection: string | null = null;
+  private appendHandler?: (target: HTMLElement, keyboard: boolean) => void;
+  private appendGeneration = 0;
+  registerAppendHandler(handler: (target: HTMLElement, keyboard: boolean) => void): Subscription {
+    this.appendHandler = handler;
+    return new Subscription(() => {
+      if (this.appendHandler === handler) {
+        this.appendHandler = undefined;
+        this.cancelAppendIntent();
+      }
+    });
+  }
+  beginAppendIntent(): number { return ++this.appendGeneration; }
+  cancelAppendIntent(): void { this.appendGeneration++; }
+  completeAppendIntent(token: number, target: HTMLElement, keyboard: boolean): void {
+    if (token !== this.appendGeneration) return;
+    this.cancelAppendIntent();
+    this.appendHandler?.(target, keyboard);
+  }
 
   constructor(private readonly router: Router) {
     this.subscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
+        this.cancelAppendIntent();
         this.currentTrigger = event.navigationTrigger;
       } else if (event instanceof NavigationEnd) {
         this.handleNavigationEnd(event.urlAfterRedirects);
@@ -45,6 +64,7 @@ export class SectionNavigationCoordinator implements OnDestroy {
     if (!SECTION_IDS.includes(id)) {
       return;
     }
+    this.cancelAppendIntent();
     const current = this.router.parseUrl(this.router.url);
     const primary = current.root.children['primary'];
     const onHome = !primary || primary.segments.length === 0;
@@ -90,6 +110,8 @@ export class SectionNavigationCoordinator implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.cancelAppendIntent();
+    this.appendHandler = undefined;
     this.subscription.unsubscribe();
     this.intentSubject.complete();
     this.activeSubject.complete();

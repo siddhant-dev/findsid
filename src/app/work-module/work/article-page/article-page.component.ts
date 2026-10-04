@@ -11,6 +11,7 @@ import { Articles } from '../../models/dev.model';
 import { ArticlesService } from '../../services/articles.service';
 import { MetaTagService } from '../../../services/meta-tag.service';
 import { LoaderComponent } from '../../loader/loader.component';
+import { ExternalLinksDirective } from '../../../shared/links/external-links.directive';
 
 @Component({
   selector: 'app-article-page',
@@ -18,7 +19,7 @@ import { LoaderComponent } from '../../loader/loader.component';
   styleUrls: ['./article-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
-  imports: [LoaderComponent],
+  imports: [LoaderComponent, ExternalLinksDirective],
 })
 export class ArticlePageComponent implements OnInit, OnDestroy {
   routeSub!: Subscription;

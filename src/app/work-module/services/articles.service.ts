@@ -1,62 +1,99 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Articles } from '../models/dev.model';
+import { HttpClient } from '@angular/common/http';
+import { ArticlePage, Articles } from '../models/dev.model';
+import { Card, cardTags, optionalText } from '../models/card.model';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 
-@Injectable({
-  providedIn: 'root'
-})
+export function articleCard(source: Articles): Card {
+  if (!source.title.trim()) throw new Error('Card title must be nonblank');
+  return {
+    id: source.id, kind: 'article', title: source.title,
+    description: optionalText(source.description, 'Description'),
+    publishedDate: optionalText(source.published_date, 'Publication date'),
+    tags: cardTags(source.tags),
+    destination: typeof source.id === 'number' && Number.isSafeInteger(source.id) && source.id > 0
+      ? `/work/articles/${source.id}` : undefined,
+  };
+}
+
+@Injectable({ providedIn: 'root' })
 export class ArticlesService {
+  readonly devURL = 'https://dev.to/api/articles';
+  readonly userName = 'siddev';
 
-  devURL: string = 'https://dev.to/api/articles';
-  userName: string = 'siddev';
+  constructor(private http: HttpClient, private domSanitizer: DomSanitizer) {}
 
-  constructor(private http: HttpClient, private domSanitizer: DomSanitizer) { }
-
-  getAllArticles(): Observable<Articles[]> {
-    return this.http.get<Articles[]>(`${this.devURL}?username=${this.userName}`).pipe(map((data: any) => {
-      return data.map((article: any) => {
-        return {
-          id: article.id,
-          title: article.title,
-          typeOf: 'article',
-          description: article.description,
-          published_date: article.readable_publish_date,
-          cover_image: article.social_image,
-          tag: article.tag_list[0]
+  getPage(page: number): Observable<ArticlePage> {
+    if (!Number.isSafeInteger(page) || page < 1) {
+      throw new Error('Article page must be a positive safe integer');
+    }
+    return this.http.get<unknown>(
+      `${this.devURL}?username=${this.userName}&page=${page}&per_page=10`,
+    ).pipe(
+      map(data => {
+        if (!Array.isArray(data)) throw new Error('Article feed must be an array');
+        const records: ArticlePage['records'][number][] = [];
+        for (const value of data) {
+          try {
+            if (!value || typeof value !== 'object' || !('user' in value) ||
+              !value.user || typeof value.user !== 'object' || !('username' in value.user) ||
+              value.user.username !== this.userName) {
+              throw new Error('Article owner must be siddev');
+            }
+            const source = this.readArticle(value);
+            const publicationInstant = ['published_at', 'published_timestamp']
+              .map(field => Reflect.get(value, field))
+              .map(timestamp => typeof timestamp === 'string' && timestamp.trim() ? Date.parse(timestamp) : NaN)
+              .find(Number.isFinite);
+            if (publicationInstant === undefined) source.published_date = '';
+            records.push({ source, publicationInstant });
+          } catch (error) {
+            const id = value && typeof value === 'object' ? Reflect.get(value, 'id') : undefined;
+            console.warn('Article record rejected:', error instanceof Error ? error.message : 'Invalid record',
+              typeof id === 'number' && Number.isSafeInteger(id) && id > 0 ? `ID ${id}` : 'No valid ID');
+          }
         }
-      })
-    }),catchError(this.handleError));
+        return { rawCount: data.length, records };
+      }),
+      catchError(this.handleError),
+    );
   }
 
   getArticleById(id: number): Observable<Articles> {
-    return this.http.get<Articles>(`${this.devURL}/${id}`).pipe(map((data: any) => {
-      return {
-        id: data.id,
-        title: data.title,
-        description: data.description,
-        typeOf: 'article',
-        published_date: data.readable_publish_date,
-        cover_image: data.social_image,
-        tag: data.tag_list[0],
-        body_html: this.domSanitizer.bypassSecurityTrustHtml( data.body_html.toString() )
-      }
-    }),catchError(this.handleError));
+    return this.http.get<unknown>(`${this.devURL}/${id}`).pipe(
+      map(data => {
+        const article = this.readArticle(data);
+        if (!data || typeof data !== 'object' || !('body_html' in data) ||
+          typeof data.body_html !== 'string') throw new Error('Article body must be HTML text');
+        return {
+          ...article,
+          body_html: this.domSanitizer.bypassSecurityTrustHtml(data.body_html),
+        };
+      }),
+      catchError(this.handleError),
+    );
   }
 
-  private handleError(err: HttpErrorResponse): Observable<any> {
-    let errMsg = '';
-    if (err.error instanceof Error) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.log('An error occurred:', err.error.message);
-      errMsg = err.error.message;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.log(`Backend returned code ${err.status}`);
-      errMsg = err.error.status;
+  private readArticle(data: unknown): Articles {
+    if (!data || typeof data !== 'object' || !('title' in data) ||
+      typeof data.title !== 'string' || !data.title.trim()) {
+      throw new Error('Article title must be nonblank text');
     }
-    return throwError(()=>errMsg);
+    const field = (name: string): unknown => name in data ? Reflect.get(data, name) : undefined;
+    const id = field('id');
+    return {
+      id: typeof id === 'number' && Number.isSafeInteger(id) && id > 0 ? id : undefined,
+      title: data.title, typeOf: 'article',
+      description: optionalText(field('description'), 'Description') ?? '',
+      published_date: optionalText(field('readable_publish_date'), 'Publication date') ?? '',
+      cover_image: optionalText(field('social_image'), 'Detail image') ?? '',
+      tags: cardTags(field('tag_list')),
+    };
+  }
+
+  private handleError(error: unknown): Observable<never> {
+    console.error('Article request failed:', error);
+    return throwError(() => error);
   }
 }

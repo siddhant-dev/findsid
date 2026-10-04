@@ -87,3 +87,29 @@ Five static blueprint cards preserve the approved roles, dates, locations, 18 ac
 paragraphs and tags. The component and local role data load together near the viewport
 or on `/#experience` navigation, without a separate data request. Cards wrap naturally,
 have no links or expansion controls, and disable hover transitions under reduced motion.
+
+## Article and Retro Vault cards
+
+Shared blueprint cards show complete text, optional dates and all available tags without
+cover images or truncation. Valid destinations use one title-named card-wide native link;
+invalid or missing destinations remain static **Archived** cards. Article detail routes
+and their cover images/metadata are preserved. External web links open in a new tab with
+`noopener noreferrer`, including scoped annotation of replaced article-body links.
+Same-origin links, mail actions and downloads retain their native behavior. Card/detail
+code stays deferred with its consumers; the shell's link policy does not import them.
+
+## Articles listing
+
+Articles are requested only when Home activates the section. The public `siddev` feed
+is enumerated in ten-record source pages, revealing ten usable unique cards per batch
+with one usable lookahead for **View more**. Dated cards appear newest first; undated
+cards are deferred until source exhaustion. Rejected records are diagnosed without
+showing payloads or visitor warnings, and full rejected/duplicate pages do not stop paging.
+
+Ten inert boneyard skeletons cover initial loading. Errors remain distinct from a
+genuinely empty source; **Retry loading more** resumes the failed page without replacing
+cards or restarting successful pages. The available-width grid uses 17.5rem minimum
+tracks, 1.5rem gaps and at most three columns. Home owns append scrolling and keyboard
+focus, respects reduced motion and cancels stale movement after user interruption.
+Departure cancels requests/render work while exposing an inert committed checkpoint;
+feature 009 owns its later in-memory detail-return restoration.

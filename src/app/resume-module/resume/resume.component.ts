@@ -8,6 +8,7 @@ import { Meta } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { FeatherIconsModule } from '../../feather-icons/feather-icons.module';
 import { MetaTagService } from '../../services/meta-tag.service';
+import { ExternalLinksDirective } from '../../shared/links/external-links.directive';
 
 @Component({
   selector: 'app-resume',
@@ -15,7 +16,7 @@ import { MetaTagService } from '../../services/meta-tag.service';
   styleUrls: ['./resume.component.scss'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
-  imports: [FeatherIconsModule],
+  imports: [FeatherIconsModule, ExternalLinksDirective],
 })
 export class ResumeComponent implements OnInit, OnDestroy {
   url = environment.resumeURL;
