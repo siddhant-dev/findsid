@@ -178,7 +178,10 @@ test('the npm test command runs semantic policy checks before the Angular suite'
   const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
   const commands = packageJson.scripts.test.split('&&').map((command) => command.trim());
 
-  assert.deepEqual(commands, ['node --test scripts/ci-policy.test.mjs', 'ng test']);
+  assert.deepEqual(commands, [
+    'node --test scripts/ci-policy.test.mjs scripts/generate-app-version.test.mjs',
+    'ng test',
+  ]);
 });
 
 test('the standalone dependency-review workflow has been removed', () => {

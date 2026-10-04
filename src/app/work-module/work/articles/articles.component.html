@@ -1,5 +1,13 @@
 @if (!showSpinner) {
-  <div class="grid-container" aria-labelledby="tab-article" id="articles" tabindex="0">
+  @if (articles.length === 0 && !error) {
+    <p class="empty-state">No articles are available right now.</p>
+  }
+  <div
+    class="grid-container"
+    [attr.aria-labelledby]="embedded ? 'articles-heading' : 'tab-article'"
+    [attr.id]="embedded ? null : 'articles'"
+    tabindex="0"
+  >
     @for (article of articles; track article) {
       <app-card [card_data]=article></app-card>
     }

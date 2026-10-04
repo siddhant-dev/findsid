@@ -7,10 +7,17 @@
   border: 1px solid $border-color;
   border-radius: 4px;
   background-color: $surface-color;
-  width: 21.5625rem;
+  width: min(21.5625rem, 100%);
+  min-width: 0;
 
   .banner {
+    min-width: 0;
+
     img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
       border-radius: 1rem;
     }
   }
@@ -28,6 +35,7 @@
 
     .content-title {
       word-wrap: break-word;
+      min-width: 0;
     }
   }
 

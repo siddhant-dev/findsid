@@ -23,4 +23,12 @@ describe('AboutComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('clears its typing interval when destroyed', () => {
+    const clearInterval = spyOn(window, 'clearInterval');
+
+    fixture.destroy();
+
+    expect(clearInterval).toHaveBeenCalledWith(0);
+  });
 });

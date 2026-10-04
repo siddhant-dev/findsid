@@ -1,0 +1,56 @@
+@use "../../vars.scss" as *;
+
+.home-stream {
+  min-width: 0;
+
+  > section {
+    min-width: 0;
+    margin-bottom: 96px;
+    scroll-margin-top: 96px;
+  }
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 0 0 2rem;
+  color: $accent;
+  font-family: $font-mono;
+  font-size: 1.25rem;
+  font-weight: 500;
+
+  &::after {
+    flex: 1;
+    height: 1px;
+    background: $border-color;
+    content: "";
+  }
+}
+
+.section-body {
+  min-width: 0;
+}
+
+.section-loading,
+.section-load-error {
+  margin: 0;
+  color: $text-muted;
+}
+
+.section-load-error {
+  @include surface-border;
+  padding: 1rem;
+  background: $bg-secondary;
+
+  p {
+    margin: 0 0 1rem;
+  }
+}
+
+@media (max-width: 1023px) {
+  .home-stream > section {
+    margin-bottom: 96px;
+    scroll-margin-top: 96px;
+  }
+}

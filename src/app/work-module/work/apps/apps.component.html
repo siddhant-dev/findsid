@@ -1,5 +1,13 @@
 @if (!showSpinner) {
-  <div class="grid-container" id="apps" aria-labelledby="tab-apps" tabindex="0">
+  @if (apps.length === 0 && !error) {
+    <p class="empty-state">No projects are available right now.</p>
+  }
+  <div
+    class="grid-container"
+    [attr.id]="embedded ? null : 'apps'"
+    [attr.aria-labelledby]="embedded ? 'vault-heading' : 'tab-apps'"
+    tabindex="0"
+  >
     @for (data of apps; track data) {
       <app-card [card_data]=data></app-card>
     }

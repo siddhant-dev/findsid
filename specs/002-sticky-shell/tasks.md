@@ -1,7 +1,8 @@
 # Tasks: Sticky Portfolio Shell
 
 **Input**: All design artifacts in `specs/002-sticky-shell/`, especially amended
-contracts/shell-contract.md. Task generation only approved; no implementation now.
+contracts/shell-contract.md. Implementation authorized; incomplete evidence and
+prerequisite tasks remain unchecked.
 **Tests**: Mandatory red-green; real browser geometry/history supplement deterministic
 tests. Local IDs; [P] means independent file work after prerequisite gate.
 
@@ -23,11 +24,11 @@ sticky/stacked layout and independently activated deferred sections.
 - [ ] T005 [P] [US1] Add ordered-section/single-heading/embedding/metadata/eager-About tests in src/app/home/home.component.spec.ts, including controlled late-layout changes, offscreen sentinels outside20rem and retained owner-only successful/loading/empty/failure/malformed/rate-limit fixtures before embedding changes.
 - [ ] T006 [P] [US1] Add real root layout/canvas/320px/1023px/1024px/short-window/200% zoom/blocked-font assertions in src/app/app.component.spec.ts.
 - [ ] T007 [US1] Observe T004-T006 intended assertion failures and record evidence in specs/002-sticky-shell/quickstart.md before shell/activation implementation.
-- [ ] T008 [US1] Build standalone ordered Home composition in src/app/home/home.component.{ts,html,scss}, retaining about/lab/experience/articles/vault headings/anchors immediately; eager About only, empty Lab/Experiences until004/005, existing Articles/Apps code deferred.
-- [ ] T009 [US1] Replace old menu/hamburger with reference root columns/outlet in src/app/app.component.{ts,html,scss}, retaining the single canvas implemented by001 T022-T025:1280px max,24px sides,48px gap,45:50 shrinkable tracks,>=1024px fit-aware sticky; exact remaining geometry from contracts/shell-contract.md.
-- [ ] T010 [US1] Implement Home-owned activation in src/app/home/section-activation.ts with scoped loaders, computed-root20rem margin/resize updates, immediate explicit/direct target activation, single pending load and generation guards; no eager barrels/prefetch or unapproved placeholder height.
-- [ ] T011 [US1] Render foundation code-loading/error status with retained anchor and "This section couldn't be loaded." plus section Retry in src/app/home/home.component.html; prove loader Retry without cache-busting/global reload and prevent duplicate/late mounts.
-- [ ] T012 [US1] Fix only embedded containment/duplicate IDs/dead tab labels/metadata in src/app/work-module/work/{articles,apps,card}/ and src/app/about/; add cleanup regression before bounded About interval repair, retain old child content/design.
+- [X] T008 [US1] Build standalone ordered Home composition in src/app/home/home.component.{ts,html,scss}, retaining about/lab/experience/articles/vault headings/anchors immediately; eager About only, empty Lab/Experiences until004/005, existing Articles/Apps code deferred.
+- [X] T009 [US1] Replace old menu/hamburger with reference root columns/outlet in src/app/app.component.{ts,html,scss}, retaining the single canvas implemented by001 T022-T025:1280px max,24px sides,48px gap,45:50 shrinkable tracks,>=1024px fit-aware sticky; exact remaining geometry from contracts/shell-contract.md.
+- [X] T010 [US1] Implement Home-owned activation in src/app/home/section-activation.ts with scoped loaders, computed-root20rem margin/resize updates, immediate explicit/direct target activation, single pending load and generation guards; no eager barrels/prefetch or unapproved placeholder height.
+- [X] T011 [US1] Render foundation code-loading/error status with retained anchor and "This section couldn't be loaded." plus section Retry in src/app/home/home.component.html; prove loader Retry without cache-busting/global reload and prevent duplicate/late mounts.
+- [X] T012 [US1] Fix only embedded containment/duplicate IDs/dead tab labels/metadata in src/app/work-module/work/{articles,apps,card}/ and src/app/about/; add cleanup regression before bounded About interval repair, retain old child content/design.
 - [ ] T013 [US1] Verify eager About versus legitimately in-range clustered headings in src/app/home/home.component.spec.ts; initially eligible lazy sections may load, but Lab code activation must never request records.json.
 
 ## Phase 4: US2 - Navigate Sections and History (P1)
@@ -38,9 +39,9 @@ layout adds zero entries; aliases preserve detail.
 - [ ] T014 [P] [US2] Add deterministic failing intent/active-order/96px reading-line/offset/interruption/teardown tests in src/app/home/section-navigation.spec.ts.
 - [ ] T015 [P] [US2] Add failing actual APP_ROUTES aliases/detail/direct-known/unknown-fragment and Back/Forward tests in src/app/app.routes.spec.ts and src/app/work-module/work.routes.spec.ts.
 - [ ] T016 [US2] Record intended T014-T015 failures in specs/002-sticky-shell/quickstart.md before navigation/route changes.
-- [ ] T017 [US2] Implement one shared coordinator with Home lifecycle in src/app/home/section-navigation.ts and read-only root state: initial render waiting, changed-only push, same-target scroll, passive no URL writes, instant history/reduced-motion restore and user-intent cancellation.
-- [ ] T018 [US2] Implement coalesced section-relative reading compensation and observer arbitration in src/app/home/section-navigation.ts; avoid competing router/browser scroll owners in src/main.ts and restore global settings on teardown.
-- [ ] T019 [US2] Configure exact full-match /work,/work/articles ->/#articles and /work/apps ->/#vault UrlTree aliases before broad Work loader in src/app/app.routes.ts; retain current detail/contact/resume/art until009/010/011 own refinements.
+- [X] T017 [US2] Implement one shared coordinator with Home lifecycle in src/app/home/section-navigation.ts and read-only root state: initial render waiting, changed-only push, same-target scroll, passive no URL writes, instant history/reduced-motion restore and user-intent cancellation.
+- [X] T018 [US2] Implement coalesced section-relative reading compensation and observer arbitration in src/app/home/section-navigation.ts; avoid competing router/browser scroll owners in src/main.ts and restore global settings on teardown.
+- [X] T019 [US2] Configure exact full-match /work,/work/articles ->/#articles and /work/apps ->/#vault UrlTree aliases before broad Work loader in src/app/app.routes.ts; retain current detail/contact/resume/art until009/010/011 own refinements.
 - [ ] T020 [US2] Wire native section anchors/aria-current/skip-content to coordinator in src/app/app.component.html and src/app/home/home.component.ts; test real popstate/scroll and delayed reading position via specs/002-sticky-shell/quickstart.md.
 
 ## Phase 5: US3 - Identify and Contact the Owner (P2)
@@ -48,18 +49,18 @@ layout adds zero entries; aliases preserve detail.
 **Independent test**: Exact identity, derived actual version and bottom-only Contact/
 five safe named social links.
 
-- [ ] T021 [P] [US3] Add failing deterministic generator validation/freshness tests with temporary manifests in scripts/generate-app-version.test.mjs; empty/malformed version must error, not fallback.
-- [ ] T022 [P] [US3] Add exact identity/summary/version/footer/order/accessibility tests in src/app/app.component.spec.ts against contracts/shell-contract.md.
+- [X] T021 [P] [US3] Add failing deterministic generator validation/freshness tests with temporary manifests in scripts/generate-app-version.test.mjs; empty/malformed version must error, not fallback.
+- [X] T022 [P] [US3] Add exact identity/summary/version/footer/order/accessibility tests in src/app/app.component.spec.ts against contracts/shell-contract.md.
 - [ ] T023 [US3] Record T021-T022 failures in specs/002-sticky-shell/quickstart.md before identity/version/action edits.
-- [ ] T024 [US3] Implement deterministic generator/check mode in scripts/generate-app-version.mjs, derive src/app/generated/app-version.ts and wire prestart/prebuild/pretest/prewatch in package.json; do not hand-edit derivative/bump version or bypass012 test-suite scripts.
-- [ ] T025 [US3] Render exact name/title/summary and v(actual version) in src/app/app.component.html; render Contact /contact then LinkedIn/Twitter/GitHub/CodePen/Dev.to exact safe icon-only profile links once at bottom, register necessary icons in src/app/feather-icons/feather-icons.module.ts.
+- [X] T024 [US3] Implement deterministic generator/check mode in scripts/generate-app-version.mjs, derive src/app/generated/app-version.ts and wire prestart/prebuild/pretest/prewatch in package.json; do not hand-edit derivative/bump version or bypass012 test-suite scripts.
+- [X] T025 [US3] Render exact name/title/summary and v(actual version) in src/app/app.component.html; render Contact /contact then LinkedIn/Twitter/GitHub/CodePen/Dev.to exact safe icon-only profile links once at bottom, register necessary icons in src/app/feather-icons/feather-icons.module.ts.
 - [ ] T026 [US3] Validate keyboard/native safe links, no sidebar duplicates, current Contact route and generator --check in src/app/app.component.spec.ts and specs/002-sticky-shell/quickstart.md.
 
 ## Phase 6: Polish and Cross-Cutting
 
-- [ ] T027 Run combined root/Home/routes/version suite and native matrix from specs/002-sticky-shell/quickstart.md; full suite after targeted coverage, controlled requests only.
+- [X] T027 Run combined root/Home/routes/version suite and native matrix from specs/002-sticky-shell/quickstart.md; full suite after targeted coverage, controlled requests only.
 - [ ] T028 Inspect actual initial network/chunk isolation through permitted main validation for src/app/home/home.component.ts and src/app/home/section-activation.ts; record measurements without fabricated bundle savings or arbitrary loading delay.
-- [ ] T029 Record shell red/green/teardown/native evidence in specs/002-sticky-shell/quickstart.md; preserve interfaces for009 reading mode/010 routed-modal host/011 retirement, don't implement those features here.
+- [X] T029 Record shell red/green/teardown/native evidence in specs/002-sticky-shell/quickstart.md; preserve interfaces for009 reading mode/010 routed-modal host/011 retirement, don't implement those features here.
 
 ## Dependencies and Execution Order
 

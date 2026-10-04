@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   Component,
+  Input,
   OnDestroy,
   OnInit,
   ChangeDetectionStrategy,
@@ -22,6 +23,7 @@ import { LoaderComponent } from '../../loader/loader.component';
   imports: [CardComponent, LoaderComponent],
 })
 export class AppsComponent implements OnInit, OnDestroy {
+  @Input() embedded = false;
   constructor(
     private appService: AppService,
     private meta: Meta,
@@ -30,15 +32,19 @@ export class AppsComponent implements OnInit, OnDestroy {
 
   apps: Card[] = [];
   error: string = '';
-  sub!: Subscription;
-  showSpinner: boolean = true;
+  sub?: Subscription;
+  showSpinner: boolean = false;
 
   ngOnInit(): void {
-    this.meta.removeTag('name="description"');
+    if (!this.embedded) {
+      this.meta.removeTag('name="description"');
+    }
     this.sub = this.appService.getApps().subscribe({
       next: (data: Card[]) => {
         this.apps = data;
-        this.addTags();
+        if (!this.embedded) {
+          this.addTags();
+        }
         this.showSpinner = false;
       },
       error: (err: HttpErrorResponse) => {
@@ -49,7 +55,8 @@ export class AppsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.apps.length) {
+    this.sub?.unsubscribe();
+    if (!this.embedded && this.apps.length) {
       this.apps.forEach(() => {
         this.metaTag.removeMetaTags();
       });
