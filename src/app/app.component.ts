@@ -1,14 +1,16 @@
-import { CommonModule, ViewportScroller } from '@angular/common';
 import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   ViewChild,
-  ChangeDetectionStrategy,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AsyncPipe, CommonModule, ViewportScroller } from '@angular/common';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { FeatherIconsModule } from './feather-icons/feather-icons.module';
-import { ThemeService } from './services/theme.service';
+import { SectionNavigationCoordinator } from './home/section-navigation';
+import { APP_VERSION } from './generated/app-version';
 
 @Component({
   selector: 'app-root',
@@ -18,51 +20,70 @@ import { ThemeService } from './services/theme.service';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
+    AsyncPipe,
     RouterLink,
-    RouterLinkActive,
     RouterOutlet,
     FeatherIconsModule,
   ],
 })
-export class AppComponent {
-  navbarOpen = false;
-  menuIcon = 'menu';
-  theme: boolean = false;
-  @ViewChild('skipper', { static: false }) skipper!: ElementRef;
+export class AppComponent implements AfterViewInit, OnDestroy {
+  readonly sections = [
+    { id: 'about', label: '01. About me' },
+    { id: 'lab', label: '02. Interaction Lab' },
+    { id: 'experience', label: '03. Experiences' },
+    { id: 'articles', label: '04. Articles' },
+    { id: 'vault', label: '05. Retro Vault' },
+  ] as const;
+  readonly appVersion = APP_VERSION;
+  readonly activeSection$ = this.navigation.activeSection$;
+  stickyDisabled = false;
+
+  @ViewChild('identityContent') identityContent!: ElementRef<HTMLElement>;
+  private resizeObserver?: ResizeObserver;
+  private destroyed = false;
 
   constructor(
-    private view: ViewportScroller,
-    private themeService: ThemeService,
-  ) {
-    if (
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches
-    ) {
-      this.theme = true;
-      this.onThemeChange();
-    } else {
-      this.theme = false;
-      this.onThemeChange();
+    private readonly view: ViewportScroller,
+    private readonly navigation: SectionNavigationCoordinator,
+  ) {}
+
+  ngAfterViewInit(): void {
+    this.updateStickyState();
+    if (typeof ResizeObserver !== 'undefined') {
+      this.resizeObserver = new ResizeObserver(() => this.updateStickyState());
+      this.resizeObserver.observe(this.identityContent.nativeElement);
     }
+    window.addEventListener('resize', this.updateStickyState);
+    document.fonts?.addEventListener('loadingdone', this.updateStickyState);
+    void document.fonts?.ready.then(() => {
+      if (!this.destroyed) {
+        this.updateStickyState();
+      }
+    });
   }
 
-  toggleNavbar() {
-    this.navbarOpen = !this.navbarOpen;
-    if (this.navbarOpen) {
-      this.menuIcon = 'x';
-    } else {
-      this.menuIcon = 'menu';
-    }
-    this.skipContent();
+  ngOnDestroy(): void {
+    this.destroyed = true;
+    this.resizeObserver?.disconnect();
+    window.removeEventListener('resize', this.updateStickyState);
+    document.fonts?.removeEventListener('loadingdone', this.updateStickyState);
   }
 
-  skipContent() {
-    this.skipper.nativeElement.focus();
+  selectSection(event: MouseEvent, id: string): void {
+    event.preventDefault();
+    void this.navigation.select(id);
+  }
+
+  skipContent(event: MouseEvent): void {
+    event.preventDefault();
+    document.getElementById('main')?.focus();
     this.view.scrollToAnchor('main');
   }
 
-  onThemeChange() {
-    this.themeService.setTheme(this.theme);
-  }
+  private readonly updateStickyState = (): void => {
+    if (this.identityContent) {
+      this.stickyDisabled =
+        this.identityContent.nativeElement.getBoundingClientRect().height > window.innerHeight;
+    }
+  };
 }

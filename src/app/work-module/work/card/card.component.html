@@ -5,21 +5,21 @@
   </div>
   <div class="card-body">
     <section class="header">
-      <h6 tabindex="0">{{card_data.title}}</h6>
+      <h6 class="content-title" tabindex="0">{{card_data.title}}</h6>
       <span class="tag">#{{card_data.tag}}</span>
     </section>
-    <p class="description" tabindex="0">
+    <p class="description description-text" tabindex="0">
       {{card_data.description}}
     </p>
     <section class="footer">
-      <a role="button" title="Open" href="javascript:void(0);" (click)="navigate()" tabindex="0">
+      <a class="blueprint-button" role="button" title="Open" href="javascript:void(0);" (click)="navigate()" tabindex="0">
         Open @if (card_data.external) {
         <i-feather name = "external-link"></i-feather>
       }
     </a>
     <div class="pub" tabindex="0">
-      <span class="regular bold">Published On</span>
-      <span class="sub-2">{{card_data.published_date}}</span>
+      <span class="metadata-text">Published On</span>
+      <span class="metadata-text">{{card_data.published_date}}</span>
     </div>
   </section>
 </div>

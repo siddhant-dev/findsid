@@ -44,7 +44,7 @@ describe('Work routes', () => {
 
   it('should keep Apps usable without requesting artwork', async () => {
     await harness.navigateByUrl('/work/apps');
-    http.expectOne('../../assets/data.json').flush([]);
+    http.expectNone('../../assets/data.json');
     harness.detectChanges();
     expect(TestBed.inject(Router).url).toBe('/work/apps');
     expect(harness.routeNativeElement?.querySelector('app-apps')).not.toBeNull();

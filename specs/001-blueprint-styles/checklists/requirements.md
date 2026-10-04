@@ -20,7 +20,7 @@
 - [x] Success criteria are measurable.
 - [x] Success criteria describe observable outcomes rather than framework choices.
 - [x] All acceptance scenarios are defined.
-- [x] Edge cases are identified and user-confirmed.
+- [x] Edge cases are identified and user-confirmed (new grid proposals await confirmation).
 - [x] Scope is clearly bounded.
 - [x] Dependencies and assumptions identified.
 
@@ -37,3 +37,8 @@ Reviewed against the resolved specification template. Exact fonts, colors, and r
 values are requested design requirements, not framework implementation choices.
 Later-feature open decisions are explicitly deferred and do not gate this style-only scope.
 No application implementation or publication is included.
+
+Grid scope correction reviewed 2026-10-03: FR-012, SC-007 and the new acceptance
+scenario cover the missing reference major/minor grid and vignette. Feature 001 now
+owns it; shell002 reuses it. Existing quality checks still pass except the outstanding
+grid edge-case confirmation. T022-T025 capture the pending confirmation/test-first work.

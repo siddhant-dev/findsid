@@ -1,5 +1,6 @@
 import {
   Component,
+  Input,
   OnDestroy,
   OnInit,
   ChangeDetectionStrategy,
@@ -21,8 +22,9 @@ import { CardComponent } from '../card/card.component';
   imports: [CardComponent, LoaderComponent],
 })
 export class ArticlesComponent implements OnInit, OnDestroy {
+  @Input() embedded = false;
   articles: Articles[] = [];
-  articleSub!: Subscription;
+  articleSub?: Subscription;
   showSpinner: boolean = true;
   error: string = '';
 
@@ -33,22 +35,26 @@ export class ArticlesComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.meta.removeTag('name="description"');
+    if (!this.embedded) {
+      this.meta.removeTag('name="description"');
+    }
     this.getAllArticles();
   }
 
   ngOnDestroy() {
-    this.articleSub.unsubscribe();
-    this.articles.forEach(() => {
-      this.metaTag.removeMetaTags();
-    });
+    this.articleSub?.unsubscribe();
+    if (!this.embedded) {
+      this.articles.forEach(() => this.metaTag.removeMetaTags());
+    }
   }
 
   getAllArticles() {
     this.articleSub = this.articleService.getAllArticles().subscribe({
       next: (data: Articles[]) => {
         this.articles = data;
-        this.addTags();
+        if (!this.embedded) {
+          this.addTags();
+        }
         this.showSpinner = false;
       },
       error: (err) => {

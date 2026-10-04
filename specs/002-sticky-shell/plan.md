@@ -157,7 +157,8 @@ Future sections replace containers without redesigning the root again.
 
 ### B. Identity, Layout and Composition
 
-1. Replace root fixed top-menu/hamburger shell with reference-inspired columns and canvas,
+1. Replace root fixed top-menu/hamburger shell with reference-inspired columns, reusing
+   the single foundation canvas from001's grid amendment rather than recreating it,
    using feature 001's token/typography primitives. Apply values in the contract.
 2. Import current About/Articles/Apps in standalone Home; add all five permanent section
    containers immediately so anchors do not depend on network completion.

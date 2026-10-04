@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -17,11 +18,13 @@ import { MetaTagService } from '../services/meta-tag.service';
   standalone: true,
 })
 export class AboutComponent implements OnInit, OnDestroy {
+  @Input() embedded = false;
   @ViewChild('type') typewritter!: ElementRef<HTMLElement>;
   i: number = 0;
   j: number = 1;
   reverse: boolean = false;
   text = ['Siddhant Jaiswal', 'a Developer', 'a Designer', 'an Illustrator'];
+  private typingTimer?: number;
 
   constructor(
     private meta: Meta,
@@ -29,16 +32,25 @@ export class AboutComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.meta.removeTag('name="description"');
+    if (!this.embedded) {
+      this.meta.removeTag('name="description"');
+    }
 
-    setInterval(() => {
+    this.typingTimer = window.setInterval(() => {
       this.typing();
     }, 150);
-    this.addTags();
+    if (!this.embedded) {
+      this.addTags();
+    }
   }
 
   ngOnDestroy(): void {
-    this.metaTag.removeMetaTags();
+    if (this.typingTimer !== undefined) {
+      window.clearInterval(this.typingTimer);
+    }
+    if (!this.embedded) {
+      this.metaTag.removeMetaTags();
+    }
   }
 
   typing() {

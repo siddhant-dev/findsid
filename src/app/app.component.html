@@ -1,61 +1,53 @@
-<header>
-    <a role="button" href="javascript:void(0);" (click)="skipContent()" translate class="skip-nav">Skip to Content</a>
-    <nav role="navigation">
-        <h6 role="link" tabindex="0" routerLink="/" class="bold blue">Siddhant Jaiswal<sup class="overline">βeta</sup>
-        </h6>
-        <div class="burger" role="button" tabindex="0" (click)="toggleNavbar()" (keyup.enter)="toggleNavbar()"
-            aria-controls="nav-menu" [attr.aria-expanded]="navbarOpen" title="Menu Button">
-            <i-feather [name]=menuIcon></i-feather>
-        </div>
-        <ul [ngClass]="{'open' : navbarOpen}" role="menubar" id="nav-menu">
-            <li role=none>
-                <a role="menuitem" tabindex="0" aria-posinset="1" aria-setsize="5" class="regular bold" routerLink="/"
-                    routerLinkActive="active extra-bold" [routerLinkActiveOptions]={exact:true}
-                    (click)="toggleNavbar()">
-                    About
-                </a>
-            </li>
-            <li role=none>
-                <a role="menuitem" aria-posinset="2" aria-setsize="5" tabindex="0" class="regular bold"
-                    routerLink="/work" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
-                    Work
-                </a>
-            </li>
-            <li role=none>
-                <a role="menuitem" aria-posinset="4" aria-setsize="5" tabindex="0" class="regular bold"
-                    routerLink="/resume" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
-                    Resume
-                </a>
-            </li>
-            <li role=none>
-                <a role="menuitem" aria-posinset="5" aria-setsize="5" tabindex="0" class="regular bold"
-                    routerLink="/contact" routerLinkActive="active extra-bold" (click)="toggleNavbar()">
-                    Contact
-                </a>
-            </li>
-            <li role="none">
-                <label role="menuitem" aria-posinset="6" tabindex="0" class="toggle">
-                    <span>Light</span>
-                    <input type="checkbox" class="switch" [(ngModel)]="theme" #ctrl="ngModel"
-                        (change)="onThemeChange()">
-                    <span>Dark</span>
-                </label>
-            </li>
-        </ul>
-    </nav>
-</header>
-<main id="main" #skipper tabindex="-1">
-    <router-outlet></router-outlet>
-</main>
+<div class="blueprint-bg" aria-hidden="true"></div>
+<a class="skip-nav" href="#main" (click)="skipContent($event)">Skip to content</a>
 
-<footer>
-    <a href="https://www.linkedin.com/in/iamsiddj" rel="noreferrer" target="_blank" aria-label="LinkedIn">
-        <i-feather name="linkedin"></i-feather>
-    </a><a href="https://twitter.com/iamsidd_j" rel="noreferrer" target="_blank" aria-label="Twitter">
-        <i-feather name="twitter"></i-feather>
-    </a><a href="https://github.com/siddhant-dev" rel="noreferrer" target="_blank" aria-label="Github">
-        <i-feather name="github"></i-feather>
-    </a><a href="https://codepen.io/sidd_dev" rel="noreferrer" target="_blank" aria-label="Code Pen">
-        <i-feather name="codepen"></i-feather>
-    </a>
-</footer>
+<div class="shell">
+  <aside class="identity-column" [class.sticky-disabled]="stickyDisabled">
+    <div class="identity-content" #identityContent>
+      <p class="eyebrow navigation-text">PORTFOLIO / 2026</p>
+      <h1 class="owner-name">Siddhant Jaiswal</h1>
+      <p class="owner-title">Lead Product Development Professional</p>
+      <p class="owner-summary">
+        Architecting scalable Angular applications, high-performance virtualized rendering engines, and accessible design systems
+      </p>
+      <span class="version-badge">v{{ appVersion }}</span>
+
+      <nav class="section-navigation" aria-label="Portfolio sections">
+        @for (section of sections; track section.id) {
+          <a
+            [attr.data-section-link]="section.id"
+            [href]="'/#' + section.id"
+            [attr.aria-current]="(activeSection$ | async) === section.id ? 'location' : null"
+            [class.active]="(activeSection$ | async) === section.id"
+            (click)="selectSection($event, section.id)"
+          >{{ section.label }}</a>
+        }
+      </nav>
+    </div>
+  </aside>
+
+  <main id="main" class="content-column" tabindex="-1">
+    <router-outlet></router-outlet>
+
+    <footer class="page-actions">
+      <a class="contact-link" routerLink="/contact">Contact</a>
+      <nav class="social-links" aria-label="Social profiles">
+        <a href="https://www.linkedin.com/in/iamsiddj" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+          <i-feather name="linkedin" aria-hidden="true"></i-feather>
+        </a>
+        <a href="https://twitter.com/iamsidd_j" target="_blank" rel="noopener noreferrer" aria-label="Twitter" title="Twitter">
+          <i-feather name="twitter" aria-hidden="true"></i-feather>
+        </a>
+        <a href="https://github.com/siddhant-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+          <i-feather name="github" aria-hidden="true"></i-feather>
+        </a>
+        <a href="https://codepen.io/sidd_dev" target="_blank" rel="noopener noreferrer" aria-label="CodePen" title="CodePen">
+          <i-feather name="codepen" aria-hidden="true"></i-feather>
+        </a>
+        <a href="https://dev.to/siddev" target="_blank" rel="noopener noreferrer" aria-label="Dev.to" title="Dev.to">
+          <span class="devto-icon" aria-hidden="true">DEV</span>
+        </a>
+      </nav>
+    </footer>
+  </main>
+</div>

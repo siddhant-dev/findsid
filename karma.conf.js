@@ -33,6 +33,12 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml'],
+    customLaunchers: {
+      ChromeHeadlessReducedMotion: {
+        base: 'ChromeHeadless',
+        flags: ['--force-prefers-reduced-motion=reduce'],
+      },
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

@@ -9,21 +9,16 @@
   img {
     width: 100%;
     height: auto;
-    border-bottom: 2px solid $black;
+    border-bottom: 1px solid $border-color;
     // border-radius: 1rem;
   }
   .btn-group {
     display: flex;
     align-items: center;
     gap: 1rem;
-    .btn {
-      @include btn-white;
+    .blueprint-button {
+      @include blueprint-button;
       text-decoration: none;
-
-      &-blue {
-        @include btn-blue;
-        text-decoration: none;
-      }
     }
   }
 }
@@ -34,24 +29,21 @@ svg {
 }
 
 #background {
-  fill: $white;
+  fill: $bg-color;
 }
 
 #text > * {
-  fill: $black;
+  fill: $text-main;
 }
 #text-link > * {
-  fill: $black;
+  fill: $accent;
 }
 
 #presentation {
-  @if $white != #fff {
-    fill: $yellow;
-  }
+  fill: $accent;
 }
-
 #seperator {
-  stroke: $yellow;
+  stroke: $border-active;
 }
 
 @media screen and (max-width: 811px) {

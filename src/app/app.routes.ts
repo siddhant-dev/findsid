@@ -1,28 +1,50 @@
-import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
 
 export const APP_ROUTES: Routes = [
   {
-    path: '',
-    loadComponent: () =>
-      import('./about/about.component').then((m) => m.AboutComponent),
+    path: 'work',
+    pathMatch: 'full',
+    redirectTo: () => inject(Router).parseUrl('/#articles'),
   },
   {
     path: 'work',
-    loadChildren: () =>
-      import('./work-module/work.routes').then((m) => m.WORK_ROUTES),
+    children: [
+      {
+        path: 'articles',
+        pathMatch: 'full',
+        redirectTo: () => inject(Router).parseUrl('/#articles'),
+      },
+      {
+        path: 'apps',
+        pathMatch: 'full',
+        redirectTo: () => inject(Router).parseUrl('/#vault'),
+      },
+      {
+        path: '',
+        loadChildren: () =>
+          import('./work-module/work.routes').then((module) => module.WORK_ROUTES),
+      },
+    ],
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: HomeComponent,
   },
   {
     path: 'resume',
     loadComponent: () =>
       import('./resume-module/resume/resume.component').then(
-        (m) => m.ResumeComponent,
+        (module) => module.ResumeComponent,
       ),
   },
   {
     path: 'contact',
     loadComponent: () =>
       import('./contact-module/contact/contact.component').then(
-        (m) => m.ContactComponent,
+        (module) => module.ContactComponent,
       ),
   },
   {

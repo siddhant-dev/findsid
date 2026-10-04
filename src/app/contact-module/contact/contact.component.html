@@ -1,14 +1,14 @@
 <div class="form-container">
   <form [formGroup]="contactForm" (ngSubmit)="sendMessage()">
     <fieldset>
-      <legend class="header-4 bold">Lets Connect </legend>
-      <p class="regular">
+      <legend class="content-title">Lets Connect </legend>
+      <p class="body-text">
         Want to connect with me for any project or job oppurtunity? Fill in the form below I'll revert back to
         you
       </p>
       <div class="form-group">
-        <label class="regular bold" for="name">Enter your Name</label>
-        <input class="form-text" type="text" id="name"
+        <label class="body-text" for="name">Enter your Name</label>
+        <input class="body-text" type="text" id="name"
           [ngClass]="{'error-border':name!.invalid && (name!.dirty || name!.touched)} " formControlName="name"
           placeholder="Full Name">
         @if (name!.invalid && (name!.dirty || name!.touched)) {
@@ -17,8 +17,8 @@
         }
       </div>
       <div class="form-group">
-        <label class="regular bold" for="email">Enter your email</label>
-        <input class="form-text" [ngClass]="{'error-border':email!.invalid && (email!.dirty || email!.touched)} "
+        <label class="body-text" for="email">Enter your email</label>
+        <input class="body-text" [ngClass]="{'error-border':email!.invalid && (email!.dirty || email!.touched)} "
           type="email" id="email" formControlName="email" placeholder="someone@example.com">
         @if (email!.invalid && (email!.dirty || email!.touched)) {
         <span class="error-text">Your email doesn't
@@ -26,8 +26,8 @@
         }
       </div>
       <div class="form-group">
-        <label class="regular bold" for="phone">Enter your Phone No.</label>
-        <input class="form-text" type="tel" id="phone"
+        <label class="body-text" for="phone">Enter your Phone No.</label>
+        <input class="body-text" type="tel" id="phone"
           [ngClass]="{'error-border':phone!.invalid && (phone!.dirty || phone!.touched)}" formControlName="phone"
           placeholder="+919988776655">
         @if (phone!.invalid && (phone!.dirty || phone!.touched)) {
@@ -43,8 +43,8 @@
         }
       </div>
       <div class="form-group">
-        <label class="regular bold" for="message">Enter your Message</label>
-        <textarea class="form-text" id="message"
+        <label class="body-text" for="message">Enter your Message</label>
+        <textarea class="body-text" id="message"
           [ngClass]="{'error-border':message!.invalid && (message!.dirty || message!.touched)}"
           formControlName="message" type="tel" id="message" placeholder="Please enter minimum of 25 chars"></textarea>
         @if (message!.invalid && (message!.dirty || message!.touched)) {
@@ -52,7 +52,7 @@
           Your message is too short please enter at least 25 chars</span>
         }
       </div>
-      <button class="btn-text" [disabled]="contactForm!.invalid">Send Message <i-feather name="send"></i-feather>
+      <button class="blueprint-button" [disabled]="contactForm!.invalid">Send Message <i-feather name="send"></i-feather>
       </button>
     </fieldset>
 
@@ -63,7 +63,7 @@
 <ng-template #template>
   <div class="modal-card" cdkTrapFocus cdkTrapFocusAutoCapture>
     <header class="modal-card-head">
-      <h5 tabindex="0" cdkFocusInitial>{{title}}</h5>
+      <h5 class="content-title" tabindex="0" cdkFocusInitial>{{title}}</h5>
       <a tabindex="0" (click)="closeModal()" (keydown)="handleKey($event)" role="button" aria-label="Close Modal">
         <i-feather name="X"></i-feather>
       </a>
@@ -74,7 +74,8 @@
       } @else {
       <i-feather class="lottie" name="x"></i-feather>
       }
-      <p class="regular" tabindex="0">{{body}}</p>
+      <p class="body-text" [ngClass]="{'success-message': error === 'true', 'error-message': error === 'false'}"
+        tabindex="0">{{body}}</p>
     </section>
   </div>
 </ng-template>

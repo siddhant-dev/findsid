@@ -37,6 +37,13 @@ number controls mapping: current h6 identity/card headings need explicit roles.
 
 Visual-state changes do not introduce business transitions.
 
+## Decorative Canvas
+
+One shared background with the reference major/minor grid and edge vignette; owned
+by feature001 and reused by shell002. It has no business state, preference or persistence.
+It is hidden from assistive technology, fixed behind content, noninteractive and static.
+Values and validation are defined in the style contract and grid acceptance tests.
+
 ## Removed Theme Entity
 
 Delete theme boolean, handler, preference detection, service/provider, toggle, palette
