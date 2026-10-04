@@ -1,0 +1,79 @@
+@use "../../vars.scss" as *;
+
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.experience-card {
+  @include surface-border;
+  position: relative;
+  min-width: 0;
+  padding: 24px;
+  background: $surface-color;
+  backdrop-filter: blur(4px);
+  overflow-wrap: anywhere;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  + .experience-card {
+    margin-top: 24px;
+  }
+
+  &:hover {
+    border-color: $border-active;
+    box-shadow: 0 0 20px $accent-glow;
+  }
+}
+
+.company,
+.dates,
+.location {
+  margin: 8px 0 0;
+}
+
+.achievements {
+  margin: 16px 0 0;
+  padding-inline-start: 24px;
+  line-height: 1.6;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+
+  li {
+    min-width: 0;
+  }
+}
+
+.corner {
+  position: absolute;
+  color: $accent;
+  font-family: $font-mono;
+  font-size: 12px;
+  pointer-events: none;
+
+  &::before {
+    content: '+';
+  }
+}
+
+.top-left {
+  top: -8px;
+  left: -5px;
+}
+
+.bottom-right {
+  bottom: -8px;
+  right: -5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .experience-card {
+    transition: none;
+  }
+}

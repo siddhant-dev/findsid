@@ -80,3 +80,10 @@ matching record: `(1 - rendered rows / matching records) * 100`. It assumes equa
 per row and is a row-count proxy, **not measured RAM or total browser-memory savings**.
 Both approaches retain the full dataset; shared page and virtualization overhead are
 excluded. The normal-scroll baseline is theoretical and is not mounted.
+
+## Experiences
+
+Five static blueprint cards preserve the approved roles, dates, locations, 18 achievement
+paragraphs and tags. The component and local role data load together near the viewport
+or on `/#experience` navigation, without a separate data request. Cards wrap naturally,
+have no links or expansion controls, and disable hover transitions under reduced motion.
