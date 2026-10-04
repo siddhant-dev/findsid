@@ -1,4 +1,4 @@
-export type LazySectionId = 'lab' | 'articles' | 'vault';
+export type LazySectionId = 'lab' | 'experience' | 'articles' | 'vault';
 
 export type SectionActivationState<T> =
   | { status: 'idle' }

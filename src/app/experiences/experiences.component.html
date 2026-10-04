@@ -1,0 +1,21 @@
+@for (experience of experiences; track experience.id) {
+  <article class="experience-card" [attr.data-experience-id]="experience.id"
+    [attr.aria-labelledby]="experience.id + '-title'">
+    <h3 [id]="experience.id + '-title'" class="content-title">{{ experience.title }}</h3>
+    <p class="company body-text">{{ experience.company }}</p>
+    <p class="dates metadata-text">{{ experience.dates }}</p>
+    <p class="location metadata-text">{{ experience.location }}</p>
+    <ul class="achievements description-text">
+      @for (achievement of experience.achievements; track $index) {
+        <li>{{ achievement }}</li>
+      }
+    </ul>
+    <ul class="tags" aria-label="Technologies and skills">
+      @for (tag of experience.tags; track tag) {
+        <li class="tag">{{ tag }}</li>
+      }
+    </ul>
+    <span class="corner top-left" aria-hidden="true"></span>
+    <span class="corner bottom-right" aria-hidden="true"></span>
+  </article>
+}
