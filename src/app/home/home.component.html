@@ -23,7 +23,17 @@
 
   <section id="experience" data-home-section aria-labelledby="experience-heading">
     <h2 id="experience-heading" class="section-heading" tabindex="-1">Experiences</h2>
-    <div #sectionBody class="section-body"></div>
+    <div #sectionBody class="section-body">
+      @if (state('experience').status === 'loading') {
+        <p class="section-loading" role="status">Loading Experiences…</p>
+      } @else if (state('experience').status === 'error') {
+        <div class="section-load-error" role="alert">
+          <p>This section couldn't be loaded.</p>
+          <button type="button" class="blueprint-button" (click)="retry('experience')">Retry Experiences</button>
+        </div>
+      }
+      <ng-container #experienceHost></ng-container>
+    </div>
   </section>
 
   <section id="articles" data-home-section aria-labelledby="articles-heading">
