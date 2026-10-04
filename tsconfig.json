@@ -19,7 +19,7 @@
     "module": "es2020",
     "lib": ["ES2022", "dom",],
     "useDefineForClassFields": false,
-    "types": ["jest"]
+    "types": ["jasmine"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

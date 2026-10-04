@@ -1,0 +1,108 @@
+<article class="lab-demo" aria-labelledby="virtual-scroll-title">
+  <h3 id="virtual-scroll-title" class="content-title">Virtual scroll explorer</h3>
+  <p class="body-text muted-text">
+    Start loads 100,000 synthetic records from a bundled JSON asset into this demo's memory.
+    Only a small scrolling window is rendered. Search and sorting apply to the entire dataset.
+  </p>
+
+  @if (hasData) {
+    <div class="controls-bar">
+      <label class="navigation-text">
+        Search name or description
+        <input #searchInput type="search" [value]="selection.search" (input)="search(searchInput.value)">
+      </label>
+      <label class="navigation-text">
+        Sort by
+        <select #fieldInput [value]="selection.field" (change)="sortField(fieldInput.value)">
+          <option value="id">ID</option>
+          <option value="name">Name</option>
+        </select>
+      </label>
+      <label class="navigation-text">
+        Direction
+        <select #directionInput [value]="selection.direction" (change)="sortDirection(directionInput.value)">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </label>
+      <button type="button" class="blueprint-button" (click)="reset()">Reset</button>
+    </div>
+  }
+
+  <div #viewport class="record-viewport" role="region" aria-label="Virtualized mock records"
+    [class.idle]="status === 'idle'"
+    tabindex="0" [attr.aria-busy]="status === 'loading' || status === 'querying'">
+    @if (status === 'idle') {
+      <button type="button" class="blueprint-button" (click)="start()">Start</button>
+    } @else if (status === 'loading' || status === 'querying') {
+      <p role="status" class="body-text muted-text">
+        {{ status === 'loading' ? 'Loading records…' : 'Updating records…' }}
+      </p>
+      <boneyard-skeleton aria-hidden="true" [loading]="!!bones" [initialBones]="bones"
+        color="var(--text-muted)" darkColor="var(--text-muted)"
+        [animate]="reducedMotion ? 'solid' : 'pulse'" [stagger]="false" [transition]="false">
+        <div #loadingSample class="record-row">
+          <span class="metadata-text">Mock record ID</span>
+          <p class="content-title">Synthetic record name</p>
+          <p class="body-text muted-text">A neutral description of this synthetic record.</p>
+        </div>
+      </boneyard-skeleton>
+    } @else if (status === 'empty') {
+      <p role="status" class="body-text muted-text">No matching records</p>
+    } @else if (status === 'error') {
+      <div role="alert">
+        <p class="error-text body-text">{{ errorMessage }}</p>
+        <button type="button" class="blueprint-button" (click)="retry()">Retry</button>
+      </div>
+    }
+    @if (datasource; as source) {
+      <div *uiScroll="let row of source" class="record-row"
+        [attr.data-record-id]="row.id" [attr.data-generation]="generation">
+        <span class="metadata-text">ID {{ row.id }}</span>
+        <p class="content-title">{{ row.name }}</p>
+        <p class="body-text muted-text">{{ row.description }}</p>
+      </div>
+    }
+  </div>
+
+  @if (hasRenderedList && metrics; as measurement) {
+    <footer>
+      <div class="metric-display" aria-label="Live demo measurements">
+        <p class="metadata-text">Latest operation: {{ measurement.label }}</p>
+        <p class="metadata-text">Matching records: {{ matchCount | number }}</p>
+        <p class="metadata-text">
+          Observed first-row visibility:
+          @if (measurement.firstRowMs !== null) {
+            <span class="accent-text">{{ measurement.firstRowMs | number:'1.0-1' }} ms</span>
+          } @else {
+            Awaiting a visible record
+          }
+        </p>
+        <p class="metadata-text">Rendered record DOM rows: <span class="accent-text">{{ measurement.renderedRows }}</span></p>
+      </div>
+      <p class="metadata-text">Observed in this browser, not an exact paint benchmark. Start includes loading;
+        search, sort and reset reuse the dataset. Scrolling does not restart the operation clock.</p>
+      <aside aria-label="Estimated row memory savings">
+        <h4 class="content-title">Estimated rendered-row memory savings</h4>
+        <p class="body-text">
+          @if (estimatedRowMemorySavings; as savings) {
+            <span class="accent-text">{{ savings | number:'1.0-3' }}%</span>
+            less estimated row-rendering memory than normal scrolling.
+          } @else if (estimatedRowMemorySavings === 0) {
+            <span class="accent-text">0%</span> — all matching rows are rendered.
+          } @else {
+            Awaiting rendered records
+          }
+        </p>
+        @if (estimatedRowMemorySavings !== null) {
+          <p class="metadata-text">Virtual scroll: {{ measurement.renderedRows | number }} rendered rows.
+            Normal scroll baseline: {{ matchCount | number }} matching rows rendered at once.</p>
+        }
+        <p class="metadata-text">Estimate: (1 − rendered rows ÷ matching records) × 100, assuming equal
+          memory per rendered row. This is a row-count proxy, not measured RAM or total browser memory.
+          The full 100,000-record dataset stays in memory in both cases; shared page and virtual-scroll
+          overhead are excluded. The normal-scroll baseline is theoretical, not rendered here.</p>
+      </aside>
+    </footer>
+  }
+</article>

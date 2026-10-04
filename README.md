@@ -42,7 +42,10 @@ complete suite with:
 npm test -- --watch=false --browsers=ChromeHeadless
 ```
 
-This runs semantic workflow-policy tests before the Angular/Karma application tests.
+This runs workflow-policy, version metadata and synthetic Lab dataset tests before the
+Angular/Karma application tests. Karma needs a Chrome/Chromium executable; if it is not
+installed at the default location, set `CHROME_BIN` to its absolute path. Use
+`--browsers=ChromeHeadless` for a headless-only executable.
 The CI workflows use plain `npm ci`; do not use peer-dependency bypass flags. Policy
 tests parse the actual workflow files. Tests for external services use controlled
 responses; acceptance checks must not contact live Dev.to, submit contact forms, or
@@ -55,3 +58,25 @@ Run `ng serve` for a development server at `http://localhost:4200/`.
 Run `ng build` to build the application. Artifacts are written to `dist/`.
 
 For Angular CLI help, run `ng help`.
+
+## Interaction Lab
+
+The homepage loads the Lab's code near the viewport or on `/#lab` navigation. The
+virtual scroll explorer uses ngx-ui-scroll and boneyard-js. Its separate, approximately
+13.7 MB JSON asset is requested only after **Start**, contains exactly 100,000 original
+synthetic records and is cached for the mounted demo session. Search and sorting operate
+on all records before windowing; Reset reuses the validated dataset.
+
+Regenerate or verify the deterministic asset with:
+
+```sh
+node scripts/generate-lab-records.mjs
+node scripts/generate-lab-records.mjs --check
+```
+
+Live first-visible-row timing and rendered record DOM counts are measured in the current
+browser. Estimated rendered-row memory savings compares that count with rendering every
+matching record: `(1 - rendered rows / matching records) * 100`. It assumes equal memory
+per row and is a row-count proxy, **not measured RAM or total browser-memory savings**.
+Both approaches retain the full dataset; shared page and virtualization overhead are
+excluded. The normal-scroll baseline is theoretical and is not mounted.

@@ -31,7 +31,10 @@ current rendered-record count. Finish only on visible attached current-generatio
 Empty/error shows not applicable, not zero/fake success. Superseded measurements
 cannot overwrite latest state.
 
-## ProjectOutcome
+## EstimatedRowMemorySavings (2026-10-04 amendment)
 
-Owner-reported performance improvement 40–60%; loading-time reduction 80%.
-These are attributed historical claims, not equations or guaranteed demo behavior.
+Derived nullable percentage: `(1 - rendered-record count / matching-record count) * 100`.
+Only available for current-generation ready results with positive counts and rendered
+count no greater than match count. Zero is valid; loading/empty/error/stale states have
+no estimate. Equal per-row memory is assumed. This is a row-count proxy, not measured
+RAM, and excludes shared dataset/page/library memory. Replaces historical project claims.

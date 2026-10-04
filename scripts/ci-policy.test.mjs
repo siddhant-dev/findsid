@@ -179,7 +179,7 @@ test('the npm test command runs semantic policy checks before the Angular suite'
   const commands = packageJson.scripts.test.split('&&').map((command) => command.trim());
 
   assert.deepEqual(commands, [
-    'node --test scripts/ci-policy.test.mjs scripts/generate-app-version.test.mjs',
+    'node --test scripts/ci-policy.test.mjs scripts/generate-app-version.test.mjs scripts/generate-lab-records.test.mjs',
     'ng test',
   ]);
 });

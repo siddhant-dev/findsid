@@ -42,7 +42,7 @@ logic, bundled asset/generator, tests and Home insertion.
 
 | Gate | Response | Result |
 |------|----------|--------|
-| Portfolio | Real performance demo with clearly attributed project outcomes | Pass |
+| Portfolio | Real performance demo with clearly labelled row-memory estimates | Pass |
 | Test-first | Library smoke setup, then failing behavior before production implementation | Pass for design; execution evidence required |
 | Collaborative edge cases | User confirmed controls, states, layout and teardown | Pass |
 | Dev.to | No integration changes; mock unrelated services in Home tests | Pass |
@@ -136,7 +136,8 @@ component groups this demo without duplicating the section heading.
    Count scoped record DOM elements; cross-check adapter counts, not vice versa.
 10. Initial/empty/error status has no fabricated duration. Update live rendered count
     as the virtual buffer changes; scrolling does not restart operation timing.
-    Separate owner-reported 40–60%/80% outcomes from live metrics.
+    Per owner amendment (2026-10-04), replace historical outcomes with estimated row-memory
+    savings based on rendered rows/current matches; explicitly not measured RAM.
 11. Replace shell's empty Lab container content with this component without replacing
     permanent anchor/headings. Verify shell position preservation with delayed startup.
     Clean up directive/datasource using verified public lifecycle, subscriptions,
