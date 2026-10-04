@@ -375,4 +375,18 @@ describe('application routes', () => {
     );
     expect(document.activeElement?.textContent).toContain('Saved card');
   });
+
+  it('preserves direct navigation to the About fragment', async () => {
+    await harness.navigateByUrl('/#about', HomeComponent);
+
+    expect(router.url).toBe('/#about');
+    expect(
+      harness.routeNativeElement
+        ?.querySelector('#about-heading')
+        ?.textContent?.trim(),
+    ).toBe('About me');
+    expect(
+      harness.routeNativeElement?.querySelector('#about app-about p'),
+    ).not.toBeNull();
+  });
 });
