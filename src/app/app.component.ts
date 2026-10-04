@@ -4,7 +4,9 @@ import {
   Component,
   ElementRef,
   OnDestroy,
-  ViewChild,
+  viewChild,
+  inject,
+  effect,
 } from '@angular/core';
 import { AsyncPipe, CommonModule, ViewportScroller } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -26,7 +28,7 @@ import { APP_VERSION } from './generated/app-version';
     FeatherIconsModule,
   ],
 })
-export class AppComponent implements AfterViewInit, OnDestroy {
+export class AppComponent implements OnDestroy {
   readonly sections = [
     { id: 'about', label: '01. About me' },
     { id: 'lab', label: '02. Interaction Lab' },
@@ -34,32 +36,31 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     { id: 'articles', label: '04. Articles' },
     { id: 'vault', label: '05. Retro Vault' },
   ] as const;
+  private readonly navigation = inject(SectionNavigationCoordinator);
+  private readonly view  = inject(ViewportScroller);
   readonly appVersion = APP_VERSION;
   readonly activeSection$ = this.navigation.activeSection$;
   stickyDisabled = false;
 
-  @ViewChild('identityContent') identityContent!: ElementRef<HTMLElement>;
+  private identityContent = viewChild<ElementRef<HTMLElement>>('identityContent');
   private resizeObserver?: ResizeObserver;
   private destroyed = false;
 
-  constructor(
-    private readonly view: ViewportScroller,
-    private readonly navigation: SectionNavigationCoordinator,
-  ) {}
-
-  ngAfterViewInit(): void {
-    this.updateStickyState();
-    if (typeof ResizeObserver !== 'undefined') {
-      this.resizeObserver = new ResizeObserver(() => this.updateStickyState());
-      this.resizeObserver.observe(this.identityContent.nativeElement);
-    }
-    window.addEventListener('resize', this.updateStickyState);
-    document.fonts?.addEventListener('loadingdone', this.updateStickyState);
-    void document.fonts?.ready.then(() => {
-      if (!this.destroyed) {
-        this.updateStickyState();
+  constructor() {
+    effect(() =>  {
+      this.updateStickyState();
+      if (typeof ResizeObserver !== 'undefined' && typeof this.identityContent() !=='undefined') {
+        this.resizeObserver = new ResizeObserver(() => this.updateStickyState());
+        this.resizeObserver.observe(this.identityContent()!.nativeElement);
       }
-    });
+      window.addEventListener('resize', this.updateStickyState);
+      document.fonts?.addEventListener('loadingdone', this.updateStickyState);
+      void document.fonts?.ready.then(() => {
+        if (!this.destroyed) {
+          this.updateStickyState();
+        }
+      });
+  });
   }
 
   ngOnDestroy(): void {
@@ -81,9 +82,9 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   }
 
   private readonly updateStickyState = (): void => {
-    if (this.identityContent) {
+    if (this.identityContent() !== undefined) {
       this.stickyDisabled =
-        this.identityContent.nativeElement.getBoundingClientRect().height > window.innerHeight;
+        this.identityContent()!.nativeElement.getBoundingClientRect().height > window.innerHeight;
     }
   };
 }

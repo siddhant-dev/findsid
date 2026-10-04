@@ -1,59 +1,8 @@
-@use "../../vars.scss" as *;
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-
-  .hero-img {
-    background-image: url("../../assets/Hot\ Me.webp");
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: min(21rem, 100%);
-    aspect-ratio: 1;
-    border: 1px solid $border-color;
-    box-sizing: border-box;
-    border-radius: 1rem;
-  }
-  h2 {
-    & span::after {
-      content: "";
-      animation: blink 0.5s linear infinite;
-      border-right: 0.25rem solid $accent;
-    }
-  }
-  p {
-    margin: 0;
-    text-align: justify;
-    width: 70%;
-  }
+:host {
+  display: block;
 }
 
-@keyframes blink {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-
-@media screen and (max-width: 850px) {
-  .container {
-    align-items: flex-start;
-    .hero-img {
-      align-self: center;
-    }
-    p {
-      width: 100%;
-    }
-  }
-}
-
-@media screen and (max-width: 435px) {
-  .container h2 {
-    min-height: 6.75rem;
-  }
+p {
+  margin: 0;
+  text-align: left;
 }

@@ -16,18 +16,36 @@ behavior assertions before modifying production code:
 ```sh
 npm test -- --watch=false --browsers=ChromeHeadless \
   --include=src/app/about/about.component.spec.ts \
-  --include=src/app/home/home.component.spec.ts
+  --include=src/app/app.routes.spec.ts
 ```
 
 Record failures for photo/greeting/typewriter still present, Tab stops, incorrect text
 presentation, timer creation and metadata mutation. Configuration errors do not count.
 Spies/clocks must be installed before lifecycle and restored after tests.
 
+Observed against the unchanged About component on 2026-10-04: the focused suite compiled
+and reported the expected behavioral failures for the photo/greeting, paragraph Tab stop,
+muted/left-aligned styles, typing interval creation/teardown and metadata writes/removals.
+The normalized paragraph copy and base font measurements already passed. The suite also
+emitted the expected request for the existing About background image. Angular's change
+detection scheduler also calls `setTimeout`, so that framework operation was excluded from
+the About-owned timer assertions. A cached ChromeHeadless binary was used because the
+system Chrome application is not installed.
+
 ## Green
 
 After implementation, rerun the same combined selection. Expected: unchanged normalized
 copy, one paragraph, one shell-owned heading, no removed elements/side effects,
 exact approved computed styles and preserved fragment navigation.
+
+Observed on 2026-10-04: the About and application-route selection passed all 11 Jasmine
+tests in ChromeHeadless. Coverage confirmed the exact normalized copy, one eager About
+paragraph under the single shell heading, approved computed presentation, no image or
+animation styling, no About-owned interval or metadata operations, zero About Tab stops,
+reflow at 320px with 200% root text size, declared sans-serif fallback, and direct
+`/#about` navigation. The paragraph remains static under reduced-motion preferences
+because it has no animation rule. Font fallback was verified from the declared stack;
+no manual browser session with fonts forcibly blocked was performed.
 
 | Case | Expected |
 |------|----------|
