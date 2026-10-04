@@ -32,6 +32,7 @@ export class SectionNavigationCoordinator implements OnDestroy {
   private requestedSection: string | null = null;
   private appendHandler?: (target: HTMLElement, keyboard: boolean) => void;
   private appendGeneration = 0;
+  private modalBackground?: string;
   registerAppendHandler(handler: (target: HTMLElement, keyboard: boolean) => void): Subscription {
     this.appendHandler = handler;
     return new Subscription(() => {
@@ -52,6 +53,10 @@ export class SectionNavigationCoordinator implements OnDestroy {
   constructor(private readonly router: Router) {
     this.subscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
+        if (event.url.split(/[?#]/)[0] === '/contact') {
+          this.modalBackground ??= this.router.url;
+          return;
+        }
         this.cancelAppendIntent();
         this.currentTrigger = event.navigationTrigger;
       } else if (event instanceof NavigationEnd) {
@@ -118,6 +123,13 @@ export class SectionNavigationCoordinator implements OnDestroy {
   }
 
   private handleNavigationEnd(url: string): void {
+    if (url.split(/[?#]/)[0] === '/contact') return;
+    if (this.modalBackground === url) {
+      this.modalBackground = undefined;
+      this.currentTrigger = undefined;
+      return;
+    }
+    this.modalBackground = undefined;
     const tree = this.router.parseUrl(url);
     const primary = tree.root.children['primary'];
     const onHome = !primary || primary.segments.length === 0;

@@ -8,13 +8,14 @@ import {
   effect,
 } from '@angular/core';
 import { AsyncPipe, CommonModule, ViewportScroller } from '@angular/common';
-import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FeatherIconsModule } from './feather-icons/feather-icons.module';
 import { SectionNavigationCoordinator } from './home/section-navigation';
 import { APP_VERSION } from './generated/app-version';
 import { ExternalLinksDirective } from './shared/links/external-links.directive';
 import { MetaTagService } from './services/meta-tag.service';
+import { ContactNavigationState } from './shared/contact-navigation-state';
 
 @Component({
   selector: 'app-root',
@@ -25,13 +26,13 @@ import { MetaTagService } from './services/meta-tag.service';
   imports: [
     CommonModule,
     AsyncPipe,
-    RouterLink,
     RouterOutlet,
     FeatherIconsModule,
     ExternalLinksDirective,
   ],
 })
 export class AppComponent implements OnDestroy {
+  readonly contactState = inject(ContactNavigationState);
   readonly sections = [
     { id: 'about', label: '01. About me' },
     { id: 'lab', label: '02. Interaction Lab' },
@@ -63,7 +64,8 @@ export class AppComponent implements OnDestroy {
           if (!route.firstChild) break;
           route = route.firstChild;
         }
-        if (!this.readingMode && this.router.parseUrl(event.urlAfterRedirects).root.children['primary'] === undefined) {
+        if (event.urlAfterRedirects !== '/contact' && !this.readingMode &&
+          this.router.parseUrl(event.urlAfterRedirects).root.children['primary'] === undefined) {
           this.metadata.home();
         }
       }
@@ -97,6 +99,17 @@ export class AppComponent implements OnDestroy {
   selectSection(event: MouseEvent, id: string): void {
     event.preventDefault();
     void this.navigation.select(id);
+  }
+
+  openContact(event: MouseEvent): void {
+    if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    if (this.contactState.open() || this.contactState.pending()) return;
+    this.contactState.origin = event.currentTarget instanceof HTMLElement ? event.currentTarget : undefined;
+    void this.router.navigateByUrl('/contact', { state: {
+      contactModal: true, contactBackground: this.router.url,
+      contactOriginPage: history.state?.['ɵrouterPageId'] ?? 0,
+    } });
   }
 
   skipContent(event: MouseEvent): void {

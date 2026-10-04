@@ -48,11 +48,11 @@ export class ArticleRouteComponent implements OnInit, OnDestroy {
   retry(): void {
     if (this.state !== 'error' || this.destroyed) return;
     this.state = 'loading';
-    this.activate();
+    this.activate(true);
   }
-  private activate(): void {
+  private activate(retry = false): void {
     const generation = ++this.generation;
-    void this.load().then(component => {
+    void this.load(retry).then(component => {
       if (this.destroyed || generation !== this.generation) return;
       this.host.createComponent(component);
       this.state = 'ready';

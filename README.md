@@ -128,11 +128,32 @@ tags without allowing obsolete cleanup to erase a newer page.
 
 Invalid IDs, 404 and wrong-owner responses show `Article not found.` Other data failures
 have a current-ID Retry. A lightweight eager boundary handles deferred-code failures and
-keeps Back to Articles available even when detail code cannot mount. **Known incomplete
-requirement:** native Chrome caches a failed dynamic import, so same-loader Retry cannot
-recover an actual chunk-fetch failure in that document. The spec prohibits reload and
-cache-busted imports; that recovery requirement remains blocked pending an approved
-policy change. Controlled loader recovery is not evidence of native chunk recovery.
+keeps Back to Articles available even when detail code cannot mount. Explicit code
+Retry recovers rejected browser imports by fetching the application-owned lazy module
+graph with fresh URLs and parsing its imports with deferred `es-module-lexer`.
+Already-loaded eager Angular/application modules retain their original identity.
+Recovered modules are reused within the document; ordinary loads and data requests
+are unchanged. Recovery uses temporary module blobs, not a document reload, and rejects
+external dependencies and cyclic lazy graphs explicitly. A future CSP must permit
+these module blobs for this recovery path.
+
+## Contact
+
+The bottom Contact action opens `/contact` above the entire viewport, including the
+identity column. One centered, internally scrolling 32rem dialog retains the live
+Home/article view and its reading position and metadata underneath. The background
+is inert and scroll-locked, with trapped focus and focus restoration on dismissal.
+Direct entry uses Home; Back/Forward preserves the app-owned opening history.
+
+Draft and blur state remain in memory only. Current form validation is preserved.
+A valid Send freezes one submission, hides the form and locks Close, Escape,
+backdrop dismissal and same-app navigation/Back until the provider responds.
+Only the provider's explicit `success === 'true'` confirms success; negative,
+malformed and transport responses show failure with explicit Retry. Success Close
+clears the draft; failure dismissal retains it. There is no automatic retry, timeout,
+delivery guarantee or protection against full-tab reload/close. Contact code failures
+use an eager Retry/Close boundary and the same explicit module recovery as article
+detail; code Retry never sends a contact request.
 
 ## Retro Vault
 

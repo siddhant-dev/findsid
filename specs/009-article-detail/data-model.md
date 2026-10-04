@@ -26,6 +26,9 @@ route-loading (shell-owned code load), loading, ready, error, not-found, dispose
 Current ID/request generation gates body, image/link callbacks and metadata.
 New ID resets ready content/status and cancels old request. Retry retries current
 ID only. Code Retry reloads route component via eager failure boundary; no page reload.
+Under the owner-approved 2026-10-04 amendment, explicit failed-code Retry may
+cache-bust the application-owned module URL. The attempt remains generation-owned
+and duplicate guarded; data requests and ordinary code loads are unchanged.
 Body image failures are individual fallback states, not whole-article request errors.
 
 ## Listing Snapshot Amendment

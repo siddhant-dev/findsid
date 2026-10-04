@@ -1,7 +1,9 @@
 <div class="blueprint-bg" aria-hidden="true"></div>
-<a class="skip-nav" href="#main" (click)="skipContent($event)">Skip to content</a>
+<a class="skip-nav" href="#main" (click)="skipContent($event)"
+  [attr.inert]="contactState.open() ? '' : null" [attr.aria-hidden]="contactState.open() ? 'true' : null">Skip to content</a>
 
-<div class="shell" [class.reading]="readingMode">
+<div class="shell" [class.reading]="readingMode" [attr.inert]="contactState.open() ? '' : null"
+  [attr.aria-hidden]="contactState.open() ? 'true' : null">
   @if (!readingMode) {
   <aside class="identity-column" [class.sticky-disabled]="stickyDisabled">
     <div class="identity-content" #identityContent>
@@ -32,7 +34,7 @@
     <router-outlet></router-outlet>
 
     <footer class="page-actions">
-      <a class="contact-link" routerLink="/contact">Contact</a>
+      <a class="contact-link" href="/contact" (click)="openContact($event)">Contact</a>
       <nav class="social-links" appExternalLinks aria-label="Social profiles">
         <a href="https://www.linkedin.com/in/iamsiddj" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
           <i-feather name="linkedin" aria-hidden="true"></i-feather>
@@ -53,3 +55,4 @@
     </footer>
   </main>
 </div>
+<router-outlet name="contact"></router-outlet>

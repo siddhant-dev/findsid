@@ -66,6 +66,13 @@ body alt-text fallback; browser-session in-memory listing restoration including 
 explicit route-code error/Retry/Back; sanitized HTML and current-article metadata.
 All necessary decisions are approved; no additional user cases supplied.
 
+On 2026-10-04 the owner approved cache-busted lazy-code Retry for 009 and 010
+after native testing demonstrated cached rejected imports. Only explicit Retry
+after a code-load failure may use a fresh application-owned module URL. Normal
+loads remain lazy and unchanged; global reload, automatic retries and cache-busting
+article data requests remain prohibited. Duplicate actions and stale completion
+must remain guarded. Approval changes the policy, not the verification status.
+
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
@@ -101,7 +108,9 @@ All necessary decisions are approved; no additional user cases supplied.
   session, not persistent storage. Cancel active work on departure; restore completed
   cards without immediate refetch. Browser Back also restores progress; refresh starts fresh.
 - **FR-014**: Route-code failure shows "This page couldn't be loaded." with Retry
-  and Back to Articles, not blank/success-shaped fallback content.
+  and Back to Articles, not blank/success-shaped fallback content. Explicit code
+  Retry may cache-bust the failed application-owned module load without reloading
+  the document. Prove actual failed-chunk recovery in a native browser.
 - **FR-015**: Sanitize article HTML without blind trust, preserving safe article
   formatting/links. Update current article title/social metadata and restore Home
   metadata on return; stale responses cannot write metadata.

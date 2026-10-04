@@ -15,6 +15,8 @@ external-link annotation, skeleton smoke evidence and bottom actions.
 **Language/Version**: Angular ^22.1.3 standalone; TypeScript ~6.0.3; HTML/SCSS.
 **Primary Dependencies**: Existing Router/HttpClient/RxJS, Angular sanitization and
 Meta/Title; boneyard-js candidate1.10.0 with inherited integration smoke check.
+Owner-approved failed-code Retry additionally uses deferred `es-module-lexer` to
+parse and recover the application-owned ESM graph without duplicating eager modules.
 **Storage**: Public Dev.to article endpoint; one browser-memory listing snapshot.
 **Testing**: Existing Jasmine/Karma, RouterTestingHarness, HttpTestingController,
 controlled body/image/loader fixtures and native reading/media/focus checks.
@@ -80,7 +82,8 @@ src/app/home/{home.component,section-navigation}.{ts,spec.ts}
 **Structure Decision**: Reuse detail component; root route-data selects reading layout.
 Use shared bottom actions without importing full Home. One snapshot service retains
 inert plain data; tiny root interface must not eagerly import listing/card dependencies.
-No new parser/framework, global document observer or browser-persistent cache.
+No new HTML parser/framework, global document observer or browser-persistent cache.
+The ESM lexer is limited to explicit code recovery, not article-body processing.
 
 ## Implementation Sequence
 
@@ -113,7 +116,10 @@ No new parser/framework, global document observer or browser-persistent cache.
 9. Show route-code error from eager lightweight router failure surface, with scoped Retry
    and Back; cannot be implemented only inside a component whose chunk failed to load.
    Route data loading uses selected skeleton/status without arbitrary dimensions/delay.
-   Retry actual route loader without page reload/cache-busting; prove runtime behavior.
+   Retry the actual route loader without page reload; explicit failed-code Retry
+   may cache-bust the application-owned module URL under the 2026-10-04 approval.
+   Keep ordinary loads unchanged, guard duplicates/stale completion and prove
+   actual native failed-chunk recovery, including dependencies.
 10. Save completed listing state and next-source progress before leaving007; cancel active
     requests and discard uncommitted operation so return can resume from committed checkpoint.
     Snapshot includes buffered lookahead/deferred records/accepted IDs, no subscriptions,

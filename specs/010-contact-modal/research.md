@@ -47,6 +47,13 @@ Actual Angular22 computed cancellation restoration and lazy-import retry behavio
 runtime tests; planning claims no verified compatibility. Direct entry dismisses via
 replacement `/`; ordinary opening uses its known originating entry.
 
+**Owner amendment (2026-10-04)**: 009 native evidence showed a cached rejected
+dynamic import despite restored network availability. Explicit lazy-code Retry
+may now cache-bust the application-owned module URL in both 009 and 010.
+Document reload and automatic retry remain prohibited. Draft/background/history
+must survive, duplicate requests and stale mounting must be blocked, and dependency
+recovery must be verified in a browser. No contact POST behavior is changed.
+
 ## Accessibility and Geometry
 
 **Decision**: Modal max32rem,padding/gaps1.5rem,viewport clearance1rem,max-height
