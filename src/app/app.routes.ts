@@ -1,8 +1,14 @@
 import { inject } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { ArticleRouteComponent } from './article-route.component';
 
 export const APP_ROUTES: Routes = [
+  {
+    path: 'work/articles/:id',
+    data: { layout: 'reading' },
+    component: ArticleRouteComponent,
+  },
   {
     path: 'work',
     pathMatch: 'full',

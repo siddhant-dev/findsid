@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+
+@Component({ standalone: true, template: '<h1>Reading fixture</h1>' })
+class ReadingFixture {}
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -14,6 +19,23 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
+  });
+
+  it('uses route reading mode without identity sidebar and keeps bottom actions once', async () => {
+    TestBed.resetTestingModule();
+    await TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideRouter([{ path: 'reading', component: ReadingFixture, data: { layout: 'reading' } }])],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    await TestBed.inject(Router).navigateByUrl('/reading');
+    fixture.detectChanges();
+    const root: HTMLElement = fixture.nativeElement;
+    expect(root.querySelector('aside')).toBeNull();
+    expect(root.querySelectorAll('footer.page-actions').length).toBe(1);
+    expect(root.querySelector('.shell.reading')).not.toBeNull();
+    fixture.destroy();
   });
 
   it('should retain other social links without linking to the artwork profile', () => {

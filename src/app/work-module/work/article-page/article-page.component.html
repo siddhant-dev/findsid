@@ -1,15 +1,43 @@
-@if (!showSpinner) {
-  <div class="container">
-    <img role="presentation" [src]="article.cover_image" alt="banner" height="500" width="1000" loading="lazy">
-    <h1>{{article.title}}</h1>
-    <div appExternalLinks tabindex="0" class="full-article" [innerHtml]="article.body_html"></div>
-  </div>
-}
-
-@if (showSpinner) {
-  <app-loader></app-loader>
-}
-
-@if (error) {
-  <div class="error">{{error}}</div>
-}
+<article class="article-reading">
+  <a class="navigation-text" routerLink="/" fragment="articles">Back to Articles</a>
+  @if (article; as current) {
+    <header class="article-header">
+      <h1 class="page-title">{{ current.title }}</h1>
+      @if (current.published_date) {
+        <p class="metadata-text">{{ current.published_date }}</p>
+      }
+      @if (current.tags.length) {
+        <ul class="tags">
+          @for (tag of current.tags; track $index) { <li class="tag">{{ tag }}</li> }
+        </ul>
+      }
+      @if (current.readingTimeMinutes) {
+        <p class="metadata-text">{{ current.readingTimeMinutes }} min read</p>
+      }
+      @if (current.sourceUrl) {
+        <a class="source-link navigation-text" [href]="current.sourceUrl" target="_blank"
+          rel="noopener noreferrer" aria-description="Opens in a new tab">Read on Dev.to</a>
+      }
+    </header>
+    <div appExternalLinks class="full-article" [innerHTML]="current.body_html"></div>
+  } @else if (showSpinner) {
+    <p role="status" class="body-text muted-text">Loading article</p>
+    <div aria-hidden="true" inert>
+      <boneyard-skeleton [loading]="!!bones" [initialBones]="bones"
+        color="var(--text-muted)" darkColor="var(--text-muted)"
+        [animate]="reducedMotion ? 'solid' : 'pulse'" [stagger]="false" [transition]="false">
+        <div class="article-header">
+          <p class="page-title">Article title</p>
+          <p class="metadata-text">Publication date</p>
+          <p class="body-text">Article content</p>
+          <p class="body-text">Article content</p>
+        </div>
+      </boneyard-skeleton>
+    </div>
+  } @else if (error) {
+    <p role="alert" class="error-text">{{ error }}</p>
+    @if (error === "Article couldn't be loaded.") {
+      <button type="button" class="blueprint-button" (click)="retry()">Retry</button>
+    }
+  }
+</article>

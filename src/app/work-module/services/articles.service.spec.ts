@@ -100,11 +100,98 @@ describe('ArticlesService', () => {
 
   it('keeps detail HTML and image metadata separate from card content', () => {
     service.getArticleById(42).subscribe(data => {
-      expect(data.cover_image).toBe('/detail-cover.svg');
+      expect(data.cover_image).toContain('/detail-cover.svg');
       expect(data.tags).toEqual(['Angular', 'RxJS', 'Signals']);
       expect(TestBed.inject(DomSanitizer).sanitize(SecurityContext.HTML, data.body_html!))
         .toContain('Detail content');
     });
+
     http.expectOne('https://dev.to/api/articles/42').flush({ ...source, body_html: '<p>Detail content</p>' });
+  });
+
+  it('requires matching detail identity and owner and never trusts unsafe HTML', () => {
+    service.getArticleById(42).subscribe(data => {
+      expect(typeof data.body_html).toBe('string');
+      expect(data.body_html).not.toContain('<script');
+      expect(data.body_html).not.toContain('onerror');
+      expect(data.body_html).toContain('<h2>Safe heading</h2>');
+    });
+    http.expectOne('https://dev.to/api/articles/42').flush({
+      ...source, body_html: '<script>alert(1)</script><h2>Safe heading</h2><img src="/x" onerror="alert(2)">',
+    });
+    let failures = 0;
+    for (const value of [
+      { ...source, id: 43, body_html: '<p>Wrong ID</p>' },
+      { ...source, user: { username: 'other' }, body_html: '<p>Other owner</p>' },
+      { ...source, body_html: ' ' }, { ...source, body_html: '<script>alert(1)</script>' },
+      { ...source, body_html: '<div></div>' },
+    ]) {
+      service.getArticleById(42).subscribe({ next: () => fail('Invalid detail must fail'), error: () => failures++ });
+      http.expectOne('https://dev.to/api/articles/42').flush(value);
+    }
+    expect(failures).toBe(5);
+  });
+
+  it('omits invalid optional metadata rather than turning usable required content into an error', () => {
+    service.getArticleById(42).subscribe({
+      next: data => {
+        expect(data.title).toBe(source.title);
+        expect(data.body_html).toBe('<p>Usable full content</p>');
+        expect(data.description).toBe('');
+        expect(data.cover_image).toBe('');
+        expect(data.published_date).toBe('');
+        expect(data.sourceUrl).toBeUndefined();
+        expect(data.readingTimeMinutes).toBeUndefined();
+      },
+      error: () => fail('Invalid optional metadata should be omitted'),
+    });
+    http.expectOne('https://dev.to/api/articles/42').flush({
+      ...source, body_html: '<p>Usable full content</p>', description: 123, social_image: {},
+      readable_publish_date: false, published_at: 'not-a-date', url: 'javascript:alert(1)',
+      reading_time_minutes: -1,
+    });
+  });
+
+  it('accepts detail-specific tag representations without weakening listing validation', () => {
+    const detail = {
+      id: 805, user: { username: 'siddev' }, title: 'Independent detail title',
+      body_html: '<h2>Complete section</h2><p>Complete detail content</p>',
+      tag_list: 'angular,typescript,rxjs', tags: ['angular', 'typescript', 'rxjs'],
+    };
+    const cases = [
+      { fields: detail, expected: ['angular', 'typescript', 'rxjs'] },
+      { fields: { tag_list: ' angular, typescript, , rxjs ', tags: undefined }, expected: ['angular', 'typescript', 'rxjs'] },
+      { fields: { tag_list: ['angular', ' ', 'rxjs'], tags: undefined }, expected: ['angular', 'rxjs'] },
+      { fields: { tag_list: '', tags: [] }, expected: [] },
+      { fields: { tag_list: undefined, tags: ['angular', 'rxjs'] }, expected: ['angular', 'rxjs'] },
+      { fields: { tag_list: undefined, tags: undefined }, expected: [] },
+    ];
+    for (const item of cases) {
+      service.getArticleById(805).subscribe({
+        next: article => {
+          expect(article.tags).toEqual(item.expected);
+          expect(article.title).toBe(detail.title);
+          expect(article.body_html).toBe(detail.body_html);
+        },
+        error: () => fail('Supported detail tag shape must not reject the article'),
+      });
+      http.expectOne('https://dev.to/api/articles/805').flush({ ...detail, ...item.fields });
+    }
+    service.getPage(1).subscribe(page => expect(page.records).toEqual([]));
+    http.expectOne(url(1)).flush([detail]);
+  });
+
+  it('rejects malformed required fields and exposes actual detail network errors for Retry', () => {
+    let failures = 0;
+    for (const response of [
+      null, {}, { ...source, title: '' }, { ...source, title: 123 },
+      { ...source, body_html: null }, { ...source, body_html: 123 },
+    ]) {
+      service.getArticleById(42).subscribe({ next: () => fail('Malformed detail must fail'), error: () => failures++ });
+      http.expectOne('https://dev.to/api/articles/42').flush(response);
+    }
+    service.getArticleById(42).subscribe({ next: () => fail('Offline must fail'), error: () => failures++ });
+    http.expectOne('https://dev.to/api/articles/42').error(new ProgressEvent('error'));
+    expect(failures).toBe(7);
   });
 });

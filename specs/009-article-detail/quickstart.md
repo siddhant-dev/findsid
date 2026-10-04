@@ -1,8 +1,27 @@
 # Validation Guide: Article Detail
 
-For later implementation only; no test/install/runtime commands run during planning.
+Implementation validation below uses controlled responses, not live Dev.to.
+The feature remains incomplete because native failed-chunk Retry is blocked by
+the approved no-reload/no-cache-busting constraint.
 
 ## Prerequisites and Red
+
+The first runnable controlled detail/service/root suite produced four intended
+behavioral failures and twelve retained passes before reading/layout implementation.
+One nested-test setup failure was excluded, corrected, and rerun; source guard and
+sanitization assertions are now green. Evidence is stored in the session's
+`detail-red.log`. Existing
+boneyard Angular 22 smoke evidence from 004/007/008 is reused; no install is needed.
+
+The initial nested service-test placement prevented the guard assertions from running
+before guard implementation. It was a setup failure, not behavioral red; corrected
+guard/sanitization coverage passes, but the original T004 source-guard red gate cannot
+be claimed retroactively and remains unchecked.
+
+The recovery phase produced six intended behavioral failures and seventeen passes
+(`detail-state-red.log`): invalid/latest IDs and Retry, inert snapshot retrieval,
+metadata ownership, actual route-code recovery, and real listing return. These
+failures preceded state/snapshot/metadata integration.
 
 Complete required001/002/006/007 changes and runnable standalone router/HTTP baseline.
 Reuse boneyard integration smoke evidence or establish it before dependent implementation.
@@ -11,7 +30,7 @@ IDs/metadata and listing return before production edits. Setup errors are not re
 
 ## Targeted Runner
 
-After planned tests exist:
+Run the affected suites (set `CHROME_BIN` when Chrome is not installed):
 
 ```sh
 npm test -- --watch=false --browsers=ChromeHeadless \
@@ -47,3 +66,68 @@ long title/prose/code/tables/images no page-wide overflow. Tab/link/context-menu
 focus restoration, reduced-motion static skeleton/instant navigation and image fallback
 announcement must be checked in a browser. Verify scoped body CSS actually matches
 innerHTML descendants. No forced loading delay or measured performance claim from planning.
+
+## Observed Implementation Evidence
+
+The subsequent `article-detail-load-failure` regression confirmed that detail
+responses must not reuse the listing's array-only `tag_list` assumption. Detail
+mapping now uses the supplied `tags` array or normalizes comma-separated
+`tag_list` text when that array is absent, retaining array-shaped compatibility.
+Independent service and real-route fixtures reproduce the original rejection and
+verify complete rendering after the fix. Listing tag validation remains strict.
+Both Retry surfaces use the shared blueprint button styling. The focused bug suite
+passed 53 Jasmine tests and 12 Node checks; see
+`.specify/bugs/article-detail-load-failure/fix.md`. This fixes data loading, not
+the separate native failed-chunk recovery limitation.
+
+Final affected runner: **95 Jasmine tests and 12 Node safeguard/dataset checks passed**
+(`detail-final.log`), including retained archive service and legacy Work-route coverage.
+The legacy detail fixture now supplies the required `siddev` owner. Passing unit tests
+do not waive the failed native chunk-recovery acceptance requirement below.
+
+The additional optional-metadata regression failed once before correction
+(`detail-optional-red.log`): invalid optional description/date/image values now omit
+those fields without rejecting otherwise usable required title/body content.
+
+The session runner `verify-detail-browser.mjs` and `detail-native.log` verify:
+
+- Actual 48rem maximum, 1.5rem side padding/gaps, 3rem vertical padding, 2.75rem/700
+  title and 0.95rem/1.6 left-aligned body in injected descendants, no identity/sidebar
+  or cover banner, and one shared footer.
+- Full safe prose/headings/lists/quotation/code/tables/inline images; inert unsafe
+  scripts/handlers/URLs; literal image alt/default fallback; actual keyboard horizontal
+  code/table scrolling and keyboard new-tab link opening with no popup opener.
+- 320px and desktop layouts, 20px user root fonts, blocked remote fonts, fixed palette,
+  static reduced-motion captured bones, and genuine Chrome 200% zoom (verified by
+  `chrome.tabs.getZoom` and 320 CSS-pixel viewport), without page-wide overflow.
+- Explicit return and native Back/Forward after multiple batches retain committed cards
+  and cursor without page-one refetch; interrupted append refetches its uncommitted page
+  without skipping data. Section-relative offset restores within 1 CSS pixel and the
+  live initiating-card keyboard focus restores. Browser restoration adds no entry.
+- Direct entry and refresh start normal fresh listing requests; invalid IDs avoid data
+  requests; actual 404/wrong-owner/empty-sanitized-body/429 feedback and data Retry;
+  native rapid ID replacement leaves only the newest body/title.
+- Idempotent current metadata/Home canonical restoration, no visible/social-image
+  request, and no detail-body request or detail component code on initial Home.
+
+Native checks exposed and fixed two restoration ordering bugs: native keyboard
+departure must be captured before RouterLink navigation starts; stale `scrollend`
+must not finish a pending return restoration before its render frame.
+
+### Blocking Acceptance Requirement
+
+The native runner aborts the **actual detail component chunk fetch** once, then allows
+the same URL. The eager boundary displays the approved code error and Back link.
+Retry invokes the real loader again, but Chrome returns the cached rejected module
+import without fetching it again. It still shows the error, never a false success;
+no detail data request is issued. By contrast, the controlled Promise loader test
+recovers and mounts detail on Retry, which proves boundary wiring only.
+
+T020 and the chunk-recovery part of T025 remain unchecked. Neither global reload nor
+cache-busted import was introduced because both are explicitly prohibited. Completion
+requires an owner-approved change to that requirement or a browser-proven compatible
+loading design. No claim of complete native code Retry or production chunk validation.
+
+All evidence is from development serving and controlled tests. No packages, production
+build, release/version change, deployment or commit was made. Existing 008 edits were
+preserved. Post-implementation hooks were parsed and are empty.

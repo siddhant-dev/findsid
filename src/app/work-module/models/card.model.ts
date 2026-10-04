@@ -9,7 +9,7 @@ export interface Card {
 }
 
 export interface ArchiveSource {
-  readonly id: number;
+  readonly id?: number;
   readonly title: string;
   readonly description: string;
   readonly published_date: string;
