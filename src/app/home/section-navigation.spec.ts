@@ -3,10 +3,32 @@ import {
   shouldPushSectionHistory,
 } from './section-navigation';
 import { TestBed } from '@angular/core/testing';
-import { provideRouter, Router } from '@angular/router';
+import { Event, NavigationEnd, NavigationStart, provideRouter, Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { SectionNavigationCoordinator } from './section-navigation';
 
 describe('section navigation rules', () => {
+  it('does not move or reset the preserved Home section across Contact opening and dismissal', () => {
+    const events = new Subject<Event>();
+    TestBed.configureTestingModule({ providers: [provideRouter([])] });
+    const router = TestBed.inject(Router);
+    spyOnProperty(router, 'events', 'get').and.returnValue(events);
+    spyOnProperty(router, 'url', 'get').and.returnValue('/#articles');
+    const coordinator = new SectionNavigationCoordinator(router);
+    const home = jasmine.createSpy('home intent');
+    coordinator.registerHome(home);
+    home.calls.reset();
+    let active = '';
+    coordinator.activeSection$.subscribe(value => active = value);
+    events.next(new NavigationStart(1, '/contact'));
+    events.next(new NavigationEnd(1, '/contact', '/contact'));
+    expect(active).toBe('articles');
+    events.next(new NavigationStart(2, '/#articles', 'popstate'));
+    events.next(new NavigationEnd(2, '/#articles', '/#articles'));
+    expect(home).not.toHaveBeenCalled();
+    expect(active).toBe('articles');
+    coordinator.ngOnDestroy();
+  });
   it('selects the last ordered heading at the 96px reading line', () => {
     expect(
       activeSectionFromPositions([

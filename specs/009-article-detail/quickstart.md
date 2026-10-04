@@ -1,8 +1,9 @@
 # Validation Guide: Article Detail
 
 Implementation validation below uses controlled responses, not live Dev.to.
-The feature remains incomplete because native failed-chunk Retry is blocked by
-the approved no-reload/no-cache-busting constraint.
+Failed-chunk and dependency Retry now have native recovery evidence under the
+owner-approved 2026-10-04 cache-busting amendment. Document reload remains prohibited.
+The original T004 source-guard red-gate omission remains documented and unchecked.
 
 ## Prerequisites and Red
 
@@ -114,7 +115,7 @@ Native checks exposed and fixed two restoration ordering bugs: native keyboard
 departure must be captured before RouterLink navigation starts; stale `scrollend`
 must not finish a pending return restoration before its render frame.
 
-### Blocking Acceptance Requirement
+### Outstanding Acceptance Requirement
 
 The native runner aborts the **actual detail component chunk fetch** once, then allows
 the same URL. The eager boundary displays the approved code error and Back link.
@@ -123,11 +124,19 @@ import without fetching it again. It still shows the error, never a false succes
 no detail data request is issued. By contrast, the controlled Promise loader test
 recovers and mounts detail on Retry, which proves boundary wiring only.
 
-T020 and the chunk-recovery part of T025 remain unchecked. Neither global reload nor
-cache-busted import was introduced because both are explicitly prohibited. Completion
-requires an owner-approved change to that requirement or a browser-proven compatible
-loading design. No claim of complete native code Retry or production chunk validation.
+At the time of that test, T020 and the chunk-recovery part of T025 remained unchecked;
+global reload and cache-busted import were both prohibited, and neither was used.
+On 2026-10-04 the owner approved cache-busted application-owned module loading only
+on explicit failed-code Retry for 009 and 010. Global reload remains prohibited.
+The subsequent Contact implementation added shared parsed-ESM recovery. Native
+`verify-code-retry.mjs` now aborts actual Article/Contact entry and dependency requests,
+restores networking and double-activates Retry. All four cases recover without a
+second document navigation; each recovered source is fetched only once. Successful
+Contact recovery also preserves Home, inert state and draft after dismissal/reopening.
+Generation ownership prevents a late component mount after departure in routed tests.
+The shared loader also passed a native held-fetch/Close/late-resolution Contact case.
+T020/T025 are now checked. No production chunk validation is claimed.
 
-All evidence is from development serving and controlled tests. No packages, production
+The earlier detail-only evidence is from development serving and controlled tests. No packages, production
 build, release/version change, deployment or commit was made. Existing 008 edits were
 preserved. Post-implementation hooks were parsed and are empty.

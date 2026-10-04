@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { ARTICLE_ROUTE_LOADER } from './article-route-loader';
 import { ArticlePageComponent } from './work-module/work/article-page/article-page.component';
 import { ArticleListSnapshotService } from './work-module/work/articles/article-list-snapshot.service';
+import { CONTACT_ROUTING_PROVIDERS } from './shared/contact-modal-host';
 
 describe('application routes', () => {
   let router: Router;
@@ -21,6 +22,7 @@ describe('application routes', () => {
     await TestBed.configureTestingModule({
       providers: [
         provideRouter(APP_ROUTES),
+        ...CONTACT_ROUTING_PROVIDERS,
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
@@ -147,7 +149,7 @@ describe('application routes', () => {
     const loader = jasmine.createSpy('actual detail loader').and.callFake(() =>
     ++attempts === 1 ? Promise.reject(new Error('Controlled unavailable chunk')) : Promise.resolve(ArticlePageComponent));
     await TestBed.configureTestingModule({
-    providers: [provideRouter(APP_ROUTES), provideHttpClient(), provideHttpClientTesting(),
+    providers: [provideRouter(APP_ROUTES), ...CONTACT_ROUTING_PROVIDERS, provideHttpClient(), provideHttpClientTesting(),
       { provide: ARTICLE_ROUTE_LOADER, useValue: loader }],
     }).compileComponents();
     harness = await RouterTestingHarness.create();

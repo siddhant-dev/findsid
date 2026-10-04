@@ -5,50 +5,54 @@ supersedes earlier navigation-away permission. Generation only; no live sends.
 
 ## Phase 1: Setup
 
-- [ ] T001 Verify001/002/012 and runnable CDK/router/HTTP fixtures through specs/010-contact-modal/quickstart.md;007/009 background regressions must be covered before final completion.
+- [X] T001 Verify001/002/012 and runnable CDK/router/HTTP fixtures through specs/010-contact-modal/quickstart.md;007/009 background regressions must be covered before final completion.
 - [ ] T002 Repair standalone imports/providers in src/app/contact-module/contact/contact.component.spec.ts and establish actual history/overlay baseline in src/app/shared/contact-modal-host.spec.ts before behavioral red.
 
 ## Phase 2: Foundational
 
-- [ ] T003 Capture current validators/provider encoding/success contract using src/app/contact-module/contact/contact.component.ts, src/app/contact-module/services/contact.service.ts and synthetic tests; don't copy endpoint/contact data into logs/docs or change phone regex/trim/limits silently.
-- [ ] T004 Add state/lock/session scaffold tests in src/app/contact-module/services/contact-session.service.spec.ts for editing/sending/success/failure and immutable input; no actual POST or accepted session implementation in scaffold.
+- [X] T003 Capture current validators/provider encoding/success contract using src/app/contact-module/contact/contact.component.ts, src/app/contact-module/services/contact.service.ts and synthetic tests; don't copy endpoint/contact data into logs/docs or change phone regex/trim/limits silently.
+- [X] T004 Add state/lock/session scaffold tests in src/app/contact-module/services/contact-session.service.spec.ts for editing/sending/success/failure and immutable input; no actual POST or accepted session implementation in scaffold.
 
 ## Phase 3: US1 - Compose a Contact Message (P1, MVP)
 
 **Independent test**: Route-lazy one dialog retains background/draft, correct current
 validators/blur-only errors and allowed history/focus behavior.
 
-- [ ] T005 [P] [US1] Add failing required-name/email-or-phone/message24-25/current-phone10-15/email/blur-not-dirty-submit/draft tests in src/app/contact-module/contact/contact.component.spec.ts.
+- [X] T005 [P] [US1] Add failing required-name/email-or-phone/message24-25/current-phone10-15/email/blur-not-dirty-submit/draft tests in src/app/contact-module/contact/contact.component.spec.ts.
 - [ ] T006 [P] [US1] Add failing ordinary/direct /contact/open-once/unlocked Back-Forward/background/focus/code-error tests in src/app/shared/contact-modal-host.spec.ts plus dialog geometry/inert-background/Tab-ShiftTab-trap/320px-zoom-font-static-motion cases in an independent src/app/contact-module/contact/contact-dialog.spec.ts before T010-T013 changes overlay presentation.
 - [ ] T007 [US1] Observe T005-T006 intended failures and record in specs/010-contact-modal/quickstart.md before form/modal routing edits.
-- [ ] T008 [US1] Introduce nonnullable typed controls/current rules in src/app/contact-module/contact/contact.component.ts and models/contact.model.ts: required name, valid optional email/phone, "at least one contact channel", message required/min25; blur/touched owns errors, invalid submit never POSTs/locks or touches every field.
-- [ ] T009 [US1] Implement memory-only editing draft/blur-state in src/app/contact-module/services/contact-session.service.ts; no URLs/history/localStorage/log payloads, refresh clears, permitted editing/failure dismissal retains input.
-- [ ] T010 [US1] Build one labelled CDK aria-modal dialog in src/app/contact-module/contact/contact.component.{ts,html,scss} with exact approved title/intro, field labels/autocomplete/errors,32rem max/1.5rem padding-gaps/1rem clearance/viewport-minus2rem internal scroll; inert background/focus trap/name focus/restore, keeping valid Send unavailable until US2 provider/lock red-green gates pass.
-- [ ] T011 [US1] Implement lightweight root route/background/opening-history ownership in src/app/shared/contact-modal-host.ts and src/app/app.component.{ts,html}; ordinary opening pushes once/keeps live Home-detail, direct entry Home/dismiss replace '/', no eager Contact/CDK form graph.
-- [ ] T012 [US1] Wire lazy /contact integration in src/app/app.routes.ts, unlocked dismissal to verified owned prior entry without push and Forward reopen in contact-modal-host.ts; live trigger focus or page fallback, background metadata unchanged.
-- [ ] T013 [US1] Implement eager accessible code-load Retry/Close failure surface in src/app/shared/contact-modal-host.ts; actual failed-loader Retry/duplicate guard/generation no late mount after close, no cache-busting/global reload.
-- [ ] T014 [US1] Verify compose/draft/history/focus/blur semantics in src/app/contact-module/contact/contact.component.spec.ts and contact-modal-host.spec.ts; one bottom trigger/no sidebar/metadata duplicates.
+- [X] T008 [US1] Introduce nonnullable typed controls/current rules in src/app/contact-module/contact/contact.component.ts and models/contact.model.ts: required name, valid optional email/phone, "at least one contact channel", message required/min25; blur/touched owns errors, invalid submit never POSTs/locks or touches every field.
+- [X] T009 [US1] Implement memory-only editing draft/blur-state in src/app/contact-module/services/contact-session.service.ts; no URLs/history/localStorage/log payloads, refresh clears, permitted editing/failure dismissal retains input.
+- [X] T010 [US1] Build one labelled CDK aria-modal dialog in src/app/contact-module/contact/contact.component.{ts,html,scss} with exact approved title/intro, field labels/autocomplete/errors,32rem max/1.5rem padding-gaps/1rem clearance/viewport-minus2rem internal scroll; inert background/focus trap/name focus/restore, keeping valid Send unavailable until US2 provider/lock red-green gates pass.
+- [X] T011 [US1] Implement lightweight root route/background/opening-history ownership in src/app/shared/contact-modal-host.ts and src/app/app.component.{ts,html}; ordinary opening pushes once/keeps live Home-detail, direct entry Home/dismiss replace '/', no eager Contact/CDK form graph.
+- [X] T012 [US1] Wire lazy /contact integration in src/app/app.routes.ts, unlocked dismissal to verified owned prior entry without push and Forward reopen in contact-modal-host.ts; live trigger focus or page fallback, background metadata unchanged.
+- [X] T013 [US1] Implement eager accessible code-load Retry/Close failure surface in src/app/shared/contact-modal-host.ts; actual native failed-loader/dependency Retry with duplicate guard/generation and no late mount after close; explicit failed-code cache-busting allowed by 2026-10-04 owner amendment, no global reload or contact POST retry side effect.
+- [X] T014 [US1] Verify compose/draft/history/focus/blur semantics in src/app/contact-module/contact/contact.component.spec.ts and contact-modal-host.spec.ts; one bottom trigger/no sidebar/metadata duplicates.
 
 ## Phase 4: US2 - Send and Observe Real Result (P1)
 
 **Independent test**: One valid immutable POST, all pending dismissal/navigation/
 same-app Back blocked, true provider response only, retained failure Retry/reset success.
 
-- [ ] T015 [P] [US2] Add failing true-string/negative/missing/malformed/HTTP200/network/outgoing-encoding tests in src/app/contact-module/services/contact.service.spec.ts, using documented provider contract and synthetic payloads only.
-- [ ] T016 [P] [US2] Add failing immutable snapshot/duplicate Retry/lock-response-release/success-Close-clear/failure-retention tests in src/app/contact-module/services/contact-session.service.spec.ts.
+- [X] T015 [P] [US2] Add failing true-string/negative/missing/malformed/HTTP200/network/outgoing-encoding tests in src/app/contact-module/services/contact.service.spec.ts, using documented provider contract and synthetic payloads only.
+- [X] T016 [P] [US2] Add failing immutable snapshot/duplicate Retry/lock-response-release/success-Close-clear/failure-retention tests in src/app/contact-module/services/contact-session.service.spec.ts.
 - [ ] T017 [US2] Add actual pending Back URL/history-index/route/Escape/backdrop/Close/state-focus failures in src/app/shared/contact-modal-host.spec.ts and src/app/contact-module/contact/contact.component.spec.ts; record T015-T017 red in specs/010-contact-modal/quickstart.md before send/guard edits.
-- [ ] T018 [US2] Correct typed payload/guarded unknown provider response and required actual encoding in src/app/contact-module/services/contact.service.ts; success signal remains explicit documented success === 'true', arbitrary200 not success, negative/protocol/transport failure explicit without raw payload logs.
-- [ ] T019 [US2] Implement app-owned one pending subscription/immutable input snapshot and state transitions in src/app/contact-module/services/contact-session.service.ts; acquire lock before POST/Retry, response/error releases, no automatic retry/timeout/overlay-cancel/popup/delivery guarantee.
-- [ ] T020 [US2] Render same-dialog Sending/form-hidden/disabled Close, approved success/error/Retry/Close and programmatic state-heading focus in src/app/contact-module/contact/contact.component.{ts,html}; success explicit Close clears input/result, history-dismissed success may persist, failure keeps submitted input.
-- [ ] T021 [US2] Wire eager lightweight pending lock to root guard/history restoration in src/app/shared/contact-modal-host.ts and src/app/app.routes.ts; prove Angular22 cancelled-popstate actual URL/index restoration, no pushState spam/popstate preventDefault fiction/eager form imports.
-- [ ] T022 [US2] Guard Close/Escape/backdrop and same-app navigation/Back in src/app/contact-module/contact/contact.component.ts and contact-modal-host.ts until response; invalid submit no lock, full-tab reload/close/cross-document departure outside guaranteed protection.
-- [ ] T023 [US2] Verify native synthetic-delayed sending lock/unlocked restore, Tab-ShiftTab trap/inert background/state focus/internal scroll/static motion at320px/200%zoom/short windows/fonts using specs/010-contact-modal/quickstart.md.
-- [ ] T024 [US2] Verify retained007 listing/009 detail mounted underneath Contact and unchanged metadata/reading position through src/app/app.routes.spec.ts, src/app/home/home.component.spec.ts and src/app/work-module/work/article-page/article-page.component.spec.ts; no second POST on reopening.
+- [X] T018 [US2] Correct typed payload/guarded unknown provider response and required actual encoding in src/app/contact-module/services/contact.service.ts; success signal remains explicit documented success === 'true', arbitrary200 not success, negative/protocol/transport failure explicit without raw payload logs.
+- [X] T019 [US2] Implement app-owned one pending subscription/immutable input snapshot and state transitions in src/app/contact-module/services/contact-session.service.ts; acquire lock before POST/Retry, response/error releases, no automatic retry/timeout/overlay-cancel/popup/delivery guarantee.
+- [X] T020 [US2] Render same-dialog Sending/form-hidden/disabled Close, approved success/error/Retry/Close and programmatic state-heading focus in src/app/contact-module/contact/contact.component.{ts,html}; success explicit Close clears input/result, history-dismissed success may persist, failure keeps submitted input.
+- [X] T021 [US2] Wire eager lightweight pending lock to root guard/history restoration in src/app/shared/contact-modal-host.ts and src/app/app.routes.ts; prove Angular22 cancelled-popstate actual URL/index restoration, no pushState spam/popstate preventDefault fiction/eager form imports.
+- [X] T022 [US2] Guard Close/Escape/backdrop and same-app navigation/Back in src/app/contact-module/contact/contact.component.ts and contact-modal-host.ts until response; invalid submit no lock, full-tab reload/close/cross-document departure outside guaranteed protection.
+- [X] T023 [US2] Verify native synthetic-delayed sending lock/unlocked restore, Tab-ShiftTab trap/inert background/state focus/internal scroll/static motion at320px/200%zoom/short windows/fonts using specs/010-contact-modal/quickstart.md.
+- [X] T024 [US2] Verify retained007 listing/009 detail mounted underneath Contact and unchanged metadata/reading position through src/app/app.routes.spec.ts, src/app/home/home.component.spec.ts and src/app/work-module/work/article-page/article-page.component.spec.ts; no second POST on reopening.
 
 ## Phase 5: Polish and Cross-Cutting
 
-- [ ] T025 Run combined Contact/session/service/host/root/Home plus affected007/009 suites from specs/010-contact-modal/quickstart.md; controlled provider only, no live sends.
-- [ ] T026 Record red-green/native/provider-encoding/history/focus evidence in specs/010-contact-modal/quickstart.md; audit privacy/lazy graph and leave backend/resources/version/publication unchanged.
+- [X] T025 Run combined Contact/session/service/host/root/Home plus affected007/009 suites from specs/010-contact-modal/quickstart.md; controlled provider only, no live sends.
+- [X] T026 Record red-green/native/provider-encoding/history/focus evidence in specs/010-contact-modal/quickstart.md; audit privacy/lazy graph and leave backend/resources/version/publication unchanged.
+
+The four unchecked tasks are historical test-first evidence gaps, not unimplemented
+current behavior. See quickstart.md; later green evidence cannot satisfy a requirement
+to observe failures before the corresponding implementation.
 
 ## Dependencies and Execution Order
 

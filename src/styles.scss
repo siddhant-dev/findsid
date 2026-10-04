@@ -1,4 +1,5 @@
 @use "vars.scss" as *;
+@import "@angular/cdk/overlay-prebuilt.css";
 
 :root {
   --bg-color: #0b192c;
@@ -220,6 +221,12 @@ textarea:focus {
 .modal-backdrop {
   position: fixed;
   inset: 0;
+}
+
+.contact-backdrop {
+  background: $modal-backdrop;
+  opacity: 1;
+  transition: none;
 }
 
 .modal {
