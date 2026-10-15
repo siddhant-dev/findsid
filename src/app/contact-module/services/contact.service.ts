@@ -1,43 +1,26 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Contact } from '../models/contact.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class ContactService {
-  formURL: string = environment.formURL;
-
-  constructor(private http: HttpClient) {}
-
-  sendEmail(data: Contact): Observable<any> {
-    const headers = new HttpHeaders().set(
-      'Content-type',
-      'application/x-www-form-urlencoded',
+  readonly formURL = environment.formURL;
+  constructor(private readonly http: HttpClient) {}
+  sendEmail(data: Readonly<Contact>): Observable<void> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json', Accept: 'application/json' });
+    return this.http.post<unknown>(this.formURL, data, { headers }).pipe(
+      map(response => {
+        if (!response || typeof response !== 'object' || !('success' in response) || response.success !== 'true') {
+          throw new Error('Contact provider did not confirm success');
+        }
+      }),
+      catchError((error: unknown) => {
+        console.error('Contact request failed:',
+          error instanceof HttpErrorResponse ? `HTTP ${error.status}` : 'Unconfirmed provider response');
+        return throwError(() => error);
+      }),
     );
-    return this.http
-      .post(this.formURL, data, { headers: headers })
-      .pipe(catchError(this.handleError));
-  }
-
-  private handleError(err: HttpErrorResponse): Observable<any> {
-    let errMsg = '';
-    if (err.error instanceof Error) {
-      // A client-side or network error occurred. Handle it accordingly.
-      console.log('An error occurred:', err.error.message);
-      errMsg = err.error.message;
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.log(`Backend returned code ${err.status}`);
-      errMsg = err.error.status;
-    }
-    return throwError(() => errMsg);
   }
 }

@@ -1,15 +1,45 @@
-@if (!showSpinner) {
-  <div class="grid-container" aria-labelledby="tab-article" id="articles" tabindex="0">
-    @for (article of articles; track article) {
-      <app-card [card_data]=article></app-card>
+@if (session.state === 'initial-loading') {
+  <p role="status" class="body-text muted-text">Loading articles</p>
+  <div class="grid-container" aria-hidden="true" inert>
+    @for (skeleton of skeletons; track skeleton) {
+      <boneyard-skeleton [loading]="!!bones" [initialBones]="bones"
+        color="var(--text-muted)" darkColor="var(--text-muted)"
+        [animate]="reducedMotion ? 'solid' : 'pulse'" [stagger]="false" [transition]="false">
+        <div class="skeleton-card">
+          <p class="metadata-text">Publication date</p>
+          <p class="content-title">Article title</p>
+          <p class="description-text">Article description</p>
+          <span class="tag">Article tag</span>
+        </div>
+      </boneyard-skeleton>
     }
   </div>
 }
-
-@if (showSpinner) {
-  <app-loader></app-loader>
+@if (session.displayed.length) {
+  <ul class="grid-container" [attr.aria-labelledby]="embedded ? 'articles-heading' : null">
+    @for (article of session.displayed; track article.sessionKey) {
+      <li [attr.data-article-key]="article.sessionKey">
+        <app-card [card_data]="articleCard(article.source)"></app-card>
+      </li>
+    }
+  </ul>
 }
-
-@if (error) {
-  <div class="error">{{error}}</div>
+@if (session.state === 'empty') {
+  <p role="status" class="empty-state">No articles published yet.</p>
+}
+@if (session.state === 'initial-error' || session.state === 'append-error') {
+  <div role="alert" class="listing-actions">
+    <p class="error-text">Articles couldn't be loaded.</p>
+    <button type="button" class="blueprint-button" (click)="retry($event)">
+      {{ session.state === 'append-error' ? 'Retry loading more' : 'Retry' }}
+    </button>
+  </div>
+} @else if (session.hasMore) {
+  <div class="listing-actions">
+    @if (session.state === 'appending') {
+      <p role="status" class="body-text muted-text">Loading articles</p>
+    }
+    <button type="button" class="blueprint-button" [disabled]="session.state === 'appending'"
+      (click)="append($event)">{{ session.state === 'appending' ? 'Loading more...' : 'View more' }}</button>
+  </div>
 }

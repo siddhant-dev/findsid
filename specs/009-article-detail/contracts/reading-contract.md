@@ -40,6 +40,10 @@ Code/tables scroll locally and remain keyboard-readable, not page-wide overflow.
 
 Use fixed skeleton colors independent of OS theme, static reduced motion and visible
 focus. Explain error states without raw server dumps. Block duplicate retries.
+Owner amendment 2026-10-04: explicit Retry after lazy-code failure may cache-bust
+the application-owned module load to bypass cached rejection. No document reload,
+automatic retry or data-request cache-busting. Preserve generation ownership and
+verify recovery using a real failed chunk fetch, not only a controlled Promise.
 
 ## Return and Lifecycle
 

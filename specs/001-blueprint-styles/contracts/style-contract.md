@@ -8,6 +8,7 @@ Authority: `ideas/gemini.index.html` and user decisions in `spec.md`.
 |----------|-------------|
 | `--bg-color` | `#0b192c` |
 | `--bg-secondary` | `#1e293b` |
+| `--surface-color` | `rgba(30, 41, 59, 0.4)` |
 | `--border-color` | `rgba(56, 189, 248, 0.25)` |
 | `--border-active` | `#38bdf8` |
 | `--text-main` | `#f8fafc` |
@@ -33,8 +34,28 @@ Manifest background/theme_color both use the fixed background.
 | Section label | Mono 0.85rem; accent; uppercase; 0.1em tracking |
 
 Current component geometry stays unchanged. Reference card spacing/corner marks and
-canvas/split-layout rules belong to later component features. Do not copy a universal
+split-layout rules belong to later component features. Do not copy a universal
 margin reset into preserved layouts.
+
+## Blueprint Canvas (Scope Correction, 2026-10-03)
+
+Feature 001 owns the reference grid; feature 002 retains/reuses this single canvas.
+The user approved grid inclusion and confirmed viewport, scrolling, input-layering
+and reduced-motion edge cases in `spec.md` on 2026-10-03.
+
+| Property | Reference value |
+|----------|-----------------|
+| Base | #0b192c |
+| Major grid | Horizontal/vertical 1px rgba(56,189,248,0.08) lines; 100px squares |
+| Minor grid | Horizontal/vertical 1px rgba(56,189,248,0.03) lines; 20px squares |
+| Alignment | -1px -1px for all four gradient layers |
+| Vignette | Circle at 50% 50%; transparent 40%; rgba(11,25,44,0.8) 100% |
+
+Implementation: fixed inset-zero decorative layer, aria-hidden, no focusable
+children, pointer-events none, below application content. Use inset bounds instead of
+100vw to avoid scrollbar-induced overflow. No animation/parallax or layout reset.
+Opaque form/dialog/code surfaces retain their existing backgrounds for readability.
+Tests must verify emitted gradients and mounting/layering, not just the navy base color.
 
 ## Approved Extensions
 

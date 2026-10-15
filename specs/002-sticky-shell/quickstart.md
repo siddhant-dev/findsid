@@ -1,6 +1,49 @@
 # Quickstart Validation: Sticky Portfolio Shell
 
-This is a later implementation guide, not evidence the shell exists or tests pass.
+This guide records the local implementation validation. It does not close prerequisite,
+release, or main-only build gates.
+
+## Execution Evidence (2026-10-03)
+
+- Baseline `app.component.spec.ts` passed 5/5 with the repository's cached
+  Playwright Chromium when `CHROME_BIN` was pointed at
+  `chromium_headless_shell-1243/chrome-headless-shell-mac-arm64/chrome-headless-shell`.
+- Before shell edits, the new root assertions failed 3/7 tests for the missing owner
+  title/summary/version, absent numbered section navigation, missing bottom Contact/
+  Dev.to actions, unsafe external-link rel values and old icon labels.
+- Before route edits, the new actual `RouterTestingHarness` checks failed 4/4 for
+  missing permanent homepage sections and all three unimplemented legacy aliases.
+- These were behavioral failures after a runnable browser baseline; no production
+  shell changes had started when captured.
+
+## Green and Native Browser Evidence
+
+- After implementation, `npm test -- --watch=false --browsers=ChromeHeadless`
+  passed 55/55 browser tests and all 8 Node policy/version tests. The direct
+  `/#articles` scenario verified that the lazy Articles component mounted and opened
+  only the controlled Dev.to request; legacy aliases and unknown fragments were also
+  exercised without live API access.
+- `npx tsc --noEmit -p tsconfig.app.json`, `node scripts/generate-app-version.mjs
+  --check`, and `git diff --check` passed.
+- Headless Chromium at 320, 1023, 1024, and 1280 CSS px, plus a 500px-tall desktop
+  viewport and a 640 CSS px effective viewport (200% zoom equivalent on a 1280px
+  display), reported no horizontal overflow and five visible section links. The
+  shell stacked at 320/640/1023px and used two tracks at 1024/1280px. Sticky identity
+  remained enabled at 1024x900 and 1280x900, and correctly switched to static at
+  1024x500 because the identity content was taller than the viewport.
+- Native reduced-motion browser navigation pushed one history entry for a changed
+  fragment, none for a repeated Articles selection, pushed one for Vault, and Back
+  restored `#articles` with Articles marked `aria-current="location"`. Dev.to and
+  Instagram endpoints were blocked during the preview checks.
+- The viewport matrix exposed shell box-model overflow and a fixed About image at
+  narrow widths; both were corrected before recording the passing measurements.
+- The test browser build and local preview do not satisfy the permitted main-only
+  production chunk/network-isolation inspection. No deployment or live API call was
+  made; prerequisite 001/012 completion evidence remains open.
+- Teardown coverage verifies a deferred section loader resolving after owner
+  destruction cannot publish/mount, and the About interval cleanup has a regression
+  test. Existing detail, Contact, Resume, and artwork route implementations were
+  retained rather than redesigned.
 
 ## Prerequisites
 
@@ -89,5 +132,6 @@ or media-query behavior. Use real-browser assertions; manual preview supplements
 See [shell-contract.md](contracts/shell-contract.md) for exact content/values and
 [data-model.md](data-model.md) for transition ownership.
 
-No tasks or release generated here. Full build belongs to constitution-compliant main-only
-automation; publication remains held until the entire redesign is approved.
+Full production build and initial production-chunk/network measurements belong to
+constitution-compliant main-only automation; publication remains held until prerequisite
+and feature acceptance evidence is complete.

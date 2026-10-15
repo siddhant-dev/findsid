@@ -77,6 +77,17 @@ reload/cross-document departure cannot be reliably prevented or guarantee delive
 After confirmed success, selecting Close clears submitted draft/result; next opening
 is a blank form. Failure retains input/Retry. All necessary decisions are approved.
 
+Owner amendment on 2026-10-04: explicit Retry after a lazy-code failure may use a
+cache-busted application-owned module URL to bypass the browser's cached rejected
+import, as demonstrated during 009 validation. Normal lazy loads stay unchanged.
+No document reload, automatic code retries or contact POST retries/cache-busting
+are authorized. Preserve background/draft/history, duplicate guards and stale
+completion protection. Native recovery still requires verification.
+
+Owner clarification on 2026-10-04: Contact takes over the entire viewport with its
+backdrop and interaction lock, including the identity/sidebar area, not only the
+right content column. The form panel stays centered with the approved 32rem maximum.
+
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
@@ -102,6 +113,9 @@ is a blank form. Failure retains input/Retry. All necessary decisions are approv
 - **FR-009**: Show field errors after blur and associate them with the corresponding
   fields; don't introduce submit-triggered field-error display.
 - **FR-010**: Lazy-code failure retains background and accessible modal Retry/Close.
+  Explicit failed-code Retry may cache-bust the application-owned module load,
+  without reloading the document. Prove actual native failed-chunk recovery;
+  duplicate attempts and late mounting after dismissal remain prohibited.
 - **FR-011**: After confirmed success, selecting Close clears submitted draft/result;
   next opening is blank. Failure dismissal keeps the failed input and Retry state.
 - **FR-012**: Controlled-response tests observed failing before implementation;

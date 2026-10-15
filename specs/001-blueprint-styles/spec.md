@@ -13,6 +13,16 @@
 without compatibility aliases. Remove theme switching entirely. Preserve component
 layouts and flows until their own features. Do not publish until the redesign is complete.
 
+**Grid scope correction (2026-10-03)**: The user explicitly requested that the reference
+grid boxes be included in this visual-style foundation, not deferred to the sticky shell.
+Grid inclusion, reference appearance and the edge cases below are approved.
+
+## Clarifications
+
+### Session 2026-10-03
+
+- Q: Keep the grid fixed while scrolling, visible on mobile/200% zoom without overflow, behind content/dialogs without intercepting input, and static under reduced motion? -> A: Yes; all four cases confirmed.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - One Consistent Visual Language (Priority: P1)
@@ -35,6 +45,9 @@ compare palette, text roles, controls, and feedback with the approved style cont
    they render, **Then** they use the approved role-based typography and colors.
 3. **Given** the existing navigation, **When** I inspect or use it, **Then** no theme
    switch is present and all non-theme navigation remains available.
+4. **Given** any existing page, **When** it renders, **Then** the reference's faint
+   cyan major/minor grid and dark edge vignette appear behind the content, not just
+   a solid navy background, without altering the page's layout or interactions.
 
 ---
 
@@ -104,6 +117,17 @@ The following cases are accepted, not inferred confirmation.
 | Contact request failure | Retain input; show explicit error, Retry and Close | Later Contact feature |
 | Pending Contact send | Modal dismissal/in-app navigation blocked until response; never claim premature success | Contact010 supersedes earlier dismissal permission |
 
+### Grid Amendment Edge Cases
+
+The user confirmed all four additional grid cases on 2026-10-03.
+
+| Proposed case | Proposed outcome | Status |
+|---------------|------------------|--------|
+| Mobile, narrow windows and 200% zoom | Same reference grid; no new page-wide overflow | Confirmed |
+| Long pages and scrolling | Grid stays fixed to the viewport; content scrolls above it | Confirmed |
+| Links, keyboard focus and dialogs | Decoration never intercepts input or focus and stays behind content/dialogs | Confirmed |
+| Reduced motion | Grid and vignette remain static, with no animation or parallax | Confirmed |
+
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
@@ -128,7 +152,8 @@ The following cases are accepted, not inferred confirmation.
   typography utilities MUST be migrated directly. No stale consumer may remain.
 - **FR-007**: Non-theme component structure, route definitions, content, interaction
   logic, and page-layout breakpoints MUST remain unchanged in this feature.
-  Style-class replacements and minimal loading-status markup are permitted.
+  Style-class replacements, minimal loading-status markup and a noninteractive
+  decorative background layer are permitted; these must not change layout geometry.
 - **FR-008**: Keyboard focus, reduced motion, font fallbacks, and long-text containment
   MUST be covered by acceptance-relevant automated tests before implementation.
 - **FR-009**: Embedded article styling and temporarily retained resume styling MUST
@@ -138,6 +163,11 @@ The following cases are accepted, not inferred confirmation.
   MUST be brought to the user before dependent implementation; it MUST NOT be guessed.
 - **FR-011**: This feature MUST NOT publish the application. Later component features
   MUST have their own specifications, plans, and failing acceptance tests.
+- **FR-012**: The shared background MUST include the reference's 1px cyan grid lines:
+  100px major squares at alpha 0.08 and 20px minor squares at alpha 0.03, aligned
+  at -1px on both axes over #0b192c. Its centered dark vignette MUST fade from
+  transparent at 40% to rgba(11,25,44,0.8) at 100%. Feature 001 owns this visual
+  treatment; feature 002 reuses it rather than introducing a second grid.
 
 ### Key Entities
 
@@ -164,6 +194,9 @@ The following cases are accepted, not inferred confirmation.
   retain their baseline behavior; no route or component layout is redesigned here.
 - **SC-006**: At 320px and 1024px viewports and 200% zoom, migrated text introduces no
   new page-wide overflow compared with baseline; missing fonts do not hide content.
+- **SC-007**: All existing page backgrounds display both reference grid scales and the
+  vignette; there is exactly one shared decorative canvas, with no change to existing
+  route layouts or interactions.
 
 ## Assumptions
 

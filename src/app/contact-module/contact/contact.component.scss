@@ -1,84 +1,31 @@
 @use "../../../vars.scss" as *;
-.form-container {
-  form {
-    width: 50%;
-    transform: translateX(50%);
 
-    fieldset {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      border: 2px solid $black;
-      border-radius: 1rem;
-      padding: 0 1.5rem 2rem;
-      legend {
-        color: $blue;
-      }
-      p {
-        background-color: $yellow;
-        padding: 1rem;
-        text-align: justify;
-        border-radius: 1rem;
-        margin: 0;
-        margin-top: 2rem;
-      }
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        label {
-          padding-left: 1rem;
-        }
-        input,
-        textarea {
-          padding: 0.875rem 1rem;
-          border: 2px solid $black;
-          border-radius: 1rem;
-          font-family: "Montserrat", sans-serif;
-          background-color: $white;
-          color: $black;
-          &:focus {
-            outline: none;
-            border-color: $blue;
-          }
-          &.error-border {
-            border-color: $red;
-          }
-        }
-      }
-      .error-text {
-        color: $red;
-        padding-left: 1rem;
-      }
-      button {
-        @include btn-blue;
-        align-self: center;
-        transition: all 100ms ease-in;
-        &:disabled {
-          background-color: $black-100;
-          box-shadow: none;
-          border-color: $black-800;
-        }
-      }
-    }
+.contact-dialog {
+  @include surface-border;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-sizing: border-box;
+  width: min(32rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 1.5rem;
+  overflow: auto;
+  background: $bg-secondary;
+  color: $text-main;
+  p { margin: 0; }
+  form { display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
+  input, textarea {
+    @include surface-border;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.875rem 1rem;
+    background: $bg-secondary;
+    font-family: $font-sans;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    &[aria-invalid="true"] { border-color: $error-color; }
   }
-}
-
-@media screen and (max-width: 811px) {
-  .form-container {
-    form {
-      width: 100%;
-      transform: translateX(0);
-      fieldset {
-        padding: 0 1rem 2rem;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1200px) {
-  .form-container {
-    background-image: none;
-  }
+  textarea { resize: vertical; }
+  button { align-self: flex-start; }
 }

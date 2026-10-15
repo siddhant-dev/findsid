@@ -14,7 +14,9 @@ modal dismissal and same-app navigation. Confirmed success Close resets the form
 
 **Language/Version**: Angular ^22.1.3 standalone, TypeScript ~6.0.3, HTML/SCSS.
 **Primary Dependencies**: Existing Angular forms/router/CDK Overlay/Portal/A11y/RxJS/
-HttpClient and Feather icons. No new package required.
+HttpClient and Feather icons; deferred `es-module-lexer` for owner-approved failed-code
+Retry. The small parser is needed to rewrite real ESM dependency specifiers safely,
+instead of regex rewriting or only cache-busting the top-level rejected import.
 **Storage**: Current browser memory only; existing configured contact endpoint.
 **Testing**: Existing Jasmine/Karma, standalone TestBed, HttpTestingController,
 controlled route-loader/response fixtures and native history/dialog/focus checks.
@@ -38,7 +40,7 @@ memory session and routing/history/overlay integration. Backend unchanged.
 | Edge collaboration | Grouped decisions plus final sending-lock/success-reset approved | Pass |
 | Dev.to reliability | No article API changes; controlled underlying Home/detail fixtures | Pass |
 | Main-only CI | Separate safeguards required before redesign PR automation | No waiver |
-| Standalone | Reuse framework/CDK, no package additions | Pass |
+| Standalone | Reuse framework/CDK; deferred ESM lexer only for explicit code recovery | Pass with documented implementation deviation |
 | Artwork/CalVer | No route retirement or release edit | Pass |
 
 Dependencies: foundation001 and amended shell002; preserve009 reading layout and007
@@ -59,7 +61,8 @@ specs/010-contact-modal/
 └── checklists/requirements.md
 ```
 
-`tasks.md` was generated separately with owner approval on 2026-10-03; no execution is authorized.
+`tasks.md` was generated separately with owner approval on 2026-10-03; implementation
+was authorized on 2026-10-04.
 
 ### Proposed Source
 
@@ -129,7 +132,10 @@ not defeat lazy Contact loading. No global persistent store or new dialog framew
     no second history push. After success Close clears draft/result; failure Close keeps
     draft/result for next opening.
 11. Eager lightweight modal error surface handles failed lazy UI code with Retry/Close;
-    retry actual loader without global reload/cache-busting and block repeated actions.
+    retry the actual loader without global reload; explicit failed-code Retry may
+    cache-bust the application-owned module URL under the 2026-10-04 owner amendment.
+    Keep ordinary loading unchanged, block repeated actions and invalidate late
+    completion after Close. Verify real failed-chunk/dependency recovery natively.
     Pending code import cannot mount after close/navigation invalidates its owner.
 12. Contact overlay does not rewrite background Home/detail metadata or add duplicate
     page headings/Contact buttons. Keep bottom-only trigger and safe social links.
@@ -138,6 +144,13 @@ not defeat lazy Contact loading. No global persistent store or new dialog framew
 
 ## Complexity Tracking
 
-No exception. Root route-overlay ownership and memory session are required by preserved
+Root route-overlay ownership and memory session are required by preserved
 background/history and pending-send lock. Reusing CDK avoids a replacement framework;
 root lock must not become a global form/store abstraction.
+
+The approved failed-code recovery requires a parsed lazy dependency graph: native
+module failures are document-cached, including failed dependencies. Only explicit
+Retry fetches fresh same-origin JavaScript, preserves the eager graph and creates
+temporary module blobs. Parser code is itself deferred; no eager Contact/CDK graph
+or new dialog framework. Cycles/external dependencies fail explicitly. Current
+hosting has no CSP; adding one must allow module blobs for this recovery path.

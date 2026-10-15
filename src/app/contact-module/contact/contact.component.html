@@ -1,80 +1,66 @@
-<div class="form-container">
-  <form [formGroup]="contactForm" (ngSubmit)="sendMessage()">
-    <fieldset>
-      <legend class="header-4 bold">Lets Connect </legend>
-      <p class="regular">
-        Want to connect with me for any project or job oppurtunity? Fill in the form below I'll revert back to
-        you
-      </p>
-      <div class="form-group">
-        <label class="regular bold" for="name">Enter your Name</label>
-        <input class="form-text" type="text" id="name"
-          [ngClass]="{'error-border':name!.invalid && (name!.dirty || name!.touched)} " formControlName="name"
-          placeholder="Full Name">
-        @if (name!.invalid && (name!.dirty || name!.touched)) {
-        <span class="error-text">Name is required.
-        </span>
+<ng-template #dialog>
+  <section class="contact-dialog" role="dialog" aria-modal="true" aria-labelledby="contact-title"
+    aria-describedby="contact-intro" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+    <h2 id="contact-title" class="content-title">Let's connect</h2>
+    <p id="contact-intro" class="body-text">Have a project or job opportunity in mind? Send me a message.</p>
+    @if (session.state() === 'editing') {
+      <form [formGroup]="contactForm" (ngSubmit)="sendMessage()">
+        <div class="form-group">
+          <label class="body-text" for="contact-name">Enter your Name</label>
+          <input #nameInput cdkFocusInitial id="contact-name" type="text" autocomplete="name" formControlName="name"
+            placeholder="Full Name" (blur)="blur('name')"
+            [attr.aria-invalid]="name.touched && name.invalid"
+            [attr.aria-describedby]="name.touched && name.invalid ? 'contact-name-error' : null">
+          @if (name.touched && name.invalid) { <span id="contact-name-error" class="error-text">Name is required.</span> }
+        </div>
+        <div class="form-group">
+          <label class="body-text" for="contact-email">Enter your email</label>
+          <input id="contact-email" type="email" autocomplete="email" formControlName="email"
+            placeholder="someone@example.com" (blur)="blur('email')"
+            [attr.aria-invalid]="email.touched && (email.invalid || contactForm.hasError('phoneOrEmailRequired'))"
+            [attr.aria-describedby]="channelDescription('email')">
+          @if (email.touched && email.invalid) { <span id="contact-email-error" class="error-text">Your email doesn't look right</span> }
+        </div>
+        <div class="form-group">
+          <label class="body-text" for="contact-phone">Enter your Phone No.</label>
+          <input id="contact-phone" type="tel" autocomplete="tel" formControlName="phone"
+            placeholder="+919988776655" (blur)="blur('phone')"
+            [attr.aria-invalid]="phone.touched && (phone.invalid || contactForm.hasError('phoneOrEmailRequired'))"
+            [attr.aria-describedby]="channelDescription('phone')">
+          @if (phone.touched && phone.invalid) { <span id="contact-phone-error" class="error-text">Your phone number doesn't look right</span> }
+        </div>
+        @if ((email.touched || phone.touched) && contactForm.hasError('phoneOrEmailRequired')) {
+          <span id="contact-channel-error" class="error-text">Please enter either phone or email</span>
         }
-      </div>
-      <div class="form-group">
-        <label class="regular bold" for="email">Enter your email</label>
-        <input class="form-text" [ngClass]="{'error-border':email!.invalid && (email!.dirty || email!.touched)} "
-          type="email" id="email" formControlName="email" placeholder="someone@example.com">
-        @if (email!.invalid && (email!.dirty || email!.touched)) {
-        <span class="error-text">Your email doesn't
-          look right</span>
+        <div class="form-group">
+          <label class="body-text" for="contact-message">Enter your Message</label>
+          <textarea id="contact-message" formControlName="message" placeholder="Please enter minimum of 25 chars"
+            (blur)="blur('message')" [attr.aria-invalid]="message.touched && message.invalid"
+            [attr.aria-describedby]="message.touched && message.invalid ? 'contact-message-error' : null"></textarea>
+          @if (message.touched && message.invalid) {
+            <span id="contact-message-error" class="error-text">Your message is too short please enter at least 25 chars</span>
+          }
+        </div>
+        <button class="blueprint-button" type="submit" [disabled]="contactForm.invalid">Send Message</button>
+      </form>
+    } @else {
+      <h3 #stateHeading tabindex="-1" class="content-title" role="status">
+        @switch (session.state()) {
+          @case ('sending') { Sending }
+          @case ('success') { Thank you! }
+          @case ('failure') { Message not sent }
         }
-      </div>
-      <div class="form-group">
-        <label class="regular bold" for="phone">Enter your Phone No.</label>
-        <input class="form-text" type="tel" id="phone"
-          [ngClass]="{'error-border':phone!.invalid && (phone!.dirty || phone!.touched)}" formControlName="phone"
-          placeholder="+919988776655">
-        @if (phone!.invalid && (phone!.dirty || phone!.touched)) {
-        <span class="error-text">Your phone number
-          doesn't
-          look right</span>
+      </h3>
+      @switch (session.state()) {
+        @case ('sending') { <p class="body-text muted-text" id="contact-lock">Please wait for the response before closing or navigating.</p> }
+        @case ('success') { <p class="body-text success-message">Your message has been sent. I will get back to you soon.</p> }
+        @case ('failure') {
+          <p class="body-text error-text" role="alert">Your message couldn't be sent. Please try again.</p>
+          <button class="blueprint-button" type="button" (click)="retry()">Retry</button>
         }
-        @if ((phone!.dirty || phone!.touched) && (email!.dirty || email!.touched) &&
-        contactForm?.errors?.['phoneOrEmailRequired']) {
-        <span class="error-text">
-          Please enter either phone or email
-        </span>
-        }
-      </div>
-      <div class="form-group">
-        <label class="regular bold" for="message">Enter your Message</label>
-        <textarea class="form-text" id="message"
-          [ngClass]="{'error-border':message!.invalid && (message!.dirty || message!.touched)}"
-          formControlName="message" type="tel" id="message" placeholder="Please enter minimum of 25 chars"></textarea>
-        @if (message!.invalid && (message!.dirty || message!.touched)) {
-        <span class="error-text">
-          Your message is too short please enter at least 25 chars</span>
-        }
-      </div>
-      <button class="btn-text" [disabled]="contactForm!.invalid">Send Message <i-feather name="send"></i-feather>
-      </button>
-    </fieldset>
-
-
-  </form>
-</div>
-
-<ng-template #template>
-  <div class="modal-card" cdkTrapFocus cdkTrapFocusAutoCapture>
-    <header class="modal-card-head">
-      <h5 tabindex="0" cdkFocusInitial>{{title}}</h5>
-      <a tabindex="0" (click)="closeModal()" (keydown)="handleKey($event)" role="button" aria-label="Close Modal">
-        <i-feather name="X"></i-feather>
-      </a>
-    </header>
-    <section class="modal-card-body">
-      @if (error === 'true') {
-      <i-feather class="lottie" name="send"></i-feather>
-      } @else {
-      <i-feather class="lottie" name="x"></i-feather>
       }
-      <p class="regular" tabindex="0">{{body}}</p>
-    </section>
-  </div>
+    }
+    <button class="blueprint-button" type="button" (click)="close(true)"
+      [disabled]="session.state() === 'sending'" [attr.aria-describedby]="session.state() === 'sending' ? 'contact-lock' : null">Close</button>
+  </section>
 </ng-template>

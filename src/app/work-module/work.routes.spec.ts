@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { RouterTestingHarness } from '@angular/router/testing';
 import { WORK_ROUTES } from './work.routes';
+import { HomeComponent } from '../home/home.component';
 
 describe('Work routes', () => {
   let http: HttpTestingController;
@@ -12,7 +13,11 @@ describe('Work routes', () => {
   beforeEach(async () => {
     TestBed.configureTestingModule({
       providers: [
-        provideRouter([{ path: 'work', children: WORK_ROUTES }]),
+        provideRouter([
+          { path: 'work', children: WORK_ROUTES },
+          { path: '', component: HomeComponent },
+          { path: '**', redirectTo: '' },
+        ]),
         provideHttpClient(),
         provideHttpClientTesting(),
       ],
@@ -22,14 +27,15 @@ describe('Work routes', () => {
   });
 
   afterEach(() => {
+    harness.fixture.destroy();
     http.expectNone((request) => request.url.includes('graph.instagram.com'));
     http.verify();
   });
 
-  for (const path of ['/work', '/work/art', '/work/articles']) {
+  for (const path of ['/work', '/work/articles']) {
     it(`should show articles at ${path} without requesting artwork`, async () => {
       await harness.navigateByUrl(path);
-      http.expectOne('https://dev.to/api/articles?username=siddev').flush([]);
+      http.expectOne('https://dev.to/api/articles?username=siddev&page=1&per_page=10').flush([]);
       harness.detectChanges();
 
       expect(TestBed.inject(Router).url).toBe('/work/articles');
@@ -44,7 +50,7 @@ describe('Work routes', () => {
 
   it('should keep Apps usable without requesting artwork', async () => {
     await harness.navigateByUrl('/work/apps');
-    http.expectOne('../../assets/data.json').flush([]);
+    http.expectNone('../../assets/data.json');
     harness.detectChanges();
     expect(TestBed.inject(Router).url).toBe('/work/apps');
     expect(harness.routeNativeElement?.querySelector('app-apps')).not.toBeNull();
@@ -54,6 +60,7 @@ describe('Work routes', () => {
     await harness.navigateByUrl('/work/articles/123');
     http.expectOne('https://dev.to/api/articles/123').flush({
       id: 123,
+      user: { username: 'siddev' },
       title: 'Article title',
       description: 'Article description',
       readable_publish_date: 'Oct 3',
@@ -67,10 +74,21 @@ describe('Work routes', () => {
       .toContain('Article content');
   });
 
-  it('should redirect only the exact legacy art path', () => {
+  it('has no dedicated artwork redirect', () => {
     const artRoute = WORK_ROUTES[0].children?.find((route) => route.path === 'art');
-    expect(artRoute?.pathMatch).toBe('full');
-    expect(artRoute?.redirectTo).toBe('articles');
-    expect(artRoute?.loadComponent).toBeUndefined();
+    expect(artRoute).toBeUndefined();
   });
+
+  for (const path of ['/work/art', '/work/art/nested', '/work/unknown', '/work/articles/123/nested']) {
+    it(`falls back to Home for unmatched nested path ${path}`, async () => {
+      await harness.navigateByUrl(path);
+      http.match(request => request.url.startsWith('https://dev.to/api/articles?'))
+        .forEach(request => request.flush([]));
+      harness.detectChanges();
+      expect(TestBed.inject(Router).url).toBe('/');
+      expect(harness.routeNativeElement?.querySelector('#about-heading')).not.toBeNull();
+      expect(harness.routeNativeElement?.querySelector('app-art')).toBeNull();
+      http.expectNone(request => /firebasestorage|graph\.instagram/.test(request.url));
+    });
+  }
 });

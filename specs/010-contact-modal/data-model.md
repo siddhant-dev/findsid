@@ -40,6 +40,10 @@ Home background. Normal permitted dismissal returns to verified prior entry with
 push; direct entry replaces with `/`. Same-app Back dismisses when unlocked; Forward
 reopens with session state. Pending Back is cancelled/restored, not history-push spam.
 Success Close resets; history-dismissed result can remain until explicit success Close.
+Owner-approved amendment 2026-10-04: explicit failed-code Retry may cache-bust
+the application-owned module load, without document reload or normal-load changes.
+Activation generation and duplicate guards still apply; no contact data is included
+in module URLs, and no contact POST is retried as a side effect.
 
 ## Provider Boundary
 

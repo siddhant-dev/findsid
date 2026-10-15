@@ -1,9 +1,9 @@
 <div class="tabs">
     <nav role="tablist" (keyup)="handleKeyUp($event)"
     (keydown)="handleKeyDown($event)">
-        <a #tabs (click)="activatePanel(0)" id="tab-article" role="tab" href="javascript:void(0);" class="text bold" routerLink="articles" 
+        <a #tabs (click)="activatePanel(0)" id="tab-article" role="tab" href="javascript:void(0);" class="metadata-text" routerLink="articles"
         routerLinkActive="active" aria-controls="articles">Articles</a>
-        <a #tabs (click)="activatePanel(1)" id="tab-apps" role="tab" href="javascript:void(0);" class="text bold" routerLink="apps" 
+        <a #tabs (click)="activatePanel(1)" id="tab-apps" role="tab" href="javascript:void(0);" class="metadata-text" routerLink="apps"
         routerLinkActive="active" aria-controls="apps">Apps</a>
     </nav>
 </div>

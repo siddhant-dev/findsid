@@ -2,21 +2,30 @@
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem 0;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, max(17.5rem, (100% - 3rem) / 3)), 1fr));
+  gap: 1.5rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
   & > * {
-    justify-self: center;
+    justify-self: stretch;
+    min-width: 0;
+    max-width: 100%;
   }
 }
 
-@media screen and (max-width: 800px) {
-  .grid-container {
-    grid-template-columns: repeat(1, 1fr);
-  }
+.empty-state {
+  color: $text-muted;
 }
 
-@media screen and (max-width: 1180px) and (min-width: 810px) {
-  .grid-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.skeleton-card {
+  @include surface-border;
+  padding: 24px;
+  background: $surface-color;
+
+  .metadata-text { margin: 0 0 8px; }
+  .content-title { margin: 0 0 12px; }
+  .description-text { margin: 0 0 16px; line-height: 1.6; }
 }

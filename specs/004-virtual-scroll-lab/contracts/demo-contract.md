@@ -33,7 +33,8 @@ return an incorrect duplicated window. Empty/short window means true boundary on
 
 ## States
 
-- Idle: explain 100,000 mock records; Start; no data fetch/metrics.
+- Idle: explain 100,000 mock records; Start centered horizontally and vertically in
+  the empty list viewport; no data fetch/metrics.
 - Loading: boneyard skeleton with "Loading records…" accessible status. No forced delay.
 - Ready/querying: preserve latest intent; loading/query status; no stale rows or metrics
   certified as current. Search/sort return top after latest result commits.
@@ -48,6 +49,10 @@ Use real library render lifecycle; cleanup is not merely adapter.pause().
 
 ## Honest Metrics
 
+Owner-requested layout amendment (2026-10-04): show the card footer (live measurements,
+timing explanation and row-memory comparison) only after current-generation list rows
+have rendered. Hide it while idle/loading/querying, for empty results and on error.
+
 Label latest operation: Start/search/sort/reset. Start clock begins at accepted Start
 and includes fetch/parse/validation/query/render; later operations include their processing/
 render, not a network request that did not happen.
@@ -58,9 +63,15 @@ exact paint benchmark. Scoped rendered-record element count includes buffered re
 elements, not skeletons/spacer nodes. Show match count separately if displayed.
 Never confuse adapter.itemsCount with total search matches.
 
-Owner-reported project outcomes: "Improved performance by 40–60% and reduced loading
-time by 80%" in a separate labelled project-results area. No live percentage calculation,
-guaranteed FPS, Web Worker or true remote-pagination claim.
+Owner-requested amendment (2026-10-04): replace historical project results with estimated
+rendered-row memory savings: `(1 - rendered rows / matching records) * 100`.
+Compare current-generation rendered record elements (including buffer) against a theoretical
+normal-scroll baseline rendering all current matches. Display only for ready, nonempty
+results with a positive valid rendered count; otherwise awaiting/not applicable.
+Zero savings is valid when all matches render. Assume equal per-row memory and explicitly
+label this a row-count proxy, not measured RAM or total browser-memory savings. Both retain
+the full dataset; page/library overhead is excluded. Do not render a full-list comparison,
+claim guaranteed FPS, Web Workers or true remote pagination.
 
 ## Lifecycle and Accessibility
 

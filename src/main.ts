@@ -1,6 +1,7 @@
 import { enableProdMode, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withRouterConfig } from '@angular/router';
+import { CONTACT_ROUTING_PROVIDERS } from './app/shared/contact-modal-host';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
@@ -9,7 +10,6 @@ import {
 
 import { AppComponent } from './app/app.component';
 import { APP_ROUTES } from './app/app.routes';
-import { ThemeService } from './app/services/theme.service';
 import { environment } from './environments/environment';
 
 if (environment.production) {
@@ -19,8 +19,8 @@ if (environment.production) {
 bootstrapApplication(AppComponent, {
   providers: [
     provideZoneChangeDetection(),
-    provideRouter(APP_ROUTES),
+    provideRouter(APP_ROUTES, withRouterConfig({ canceledNavigationResolution: 'computed' })),
+    ...CONTACT_ROUTING_PROVIDERS,
     provideHttpClient(withXhr(), withInterceptorsFromDi()),
-    ThemeService,
   ],
 }).catch((err) => console.error(err));

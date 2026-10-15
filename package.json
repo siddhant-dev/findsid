@@ -1,12 +1,16 @@
 {
   "name": "findsid",
-  "version": "0.9.9",
+  "version": "26.10.1",
   "scripts": {
     "ng": "ng",
+    "prestart": "node scripts/generate-app-version.mjs",
     "start": "ng serve",
+    "prebuild": "node scripts/generate-app-version.mjs",
     "build": "ng build",
+    "prewatch": "node scripts/generate-app-version.mjs",
     "watch": "ng build --watch --configuration development",
-    "test": "node --test scripts/ci-policy.test.mjs && ng test"
+    "pretest": "node scripts/generate-app-version.mjs",
+    "test": "node --test scripts/ci-policy.test.mjs scripts/generate-app-version.test.mjs scripts/generate-lab-records.test.mjs && ng test"
   },
   "private": true,
   "dependencies": {
@@ -16,12 +20,16 @@
     "@angular/compiler": "^22.1.3",
     "@angular/core": "^22.1.3",
     "@angular/forms": "^22.1.3",
+    "@angular/language-server": "^22.2.1",
     "@angular/platform-browser": "^22.1.3",
-    "@angular/platform-browser-dynamic": "^22.1.3",
     "@angular/router": "^22.1.3",
     "angular-feather": "^6.5.0",
+    "boneyard-js": "1.10.0",
+    "es-module-lexer": "^2.0.0",
+    "ngx-ui-scroll": "4.2.0",
     "rxjs": "^7.8.2",
     "tslib": "^2.3.0",
+    "vscroll": "1.8.4",
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
@@ -29,7 +37,6 @@
     "@angular/cli": "^22.1.5",
     "@angular/compiler-cli": "^22.1.3",
     "@types/jasmine": "~3.10.0",
-    "@types/jest": "^30.0.0",
     "@types/node": "^26.2.0",
     "istanbul-lib-instrument": "^6.0.3",
     "jasmine-core": "~3.10.0",

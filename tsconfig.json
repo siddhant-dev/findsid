@@ -13,12 +13,13 @@
     "declaration": false,
     "experimentalDecorators": true,
     "moduleResolution": "bundler",
+    "resolveJsonModule": true,
     "importHelpers": true,
     "target": "ES2022",
     "module": "es2020",
     "lib": ["ES2022", "dom",],
     "useDefineForClassFields": false,
-    "types": ["jest"]
+    "types": ["jasmine", "node"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

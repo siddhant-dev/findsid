@@ -35,18 +35,7 @@
               "src/robots.txt"
             ],
             "styles": [
-              "src/vars.scss",
-              "src/styles.scss",
-              {
-                "input": "src/themes/light.scss",
-                "bundleName": "light",
-                "inject": false
-              },
-              {
-                "input": "src/themes/dark.scss",
-                "bundleName": "dark",
-                "inject": false
-              }
+              "src/styles.scss"
             ],
             "scripts": [
             ],
@@ -117,7 +106,6 @@
               "src/robots.txt"
             ],
             "styles": [
-              "src/vars.scss",
               "src/styles.scss"
             ],
             "scripts": [

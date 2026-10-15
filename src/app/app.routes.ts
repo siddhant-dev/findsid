@@ -1,29 +1,49 @@
-import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { ArticleRouteComponent } from './article-route.component';
+import { ContactModalHost, contactCanDeactivate } from './shared/contact-modal-host';
 
 export const APP_ROUTES: Routes = [
   {
-    path: '',
-    loadComponent: () =>
-      import('./about/about.component').then((m) => m.AboutComponent),
+    path: 'work/articles/:id',
+    data: { layout: 'reading' },
+    component: ArticleRouteComponent,
   },
   {
     path: 'work',
-    loadChildren: () =>
-      import('./work-module/work.routes').then((m) => m.WORK_ROUTES),
+    pathMatch: 'full',
+    redirectTo: () => inject(Router).parseUrl('/#articles'),
   },
   {
-    path: 'resume',
-    loadComponent: () =>
-      import('./resume-module/resume/resume.component').then(
-        (m) => m.ResumeComponent,
-      ),
+    path: 'work',
+    children: [
+      {
+        path: 'articles',
+        pathMatch: 'full',
+        redirectTo: () => inject(Router).parseUrl('/#articles'),
+      },
+      {
+        path: 'apps',
+        pathMatch: 'full',
+        redirectTo: () => inject(Router).parseUrl('/#vault'),
+      },
+      {
+        path: '',
+        loadChildren: () =>
+          import('./work-module/work.routes').then((module) => module.WORK_ROUTES),
+      },
+    ],
+  },
+  {
+    path: '',
+    component: HomeComponent,
   },
   {
     path: 'contact',
-    loadComponent: () =>
-      import('./contact-module/contact/contact.component').then(
-        (m) => m.ContactComponent,
-      ),
+    outlet: 'contact',
+    component: ContactModalHost,
+    canDeactivate: [contactCanDeactivate],
   },
   {
     path: '**',

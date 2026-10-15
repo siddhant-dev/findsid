@@ -1,12 +1,51 @@
 @use "vars.scss" as *;
+@import "@angular/cdk/overlay-prebuilt.css";
+
+:root {
+  --bg-color: #0b192c;
+  --bg-secondary: #1e293b;
+  --surface-color: rgba(30, 41, 59, 0.4);
+  --border-color: rgba(56, 189, 248, 0.25);
+  --border-active: #38bdf8;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent-glow: rgba(56, 189, 248, 0.15);
+  --error-color: #ef4444;
+  --modal-backdrop: rgba(11, 25, 44, 0.8);
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Fira Code', monospace;
+  --section-reading-offset: 6rem;
+}
+
+.blueprint-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-color: $bg-color;
+  background-image:
+    linear-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      circle at 50% 50%, transparent 40%, rgba(11, 25, 44, 0.8) 100%
+    );
+  }
+}
 
 * {
-  &:focus {
-    outline: 2px solid $black;
-    border-radius: 0.25rem;
-  }
   scrollbar-width: thin;
-  scrollbar-color: $black $black-100;
+  scrollbar-color: $accent $bg-secondary;
 }
 
 ::-webkit-scrollbar {
@@ -14,345 +53,224 @@
 }
 
 ::-webkit-scrollbar-track {
-  background-color: $black-100;
+  background-color: $bg-secondary;
 }
+
 ::-webkit-scrollbar-thumb {
-  background-color: $black;
-  &:hover {
-    background-color: $black-800;
-  }
+  background-color: $accent;
 }
 
 html,
 body {
   margin: 0;
-  font-family: "Montserrat", sans-serif;
-  scroll-behavior: smooth;
-  height: -webkit-fill-available;
   box-sizing: border-box;
-  background-color: $white;
-  color: $black;
-  font-size: 16px;
+  height: -webkit-fill-available;
+  font-family: $font-sans;
+  background-color: $bg-color;
+  color: $text-main;
+  font-size: inherit;
+  overflow-wrap: anywhere;
 }
 
-h1,
-.header-text {
-  font-style: normal;
-  font-weight: 800;
-  font-size: 44px;
-  line-height: 54px;
+p {
+  font-family: $font-sans;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+code,
+pre {
+  font-family: $font-mono;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid $border-active;
+  outline-offset: 2px;
+}
+
+main:focus {
+  outline: none;
+}
+
+.page-title {
+  color: #fff;
+  font-family: $font-sans;
+  font-size: 2.75rem;
+  font-weight: 700;
+}
+
+.section-heading {
+  color: $accent;
+  font-family: $font-mono;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.content-title {
+  color: $text-main;
+  font-family: $font-sans;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.page-title,
+.section-heading,
+.content-title {
   margin: 0;
 }
 
-h2,
-.header-2 {
-  font-style: normal;
-  font-size: 44px;
-  line-height: 54px;
-  font-weight: normal;
-  margin: 0;
-  &.bold {
-    font-weight: bold;
-  }
+.body-text {
+  color: $text-main;
+  font-family: $font-sans;
+  font-size: 0.95rem;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
-h4,
-.header-4 {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 36px;
-  line-height: 40px;
-  margin: 0;
-
-  &.bold {
-    font-weight: bold;
-
-    &.spaced {
-      letter-spacing: 8px;
-      text-transform: uppercase;
-    }
-  }
-
-  &.extra-bold {
-    font-weight: 800;
-  }
+.description-text {
+  color: $text-muted;
+  font-family: $font-sans;
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 
-h5,
-.header-5 {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 27px;
-  line-height: 32px;
-  margin: 0;
-
-  &.bold {
-    font-weight: bold;
-  }
-
-  &.extra-bold {
-    font-weight: 800;
-  }
+.navigation-text {
+  color: $text-main;
+  font-family: $font-mono;
+  font-size: 0.85rem;
+  font-weight: 400;
 }
 
-h6,
-.header-6 {
-  font-family: "Montserrat", sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 28px;
-  margin: 0;
-
-  &.bold {
-    font-weight: bold;
-  }
-
-  &.extra-bold {
-    font-weight: 800;
-  }
+.metadata-text {
+  color: $text-muted;
+  font-family: $font-mono;
+  font-size: 0.75rem;
+  font-weight: 400;
 }
 
-.btn-text,
-.form-text {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 21px;
-  line-height: 28px;
-
-  &.bold {
-    font-weight: bold;
-  }
-
-  &.extra-bold {
-    font-weight: 800;
-  }
+.accent-text,
+.full-article a {
+  color: $accent;
 }
 
-p,
-.regular {
-  font-family: "Montserrat", sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 17px;
-  line-height: 24px;
+.muted-text {
+  color: $text-muted;
+}
 
-  &.bold {
-    font-weight: bold;
-  }
+.tag {
+  @include tag;
+}
 
-  &.extra-bold {
-    font-weight: 800;
-  }
+.blueprint-button {
+  @include blueprint-button;
+}
+
+button:disabled,
+input:disabled,
+textarea:disabled,
+[aria-disabled="true"] {
+  color: $text-muted;
+  cursor: not-allowed;
+}
+
+.error,
+.error-message,
+.error-text {
+  color: $error-color;
 }
 
 .error {
-  background-color: $red-800;
-  padding: 2rem;
-  border-radius: 1rem;
+  @include surface-border;
+  border-color: $error-color;
+  padding: 1rem;
+  background-color: $bg-secondary;
 }
 
-.text {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15px;
-  line-height: 20px;
-
-  &.bold {
-    font-weight: bold;
-  }
-
-  &.extra-bold {
-    font-weight: 800;
-  }
+.success-message {
+  color: $accent;
 }
 
-.sub {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 18px;
-
-  &.bold {
-    font-weight: bold;
-  }
-
-  &.extra-bold {
-    font-weight: 800;
-  }
+input,
+textarea {
+  color: $text-main;
 }
 
-.sub-2 {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-
-  &.bold {
-    font-weight: bold;
-  }
-
-  &.extra-bold {
-    font-weight: 800;
-  }
+input::placeholder,
+textarea::placeholder {
+  color: $text-muted;
+  opacity: 1;
 }
 
-.overline {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
-  line-height: 16px;
-
-  &.bold {
-    font-weight: bold;
-  }
-
-  &.extra-bold {
-    font-weight: 800;
-  }
+input:focus,
+textarea:focus {
+  border-color: $border-active;
 }
 
-.blue {
-  color: $blue;
-  &-bg {
-    background-color: $blue;
-    color: $white;
-  }
-}
-
-.highlight__panel-action.js-fullscreen-code-action {
-  display: none;
-}
-
-.highlight {
-  &.html,
-  .javascript,
-  .css,
-  .plaintext,
-  .typescript {
-    color: $white;
-    white-space: break-spaces;
-    padding: 1rem;
-    border-radius: 16px;
-    background-color: black; //lighten($color: $black, $amount: 5);
-    font-weight: bold;
-  }
-  code {
-    color: #fff;
-  }
-}
-
-code {
-  font-weight: bolder;
-}
-
-.nt,
-.kd,
-.k,
-.p,
-.o {
-  color: $red-800;
-}
-
-.m,
-.s2,
-.s1,
-.cm,
-.err {
-  color: whitesmoke;
-}
-
-.c1 {
-  color: $yellow;
-}
-
-.na,
-.nl,
-.nx,
-.n {
-  color: $green-800;
-}
-
-.s {
-  color: $yellow-800;
-}
-
-.full-article {
-  a {
-    color: $blue;
-    text-decoration: none;
-  }
-}
-
-@media screen and (max-width: 811px) {
-  .article-body-image-wrapper {
-    img {
-      width: 80%;
-      height: auto;
-    }
-  }
-
-  .modal .modal-card {
-    max-width: calc(100% - 2rem);
-    .modal-card-body .lottie {
-      width: 80% !important;
-    }
-  }
+.modal-backdrop,
+.cdk-overlay-dark-backdrop {
+  background-color: $modal-backdrop;
 }
 
 .modal-backdrop {
-  background-color: #18191f;
-  opacity: 0.8;
-  bottom: 0;
-  left: 0;
   position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 101;
+  inset: 0;
+}
+
+.contact-backdrop {
+  background: $modal-backdrop;
+  opacity: 1;
+  transition: none;
 }
 
 .modal {
   position: fixed;
   z-index: -1;
-  transition: all 0.3s ease-in-out;
   margin: 0 auto;
   top: 0;
   left: 0;
   right: 0;
+
   &.active {
     top: 50%;
     z-index: 101;
-    transition: all 0.3s ease-in-out;
     transform: translateY(-50%);
   }
+
   .modal-card {
+    @include surface-border;
     margin: 0 auto;
     position: relative;
     max-height: calc(100vh - 2.5rem);
     width: 40rem;
     min-height: 20rem;
-    border-radius: 1rem;
-    border: 2px solid $black;
-    box-shadow: $shadow-600;
-    background-color: $white;
+    background-color: $bg-secondary;
+
     .modal-card-head {
       padding: 0.75rem 1.5rem;
-      border-bottom: 2px solid $black;
+      border-bottom: 1px solid $border-color;
       display: flex;
       justify-content: space-between;
       align-items: center;
+
       a {
-        text-decoration: none;
         display: flex;
         align-items: center;
         justify-content: center;
         padding: 0.5rem;
-        &:hover {
-          background-color: $red;
-          border-radius: 50%;
-        }
+        color: $accent;
+        text-decoration: none;
       }
     }
+
     .modal-card-body {
       padding: 1rem 1.5rem;
       display: flex;
@@ -360,6 +278,7 @@ code {
       align-items: center;
       gap: 0.5rem;
       flex-direction: column;
+
       .lottie {
         width: 50%;
       }
@@ -371,4 +290,147 @@ code {
   position: fixed;
   width: 100%;
   overflow-y: scroll;
+}
+
+.highlight,
+.highlight.html,
+.highlight .javascript,
+.highlight .css,
+.highlight .plaintext,
+.highlight .typescript,
+.article-code {
+  color: $text-main;
+  background-color: $bg-secondary;
+  font-family: $font-mono;
+}
+
+.highlight code,
+.article-code code {
+  color: $text-main;
+}
+
+.highlight pre,
+.article-code,
+.full-article pre {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.full-article a {
+  text-decoration: none;
+}
+
+.full-article h1 {
+  font-family: $font-sans;
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.full-article h2 {
+  color: $accent;
+  font-family: $font-mono;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.full-article h3,
+.full-article h4,
+.full-article h5,
+.full-article h6 {
+  font-family: $font-sans;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.full-article h1,
+.full-article h2,
+.full-article h3,
+.full-article h4,
+.full-article h5,
+.full-article h6 {
+  margin: 0;
+}
+
+.loader-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.nt,
+.kd,
+.k,
+.s,
+.s1,
+.s2,
+.na,
+.nl,
+.nx,
+.n {
+  color: $accent;
+}
+
+.m,
+.cm,
+.c1 {
+  color: $text-muted;
+}
+
+.p,
+.o {
+  color: $text-main;
+}
+
+.err {
+  color: $error-color;
+}
+
+@media screen and (max-width: 811px) {
+  .article-body-image-wrapper img {
+    width: 80%;
+    height: auto;
+  }
+
+  .modal .modal-card {
+    max-width: calc(100% - 2rem);
+
+    .modal-card-body .lottie {
+      width: 80% !important;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+
+  .loader::before,
+  .loader::after {
+    display: none;
+  }
+
+  .loader-status {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
 }

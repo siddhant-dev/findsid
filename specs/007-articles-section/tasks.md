@@ -5,56 +5,56 @@ Task generation only. Controlled responses and observed behavioral red are manda
 
 ## Phase 1: Setup
 
-- [ ] T001 Verify001/002/006/012 prerequisites and runnable HTTP/standalone fixtures in src/app/work-module/work/articles/articles.component.spec.ts and src/app/work-module/services/articles.service.spec.ts.
-- [ ] T002 Reuse004 skeleton smoke evidence or establish equivalent boneyard Angular22 integration in src/app/work-module/work/articles/skeleton-integration.spec.ts after necessary package.json/package-lock.json changes; no force/substitution, fixed color/darkColor/static motion/cleanup/browser entrypoint.
+- [X] T001 Verify001/002/006/012 prerequisites and runnable HTTP/standalone fixtures in src/app/work-module/work/articles/articles.component.spec.ts and src/app/work-module/services/articles.service.spec.ts.
+- [X] T002 Reuse004 skeleton smoke evidence or establish equivalent boneyard Angular22 integration in src/app/work-module/work/articles/skeleton-integration.spec.ts after necessary package.json/package-lock.json changes; no force/substitution, fixed color/darkColor/static motion/cleanup/browser entrypoint.
 
 ## Phase 2: Foundational
 
-- [ ] T003 Establish independent paged fixtures/session scaffold in src/app/work-module/work/articles/article-list-session.spec.ts for0/1/9/10/11/20/21 usable records, invalid/duplicate/undated/wrong-owner pages and malformed envelopes; no accepted paging behavior in scaffold.
-- [ ] T004 Add committed-checkpoint versus uncommitted-operation fixture expectations in src/app/work-module/work/articles/article-list-session.spec.ts from data-model.md; later009 snapshot must preserve cursor/lookahead/buffers/IDs, not just displayed cards.
+- [X] T003 Establish independent paged fixtures/session scaffold in src/app/work-module/work/articles/article-list-session.spec.ts for0/1/9/10/11/20/21 usable records, invalid/duplicate/undated/wrong-owner pages and malformed envelopes; no accepted paging behavior in scaffold.
+- [X] T004 Add committed-checkpoint versus uncommitted-operation fixture expectations in src/app/work-module/work/articles/article-list-session.spec.ts from data-model.md; later009 snapshot must preserve cursor/lookahead/buffers/IDs, not just displayed cards.
 
 ## Phase 3: US1 - Browse Complete Writing Portfolio (P1, MVP)
 
 **Independent test**: Ten accepted unique cards/remainder per atomic batch, global
 dated-descending/undated-last and accurate one-usable-record lookahead.
 
-- [ ] T005 [P] [US1] Add failing global paging/filter/dedupe/atomic/lookahead/undated/ties/exhaustion tests in src/app/work-module/work/articles/article-list-session.spec.ts; cover coupled failure-after-partial/no-partial-commit/malformed-envelope/duplicate-operation/cancellation cases and component activation-only/View-more retention in articles.component.spec.ts before T008-T011 changes session/service/component behavior.
-- [ ] T006 [P] [US1] Add public request/owner/unknown-shape/optional-field adapter failures in src/app/work-module/services/articles.service.spec.ts; valid ID "Optional positive safe-integer", owner equals siddev, title "Required nonblank string".
-- [ ] T007 [US1] Observe T005-T006 failures and record in specs/007-articles-section/quickstart.md before session/service implementation.
-- [ ] T008 [US1] Add public paged GET username=siddev,page=N,per_page=10 and guarded unknown adapter in src/app/work-module/services/articles.service.ts and src/app/work-module/models/dev.model.ts; no API key/body-fetch, missing ID remains Archived, preserve detail method/data.
-- [ ] T009 [US1] Implement accepted IDs/encounter keys/dated-undated/raw remainder/source progress in src/app/work-module/work/articles/article-list-session.ts; keep first accepted valid ID, rejected records don't reserve IDs, log reasons without full payload/visitor warning.
-- [ ] T010 [US1] Implement serial ten-plus-one-lookahead/atomic batches in src/app/work-module/work/articles/article-list-session.ts: raw short/empty page alone ends source, continue full rejected/duplicate-only pages, defer undated until raw exhaustion, stable ties, no arbitrary cap.
-- [ ] T011 [US1] Wire activation-only initial request/View more/retained existing cards in src/app/work-module/work/articles/articles.component.{ts,html}; no eager root fetch, same-Home fragments keep session, button only for actual more.
-- [ ] T012 [US1] Verify every accepted fixed-fixture record eventually appears once in correct order and all batch sizes via src/app/work-module/work/articles/article-list-session.spec.ts and articles.component.spec.ts; no snapshot-isolation guarantee for concurrent live source mutation.
+- [X] T005 [P] [US1] Add failing global paging/filter/dedupe/atomic/lookahead/undated/ties/exhaustion tests in src/app/work-module/work/articles/article-list-session.spec.ts; cover coupled failure-after-partial/no-partial-commit/malformed-envelope/duplicate-operation/cancellation cases and component activation-only/View-more retention in articles.component.spec.ts before T008-T011 changes session/service/component behavior.
+- [X] T006 [P] [US1] Add public request/owner/unknown-shape/optional-field adapter failures in src/app/work-module/services/articles.service.spec.ts; valid ID "Optional positive safe-integer", owner equals siddev, title "Required nonblank string".
+- [X] T007 [US1] Observe T005-T006 failures and record in specs/007-articles-section/quickstart.md before session/service implementation.
+- [X] T008 [US1] Add public paged GET username=siddev,page=N,per_page=10 and guarded unknown adapter in src/app/work-module/services/articles.service.ts and src/app/work-module/models/dev.model.ts; no API key/body-fetch, missing ID remains Archived, preserve detail method/data.
+- [X] T009 [US1] Implement accepted IDs/encounter keys/dated-undated/raw remainder/source progress in src/app/work-module/work/articles/article-list-session.ts; keep first accepted valid ID, rejected records don't reserve IDs, log reasons without full payload/visitor warning.
+- [X] T010 [US1] Implement serial ten-plus-one-lookahead/atomic batches in src/app/work-module/work/articles/article-list-session.ts: raw short/empty page alone ends source, continue full rejected/duplicate-only pages, defer undated until raw exhaustion, stable ties, no arbitrary cap.
+- [X] T011 [US1] Wire activation-only initial request/View more/retained existing cards in src/app/work-module/work/articles/articles.component.{ts,html}; no eager root fetch, same-Home fragments keep session, button only for actual more.
+- [X] T012 [US1] Verify every accepted fixed-fixture record eventually appears once in correct order and all batch sizes via src/app/work-module/work/articles/article-list-session.spec.ts and articles.component.spec.ts; no snapshot-isolation guarantee for concurrent live source mutation.
 
 ## Phase 4: US2 - Understand Loading and Recover (P1)
 
 **Independent test**: Distinct loading/true-empty/errors, resumable pending batches
 and no duplicate/stale operation.
 
-- [ ] T013 [US2] Extend T005-T007 coupled atomic/failure/operation coverage with observed failing missing Retry progress, all-invalid versus true empty,429/protocol/network and visible initial/append-state cases in src/app/work-module/work/articles/article-list-session.spec.ts and articles.component.spec.ts before retry/state edits; rerun existing green duplicate/cancellation assertions.
-- [ ] T014 [US2] Implement initial-loading/ready/empty/initial-error/appending/append-error/disposed and pending-progress Retry in src/app/work-module/work/articles/article-list-session.ts; resume failed page, preserve staged/displayed state, all-unusable completed source Retry restarts explicitly.
-- [ ] T015 [US2] Render ten inert initial skeletons/accessibly separate status, disabled "Loading more..." button, initial Retry/inline "Retry loading more", true "No articles published yet." and all-unusable "Articles couldn't be loaded." in src/app/work-module/work/articles/articles.component.html; no artificial delay/auto retries.
-- [ ] T016 [US2] Apply fixed boneyard color/darkColor and native reduced-motion binding in src/app/work-module/work/articles/articles.component.ts; cancel HTTP/query/render work on destruction, discard active uncommitted work but expose inert committed checkpoint for009.
-- [ ] T017 [US2] Verify no partial commit/refetch of successful pending pages/no stale updates with src/app/work-module/work/articles/article-list-session.spec.ts and articles.component.spec.ts; exhausted zero-new append keeps cards and removes View more, not a new data error.
+- [X] T013 [US2] Extend T005-T007 coupled atomic/failure/operation coverage with observed failing missing Retry progress, all-invalid versus true empty,429/protocol/network and visible initial/append-state cases in src/app/work-module/work/articles/article-list-session.spec.ts and articles.component.spec.ts before retry/state edits; rerun existing green duplicate/cancellation assertions.
+- [X] T014 [US2] Implement initial-loading/ready/empty/initial-error/appending/append-error/disposed and pending-progress Retry in src/app/work-module/work/articles/article-list-session.ts; resume failed page, preserve staged/displayed state, all-unusable completed source Retry restarts explicitly.
+- [X] T015 [US2] Render ten inert initial skeletons/accessibly separate status, disabled "Loading more..." button, initial Retry/inline "Retry loading more", true "No articles published yet." and all-unusable "Articles couldn't be loaded." in src/app/work-module/work/articles/articles.component.html; no artificial delay/auto retries.
+- [X] T016 [US2] Apply fixed boneyard color/darkColor and native reduced-motion binding in src/app/work-module/work/articles/articles.component.ts; cancel HTTP/query/render work on destruction, discard active uncommitted work but expose inert committed checkpoint for009.
+- [X] T017 [US2] Verify no partial commit/refetch of successful pending pages/no stale updates with src/app/work-module/work/articles/article-list-session.spec.ts and articles.component.spec.ts; exhausted zero-new append keeps cards and removes View more, not a new data error.
 
 ## Phase 5: US3 - Accessible Responsive Grid (P1)
 
 **Independent test**:17.5rem minimum/1.5rem gaps/max3 by available width and approved
 append movement/focus through Home sole scroll owner.
 
-- [ ] T018 [P] [US3] Add failing grid/native focus/motion/skeleton/Archived-heading/enlarged-root tests in src/app/work-module/work/articles/articles.component.spec.ts.
-- [ ] T019 [P] [US3] Add failed/late/interrupted/no-new append scroll arbitration/no-history tests in src/app/home/section-navigation.spec.ts.
-- [ ] T020 [US3] Record T018-T019 intended failures in specs/007-articles-section/quickstart.md before styling/navigation edits.
-- [ ] T021 [US3] Replace viewport grid in src/app/work-module/work/articles/articles.component.scss with available-width17.5rem/1.5rem/max3 rules; narrow single column shrinks, no new breakpoint/root font override or double margins.
-- [ ] T022 [US3] Coordinate committed append render with src/app/home/section-navigation.ts and src/app/work-module/work/articles/articles.component.ts: first-new scroll, keyboard link focus or programmatic Archived heading, instant reduced motion, no URL/history writes and stale focus cancellation.
-- [ ] T023 [US3] Provide stable section focus fallback when no cards append/control vanishes and verify no shell correction undoes movement in src/app/home/section-navigation.spec.ts and src/app/work-module/work/articles/articles.component.spec.ts.
-- [ ] T024 [US3] Verify actual320px/200%zoom/blocked-font/root-font/grid/media/focus and single heading/home metadata via specs/007-articles-section/quickstart.md; pointer append doesn't force keyboard focus.
+- [X] T018 [P] [US3] Add failing grid/native focus/motion/skeleton/Archived-heading/enlarged-root tests in src/app/work-module/work/articles/articles.component.spec.ts.
+- [X] T019 [P] [US3] Add failed/late/interrupted/no-new append scroll arbitration/no-history tests in src/app/home/section-navigation.spec.ts.
+- [X] T020 [US3] Record T018-T019 intended failures in specs/007-articles-section/quickstart.md before styling/navigation edits.
+- [X] T021 [US3] Replace viewport grid in src/app/work-module/work/articles/articles.component.scss with available-width17.5rem/1.5rem/max3 rules; narrow single column shrinks, no new breakpoint/root font override or double margins.
+- [X] T022 [US3] Coordinate committed append render with src/app/home/section-navigation.ts and src/app/work-module/work/articles/articles.component.ts: first-new scroll, keyboard link focus or programmatic Archived heading, instant reduced motion, no URL/history writes and stale focus cancellation.
+- [X] T023 [US3] Provide stable section focus fallback when no cards append/control vanishes and verify no shell correction undoes movement in src/app/home/section-navigation.spec.ts and src/app/work-module/work/articles/articles.component.spec.ts.
+- [X] T024 [US3] Verify actual320px/200%zoom/blocked-font/root-font/grid/media/focus and single heading/home metadata via specs/007-articles-section/quickstart.md; pointer append doesn't force keyboard focus.
 
 ## Phase 6: Polish and Cross-Cutting
 
-- [ ] T025 Run combined session/service/cards/detail/Home suites from specs/007-articles-section/quickstart.md with controlled fixtures; check detail compatibility and committed cursor for interrupted append.
-- [ ] T026 Record behavioral/native/library/paging evidence in specs/007-articles-section/quickstart.md; no live owner call, publication/version bump or whole004-demo dependency.
+- [X] T025 Run combined session/service/cards/detail/Home suites from specs/007-articles-section/quickstart.md with controlled fixtures; check detail compatibility and committed cursor for interrupted append.
+- [X] T026 Record behavioral/native/library/paging evidence in specs/007-articles-section/quickstart.md; no live owner call, publication/version bump or whole004-demo dependency.
 
 ## Dependencies and Execution Order
 

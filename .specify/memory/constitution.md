@@ -1,18 +1,17 @@
 <!--
 Sync Impact Report
-Version change: unratified scaffold -> 1.0.0
-Modified principles: no previously ratified principles; template slots replaced with:
-  I. Portfolio
-  II. Test-First Delivery (NON-NEGOTIABLE)
-  III. Collaborative Edge-Case Discovery
-  IV. Reliable Dev.to Integration
-  V. Main-Only Build and Deployment
-Added sections: Technology and Release Constraints; Development Workflow and Quality Gates
+Version change: 1.0.1 -> 2.0.0
+Modified principles:
+  II. Test-First Delivery (NON-NEGOTIABLE): narrowly scoped historical exception.
+Added sections: none; exception added under Development Workflow and Quality Gates.
 Removed sections: none
 Follow-up TODOs: no unresolved constitution placeholders.
-Deferred implementation: New Version 26.0.0; establish test coverage incrementally;
-align GitHub Actions with test-only PRs and main-only build/deployment.
-Existing PR preview deployment and dependency-review workflows require alignment.
+Approval: owner approved historical exception and separate remote safeguards on 2026-10-04.
+Migration: dependent 001/002/009/010/012 task/evidence records require individual review,
+current acceptance coverage and explicit exception disposition; no automatic checkbox closure.
+Deferred implementation: complete remaining feature acceptance and configure/verify approved
+main safeguards through the implementation workflow. Manual browser acceptance remains
+owner-owned and unverified until results are recorded. No release/version/publication approval.
 This report is temporary review material and MUST be removed before committing the constitution.
 -->
 
@@ -32,6 +31,9 @@ a regression test that reproduces the reported defect. Work MUST follow red-gree
 establish the failing test, implement the behavior, then refactor with the affected suite green.
 Where test infrastructure is missing, the minimum runnable setup MUST be established first;
 configuration or dependency failures do not count as the required behavioral failure.
+
+The one-time historical exception below applies only to previously implemented work
+identified there. All future features, fixes and changes MUST follow this principle.
 
 ### III. Collaborative Edge-Case Discovery
 
@@ -91,6 +93,43 @@ verify failing-test evidence, accepted edge-case coverage, preservation of behav
 the approved scope, and a passing affected suite. A feature or fix MUST NOT be declared
 complete while its tests fail or required edge cases remain unresolved.
 
+### One-Time Historical Test-First Exception (Approved 2026-10-04)
+
+The owner approved resolving documented pre-implementation test-evidence gaps in existing
+features001 Blueprint Styles,002 Sticky Shell,009 Article Detail,010 Contact Modal and
+012 CI Safeguards through current acceptance and regression coverage. The scope is limited
+to work already implemented and gaps already documented before this approval, against
+baseline commit `26418f2389f70d2a531d45780bb290ecaf1b017b` and the associated feature
+quickstarts/tasks. It does not apply to new implementation or evidence gaps introduced later.
+
+The rationale is that missed historical chronology cannot be repaired by pretending a later
+test preceded implementation. For each affected task, reviewers MUST preserve the original
+gap, identify its exact requirements, provide current automated acceptance/regression
+coverage where testable, verify a passing affected suite and required native behavior, and
+record an explicit disposition under this approved exception. Retrospective red runs MUST
+NOT be represented as original pre-implementation evidence. A task MAY be closed only after
+its remaining substantive requirements pass and its exception disposition is recorded.
+This amendment alone MUST NOT mark any feature or task complete.
+
+Required behavior, unresolved edge cases, browser/device acceptance, repository protection,
+main-only build evidence and release gates are not waived. The owner will perform actual
+browser/device acceptance manually; responsibility assignment MUST NOT be recorded as a
+passing result. Current failures MUST receive a reproducing regression test before repair.
+All future behavior changes MUST continue to follow red-green-refactor.
+
+Dependent specifications, plans and task records MUST be reconciled individually at their
+next implementation review. Superseded intermediate behavior, including Resume/art support
+retired by approved feature011, MUST be identified as superseded rather than falsely tested
+as current behavior. Historical records MUST remain available.
+
+Separate owner approval permits configuring and verifying the specified main safeguards:
+required PRs and current-revision Portfolio tests, prohibition of routine bypasses,
+force pushes and deletion, and disabling unsupported merge queues or legacy automatic
+deployment. Administrative access and current settings MUST be verified before changes;
+unavailable access remains a blocker. This authorization does not permit unrelated settings
+changes, commits, merges, workflow publication, tags, releases or deployment. Publication
+still requires separate final-main-SHA approval and all release gates.
+
 Pull requests targeting `main` MUST pass the test suite before merge. Main-branch automation
 MUST run the test suite, then the full build, and deploy to Firebase only after both succeed.
 Existing workflows that build or deploy PR previews, or run separate non-test PR jobs, MUST
@@ -117,4 +156,4 @@ Every specification and plan review MUST explicitly check the core principles. E
 review MUST check test-first evidence, edge-case decisions, and applicable CI constraints.
 Noncompliance MUST be resolved or governed by an approved amendment, not silently waived.
 
-**Version**: 1.0.1 | **Ratified**: 2026-10-03 | **Last Amended**: 2026-10-03
+**Version**: 2.0.0 | **Ratified**: 2026-10-03 | **Last Amended**: 2026-10-04

@@ -1,15 +1,30 @@
-@if (!showSpinner) {
-  <div class="grid-container" id="apps" aria-labelledby="tab-apps" tabindex="0">
-    @for (data of apps; track data) {
-      <app-card [card_data]=data></app-card>
+@if (state === 'loading') {
+  <p role="status" class="body-text muted-text">Loading projects</p>
+  <div class="grid-container" aria-hidden="true" inert>
+    @for (skeleton of skeletons; track skeleton) {
+      <boneyard-skeleton [loading]="!!bones" [initialBones]="bones"
+        color="var(--text-muted)" darkColor="var(--text-muted)"
+        [animate]="reducedMotion ? 'solid' : 'pulse'" [stagger]="false" [transition]="false">
+        <div class="skeleton-card">
+          <p class="metadata-text">Publication date</p>
+          <p class="content-title">Project title</p>
+          <p class="description-text">Project description</p>
+          <span class="tag">Project tag</span>
+        </div>
+      </boneyard-skeleton>
     }
   </div>
-}
-
-@if (error) {
-  <div class="error">{{error}}</div>
-}
-
-@if (showSpinner) {
-  <app-loader></app-loader>
+} @else if (state === 'ready') {
+  <ul class="grid-container" [attr.aria-labelledby]="embedded ? 'vault-heading' : null">
+    @for (card of cards; track $index) {
+      <li><app-card [card_data]="card"></app-card></li>
+    }
+  </ul>
+} @else if (state === 'empty') {
+  <p role="status" class="empty-state">No archived projects yet.</p>
+} @else if (state === 'error') {
+  <div role="alert">
+    <p class="error-text">Projects couldn't be loaded.</p>
+    <button type="button" class="blueprint-button" (click)="retry()">Retry</button>
+  </div>
 }

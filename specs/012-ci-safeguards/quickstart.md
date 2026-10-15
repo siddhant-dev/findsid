@@ -1,8 +1,63 @@
 # Validation Guide: CI Safeguards
 
 Local implementation and dependency installation are complete. This guide records
-local validation and remaining owner-controlled acceptance; no remote workflow was
-triggered, repository setting changed or deployment attempted.
+local validation and remaining owner-controlled acceptance. Approved main protection
+was configured on2026-10-04; no remote workflow was triggered or deployment attempted.
+
+## Public Repository Safeguards (2026-10-04)
+
+The owner made the repository public and requested continuing the previously
+approved safeguards configuration. Authenticated API inspection verified public
+visibility, default branch main and administrative permission. Before changes,
+main was unprotected and no rulesets existed. Protection was applied and independently
+read back through `/branches/main/protection`:
+
+| Setting | Verified value |
+|---------|----------------|
+| Required check | Portfolio tests, GitHub Actions app15368 |
+| Up-to-date branch requirement | Enabled (`strict: true`) |
+| Pull request requirement | Enabled; zero mandatory reviewers for this owner-operated repository |
+| Administrator enforcement | Enabled |
+| PR bypass allowances | None |
+| Force pushes / branch deletion | Both prohibited |
+| Merge queue | No configured ruleset/queue; only exact-main classic protection |
+
+The provider rejected the combined create/checks API payload with422. Creating
+protection using its contexts schema, then updating required checks to pin app15368,
+succeeded. Final read-back confirms the exact intended policy; rejected requests
+are not treated as successful settings evidence.
+
+Exactly three remote workflows are active: Portfolio tests, Validate main and
+Publish to Firebase Hosting. The manual workflow is present on the default branch.
+Queued and in-progress run queries both returned empty; no legacy run needed
+cancellation. Repository automatic merging is disabled. Fork contributor approval
+is `first_time_contributors`; pending approval is not a passing check. No merge,
+commit, branch push, workflow dispatch, tag, release or deployment was performed.
+
+The current working tree based on `972fa11a1bb3a1339b251c814b401789fc08c0e1`
+passes191 Jasmine and12 Node checks (`release-public-protection-green.log`).
+Plain npm-ci success from the original setup remains recorded below; current Node22
+and the existing ChromeHeadless153.0.8010.12 binary provide a runnable baseline.
+No dependency reinstall, bypass flags or non-main production build was needed.
+All three local workflow files were inspected; no other workflow or independent
+non-test PR job exists, and ordinary forwarded npm flags/generator hooks still work.
+
+Task dispositions: T002's approved migration/bootstrap coordination is now verified
+against current remote workflows/settings/run state, not claimed to have preceded
+the already-existing remote migration. T003's current substantive runnable-baseline
+requirement is satisfied; its original unavailable-browser evidence remains below.
+Any missing historical chronology for that already-implemented setup is disposed
+under constitution2.0.0's approved exception, not represented as original red.
+T023's complete-suite/local-workflow inspection requirement is satisfied.
+
+T011 remains incomplete: configured protection is verified, but an actual failing
+main-bound PR blocked from merging has not been observed. No main-bound PR exists
+in the inspected current evidence and settings authorization does not authorize
+creating/committing a test PR. T012 still needs actual PR/fork-run acceptance.
+Latest main run37142607610 at62f5db7a6f2be1002b931352afaabee3f49cf48c failed tests
+and skipped production build, so T015's successful main build is not established.
+Historical/mutation/provider-double gates T006/T013/T016/T021 and final T024 remain
+open. Public visibility removes the provider-plan restriction, not these gates.
 
 ## Prerequisites
 

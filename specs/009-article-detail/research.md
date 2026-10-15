@@ -48,9 +48,13 @@ cancellation), refetch and recreate pages (loses progress), save only displayed 
 
 **Decision**: Eager minimal route-load failure boundary owns Retry/Back feedback.
 **Rationale**: Failed component code cannot render its own error UI.
-**Alternatives**: Silent Router error, only component-level catch, global reload or
-cache-busted import. None satisfies approved scope/UX.
-Runtime retry/cached-import semantics require browser evidence; no verified claim here.
+**Alternatives**: Silent Router error, only component-level catch and global reload
+remain rejected. Cache-busted import was initially prohibited.
+**Amendment (owner approved 2026-10-04)**: Native testing demonstrated a cached
+rejected import despite network recovery. Explicit Retry after failed lazy-code
+loading may now use a fresh application-owned module URL; normal loading remains
+unchanged, no automatic retry or document reload. Dependencies and stale ownership
+still need native verification; policy approval is not evidence of recovery.
 
 ## Metadata and Dependencies
 

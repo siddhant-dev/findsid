@@ -2,6 +2,17 @@
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
+  if (process.platform === "darwin" && !process.env.CHROME_BIN) {
+    const { existsSync } = require("node:fs");
+    const chrome =
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    const edge =
+      "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge";
+    if (!existsSync(chrome) && existsSync(edge)) {
+      process.env.CHROME_BIN = edge;
+    }
+  }
+
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular-devkit/build-angular'],
@@ -33,6 +44,12 @@ module.exports = function (config) {
       ]
     },
     reporters: ['progress', 'kjhtml'],
+    customLaunchers: {
+      ChromeHeadlessReducedMotion: {
+        base: 'ChromeHeadless',
+        flags: ['--force-prefers-reduced-motion=reduce'],
+      },
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

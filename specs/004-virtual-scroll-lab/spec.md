@@ -59,11 +59,11 @@ combinations, rapidly change controls, then Reset.
 
 ### User Story 3 - Understand Honest Results and Failures (Priority: P2)
 
-A visitor sees real operation measurements, distinct project-outcome claims, and usable
+A visitor sees real operation measurements, estimated row-memory savings, and usable
 error/accessibility behavior.
 
-**Why this priority**: Neither reference numbers nor reported project outcomes should
-be misrepresented as this demo's measured performance.
+**Why this priority**: Neither reference numbers nor row-count memory estimates should
+be misrepresented as this demo's measured RAM or performance.
 
 **Independent Test**: Use controlled clock/render observations, invalid responses,
 reduced motion, keyboard interaction and route teardown.
@@ -73,9 +73,10 @@ reduced motion, keyboard interaction and route teardown.
 1. **Given** a nonempty operation, **When** its first record is actually visible,
    **Then** elapsed first-row time is measured and labelled for that operation;
    rendered-row count describes actual record DOM rows, not total matches.
-2. **Given** project outcomes, **When** shown, **Then** "Improved performance by 40–60%
-   and reduced loading time by 80%" is labelled as owner-reported project results,
-   separate from live measurements.
+2. **Given** ready nonempty results, **When** rows render, **Then** estimated rendered-row
+   memory savings compares current DOM rows with all matching records using
+   `(1 - rendered rows / matches) * 100`. Label equal-per-row assumptions and exclusions;
+   this is not measured RAM. Empty/error/pending results have no estimate.
 3. **Given** unavailable/invalid JSON, duplicate IDs or missing fields, **When** loading,
    **Then** an explicit error and Retry appear without publishing partial data.
 4. **Given** reduced motion, narrow display or keyboard use, **When** interacting,
@@ -115,7 +116,9 @@ first-row timing as not applicable rather than inventing a duration.
   as a whole with Retry, not silently drop malformed records.
 - **FR-010**: Measure elapsed time to a real first visible record and actual rendered
   record count; label the latest operation. Empty/error operations have no first-row value.
-- **FR-011**: Keep owner-reported project improvements separate from live results.
+- **FR-011** (owner amendment 2026-10-04): Replace historical project improvements with
+  estimated row-memory savings, explicitly a row-count proxy rather than measured RAM.
+  Both approaches retain the full dataset; exclude shared page/library overhead.
   No fabricated FPS, fixed rendered counts, guaranteed improvement or worker claim.
 - **FR-012**: Controls and list MUST be keyboard accessible and reflow at 320px/200% zoom.
 - **FR-013**: Teardown MUST cancel requests/pending operations, dispose observers/library
@@ -131,7 +134,8 @@ first-row timing as not applicable rather than inventing a duration.
 - **Dataset session**: Validated full array, load state and current query/result ordering.
 - **Query selection**: Search text, sort field/direction and latest-operation identity.
 - **Measurement**: Operation identity, start, first-visible duration and record DOM count.
-- **Project outcome**: Owner-reported percentage claims, not derived demo measurements.
+- **Row-memory estimate**: Nullable reduction in rendered rows versus all current matches,
+  assuming equal per-row memory; not measured total RAM.
 
 ## Success Criteria *(mandatory)*
 

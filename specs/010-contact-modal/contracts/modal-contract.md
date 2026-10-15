@@ -53,6 +53,10 @@ Tab close/reload/cross-document history cannot be reliably blocked or guarantee 
 No pushState loop or beforeunload delivery fiction.
 Load UI only on opening, no global prefetch. Code-load error/Retry surface is available
 without loaded Contact component; stale import resolution after permitted close cannot mount.
+Owner amendment 2026-10-04 permits cache-busted application-owned module loading
+only on explicit failed-code Retry. No document reload, automatic retry, changes to
+normal loads or contact POST cache-busting. Preserve background/draft/history and
+guard duplicates/stale completions; prove actual failed-chunk/dependency recovery.
 Draft/result remain in browser memory, never persistent storage/history/diagnostic payloads.
 
 ## Required Controlled Cases

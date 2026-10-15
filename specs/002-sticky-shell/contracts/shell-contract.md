@@ -41,9 +41,9 @@ no sidebar social/Contact duplication. Do not substitute reference generic GitHu
   no overflow clipping or inaccessible bottom text. React to resize/font changes.
 - Sections use reference 96px separation and 96px scroll margin; labels have reference
   rule treatment. Empty Lab/Experiences headings are still valid destinations.
-- Canvas is fixed, noninteractive, aria-hidden and behind readable content:
-  reference 100px/20px grid, cyan alpha 0.08/0.03, -1px position and reference radial
-  vignette (transparent 40%, rgba(11,25,44,0.8) at 100%).
+- Reuse the single canvas owned by [feature001's style contract](../../001-blueprint-styles/contracts/style-contract.md#blueprint-canvas-scope-correction-2026-10-03):
+  reference 100px/20px grid, cyan alpha 0.08/0.03, -1px position and radial vignette.
+  Grid implementation moved to001 by owner request on 2026-10-03; do not duplicate it.
 - Content is above canvas; decorations never intercept pointer/focus.
 - Use responsive containment for current grids/cards/photo rather than masking overflow
   or applying future blueprint-card design. Preserve component data/flow.
