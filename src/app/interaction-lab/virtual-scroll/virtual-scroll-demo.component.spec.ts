@@ -74,11 +74,19 @@ describe('Virtual scroll demo', () => {
     const viewport = root.querySelector<HTMLElement>('[role="region"]')!;
     expect(viewport.getAttribute('aria-label')).toBeTruthy();
     expect(viewport.tabIndex).toBe(0);
-    expect(getComputedStyle(viewport).height).toBe(`${Math.min(400, window.innerHeight * .6)}px`);
-    expect(viewport.getBoundingClientRect().height).toBeCloseTo(Math.min(400, window.innerHeight * .6), 0);
+    const expectedHeight = Math.min(400, window.innerHeight * .6);
+    expect(parseFloat(getComputedStyle(viewport).height)).toBeCloseTo(expectedHeight, 1);
+    expect(viewport.getBoundingClientRect().height).toBeCloseTo(expectedHeight, 1);
     expect(root.querySelectorAll('[data-record-id] [tabindex]').length).toBe(0);
     viewport.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', cancelable: true }));
     expect(root.querySelector('[data-record-id="1"]')).not.toBeNull();
+  });
+
+  it('allows subpixel layout rounding for fractional viewport height caps', () => {
+    const viewport = root.querySelector<HTMLElement>('.record-viewport')!;
+    viewport.style.maxHeight = '262.2px';
+    expect(parseFloat(getComputedStyle(viewport).height)).toBeCloseTo(262.2, 1);
+    expect(viewport.getBoundingClientRect().height).toBeCloseTo(262.2, 1);
   });
 
   it('presents load failure distinctly and retries instead of claiming empty success', async () => {
