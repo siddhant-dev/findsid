@@ -39,6 +39,41 @@ describe('section navigation rules', () => {
     ).toBe('lab');
   });
 
+  it('tolerates one CSS pixel of reading-line rounding without activating a distant heading', () => {
+    for (const top of [96, 96.25, 96.5, 97]) {
+      expect(
+        activeSectionFromPositions([
+          { id: 'about', top: -900 },
+          { id: 'lab', top: -400 },
+          { id: 'experience', top },
+        ]),
+      )
+        .withContext(`Experiences at ${top}px`)
+        .toBe('experience');
+    }
+    for (const top of [97.01, 100, 240]) {
+      expect(
+        activeSectionFromPositions([
+          { id: 'about', top: -900 },
+          { id: 'lab', top: -400 },
+          { id: 'experience', top },
+        ]),
+      )
+        .withContext(`Experiences at ${top}px`)
+        .toBe('lab');
+    }
+    expect(
+      activeSectionFromPositions(
+        [
+          { id: 'about', top: -900 },
+          { id: 'lab', top: -400 },
+          { id: 'experience', top: 64.25 },
+        ],
+        64,
+      ),
+    ).toBe('experience');
+  });
+
   it('chooses About before the first heading and the last section at document bottom', () => {
     expect(
       activeSectionFromPositions([

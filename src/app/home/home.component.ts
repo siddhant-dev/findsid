@@ -274,6 +274,13 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     return this.element.nativeElement.querySelector<HTMLElement>(`#${id}[data-home-section]`);
   }
 
+  private get readingLine(): number {
+    const section = this.sectionElement('about');
+    return section
+      ? Number.parseFloat(getComputedStyle(section).scrollMarginTop) || 0
+      : 0;
+  }
+
   private handleNavigationIntent(intent: NavigationIntent): void {
     const generation = ++this.userIntentGeneration;
     this.requestedTarget = intent.id;
@@ -296,7 +303,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       const behavior: ScrollBehavior =
         intent.source === 'selection' && !reducedMotion ? 'smooth' : 'instant';
       window.scrollTo({
-        top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - 96),
+        top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - this.readingLine),
         behavior,
       });
       this.lastReadingPosition = {
@@ -331,7 +338,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     const behavior: ScrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
       ? 'instant' : 'smooth';
     window.scrollTo({
-      top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - 96), behavior,
+      top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - this.readingLine), behavior,
     });
     if (behavior === 'instant') {
       this.finishIntent('articles');
@@ -377,7 +384,7 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     const atBottom =
       window.scrollY + window.innerHeight >=
       document.documentElement.scrollHeight - 1;
-    const active = activeSectionFromPositions(positions, 96, atBottom);
+    const active = activeSectionFromPositions(positions, this.readingLine, atBottom);
     this.navigation.setPassiveActiveSection(active);
     this.lastReadingPosition = {
       id: active,

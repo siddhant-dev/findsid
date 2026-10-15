@@ -95,6 +95,80 @@ describe('Home Experiences activation', () => {
     expect(fixture.nativeElement.querySelectorAll('#experience article').length).toBe(5);
   });
 
+  for (const [source, fontSize] of [
+    ['selection', 16],
+    ['fragment', 16],
+    ['selection', 20],
+    ['fragment', 20],
+    ['selection', 32],
+    ['fragment', 32],
+  ] as const) {
+    it(`keeps Experiences active after fractional ${source} landing at ${fontSize}px and releases it on manual scroll`, async () => {
+      const root: HTMLElement = fixture.nativeElement;
+      const originalSize = document.documentElement.style.fontSize;
+      document.documentElement.style.fontSize = `${fontSize}px`;
+      const readingLine = fontSize * 6;
+      const navigation = TestBed.inject(SectionNavigationCoordinator);
+      const router = TestBed.inject(Router);
+      let active = '';
+      const subscription = navigation.activeSection$.subscribe(
+        (value) => (active = value),
+      );
+      const scroll = spyOn(window, 'scrollTo');
+      spyOnProperty(window, 'scrollY', 'get').and.returnValue(0);
+      spyOnProperty(
+        document.documentElement,
+        'scrollHeight',
+        'get',
+      ).and.returnValue(10000);
+      for (const [id, top] of [
+        ['about', -900],
+        ['lab', -400],
+        ['experience', readingLine + 0.25],
+        ['articles', 900],
+        ['vault', 1200],
+      ] as const) {
+        spyOn(
+          root.querySelector<HTMLElement>(`#${id}-heading`)!,
+          'getBoundingClientRect',
+        ).and.returnValue(new DOMRect(0, top, 320, 24));
+      }
+      try {
+        if (source === 'selection') {
+          await navigation.select('experience');
+        } else {
+          await router.navigateByUrl('/#experience');
+        }
+        await frames();
+        window.dispatchEvent(new Event('scrollend'));
+        window.dispatchEvent(new Event('scroll'));
+        await frames(2);
+        expect(router.url).toBe('/#experience');
+        expect(active).toBe('experience');
+        expect(
+          getComputedStyle(root.querySelector('#about')!).scrollMarginTop,
+        ).toBe(`${readingLine}px`);
+        expect(scroll.calls.mostRecent().args[0]).toEqual(
+          jasmine.objectContaining({ top: 0.25 }),
+        );
+        expect(root.querySelectorAll('#experience article').length).toBe(5);
+
+        const heading = root.querySelector<HTMLElement>('#experience-heading')!;
+        (heading.getBoundingClientRect as jasmine.Spy).and.returnValue(
+          new DOMRect(0, 400, 320, 24),
+        );
+        window.dispatchEvent(new Event('wheel'));
+        window.dispatchEvent(new Event('scroll'));
+        await frames(2);
+        expect(active).toBe('lab');
+        expect(router.url).toBe('/#experience');
+      } finally {
+        subscription.unsubscribe();
+        document.documentElement.style.fontSize = originalSize;
+      }
+    });
+  }
+
   it('preserves a later heading reading position when lazy Experiences increases height', async () => {
     const root: HTMLElement = fixture.nativeElement;
     for (const [id, top] of [['about', -900], ['lab', -700], ['experience', -500],
@@ -165,6 +239,38 @@ describe('Home Experiences activation', () => {
     await frames(2);
     expect(scroll.calls.count()).toBe(1);
     card.remove();
+  });
+
+  it('uses the computed CSS reading offset for appended article movement', () => {
+    const root: HTMLElement = fixture.nativeElement;
+    const originalSize = document.documentElement.style.fontSize;
+    document.documentElement.style.fontSize = '32px';
+    root
+      .querySelector<HTMLElement>('#about')!
+      .style.setProperty('--section-reading-offset', '7rem');
+    const card = document.createElement('a');
+    root.querySelector('#articles')!.appendChild(card);
+    spyOn(card, 'getBoundingClientRect').and.returnValue(
+      new DOMRect(0, 300, 320, 24),
+    );
+    const scroll = spyOn(window, 'scrollTo');
+    try {
+      const navigation = TestBed.inject(SectionNavigationCoordinator);
+      navigation.completeAppendIntent(
+        navigation.beginAppendIntent(),
+        card,
+        false,
+      );
+      expect(scroll.calls.mostRecent().args[0]).toEqual(
+        jasmine.objectContaining({
+          top: Math.max(0, window.scrollY + 76),
+        }),
+      );
+      window.dispatchEvent(new Event('scrollend'));
+    } finally {
+      document.documentElement.style.fontSize = originalSize;
+      card.remove();
+    }
   });
 
   it('defers Vault, retains its permanent heading and mounts actual bundled cards without JSON HTTP', async () => {

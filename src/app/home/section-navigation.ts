@@ -19,6 +19,7 @@ export interface NavigationIntent {
 }
 
 const SECTION_IDS = ['about', 'lab', 'experience', 'articles', 'vault'];
+const READING_LINE_TOLERANCE = 1;
 
 @Injectable({ providedIn: 'root' })
 export class SectionNavigationCoordinator implements OnDestroy {
@@ -173,7 +174,7 @@ export function activeSectionFromPositions(
 
   let active = positions[0].id;
   for (const position of positions) {
-    if (position.top > readingLine) {
+    if (position.top > readingLine + READING_LINE_TOLERANCE) {
       break;
     }
     active = position.id;

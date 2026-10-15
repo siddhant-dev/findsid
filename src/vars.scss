@@ -22,7 +22,7 @@ $font-mono: var(--font-mono);
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  padding: 6px 12px;
+  padding: 0.375rem 0.75rem;
   border: 1px solid $border-active;
   border-radius: 4px;
   background: transparent;
@@ -50,7 +50,7 @@ $font-mono: var(--font-mono);
 }
 
 @mixin tag {
-  padding: 2px 8px;
+  padding: 0.125rem 0.5rem;
   border: 1px solid rgba(56, 189, 248, 0.2);
   border-radius: 2px;
   background-color: $accent-glow;

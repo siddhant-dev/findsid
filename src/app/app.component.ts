@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
     { id: 'vault', label: '05. Retro Vault' },
   ] as const;
   private readonly navigation = inject(SectionNavigationCoordinator);
+  private readonly changeDetector = inject(ChangeDetectorRef);
   private readonly view  = inject(ViewportScroller);
   readonly appVersion = APP_VERSION;
   readonly activeSection$ = this.navigation.activeSection$;
@@ -76,7 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
     effect(() =>  {
       this.resizeObserver?.disconnect();
       this.resizeObserver = undefined;
-      this.updateStickyState();
+      queueMicrotask(this.updateStickyState);
       if (typeof ResizeObserver !== 'undefined' && typeof this.identityContent() !=='undefined') {
         this.resizeObserver = new ResizeObserver(() => this.updateStickyState());
         this.resizeObserver.observe(this.identityContent()!.nativeElement);
@@ -128,9 +130,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private readonly updateStickyState = (): void => {
+    if (this.destroyed) return;
     if (this.identityContent() !== undefined) {
+      const content = this.identityContent()!.nativeElement;
+      const columnStyles = getComputedStyle(content.parentElement!);
+      const padding =
+        Number.parseFloat(columnStyles.paddingTop) +
+        Number.parseFloat(columnStyles.paddingBottom);
       this.stickyDisabled =
-        this.identityContent()!.nativeElement.getBoundingClientRect().height > window.innerHeight;
+        content.getBoundingClientRect().height + padding > window.innerHeight;
+      this.changeDetector.markForCheck();
     }
   };
 }

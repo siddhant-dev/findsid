@@ -21,6 +21,81 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
+  it('scales shell spacing and identity text with the root font size', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const root: HTMLElement = fixture.nativeElement;
+    const originalSize = document.documentElement.style.fontSize;
+    const desktop = window.matchMedia('(min-width: 1024px)').matches;
+    root.querySelector<HTMLElement>('footer')!.style.width = '7rem';
+    const socials = root.querySelector<HTMLElement>('.social-links')!;
+    try {
+      for (const size of [16, 20, 32]) {
+        document.documentElement.style.fontSize = `${size}px`;
+        const shell = getComputedStyle(root.querySelector('.shell')!);
+        expect(parseFloat(shell.paddingLeft)).toBe(size * 1.5);
+        expect(parseFloat(shell.maxWidth)).toBe(size * 80);
+        expect(parseFloat(shell.columnGap)).toBe(desktop ? size * 3 : 0);
+        expect(getComputedStyle(socials).flexWrap).toBe('wrap');
+        expect(socials.scrollWidth).toBeLessThanOrEqual(socials.clientWidth);
+        expect(
+          parseFloat(
+            getComputedStyle(root.querySelector('.owner-name')!).fontSize,
+          ),
+        ).toBe(size * (desktop ? 3.5 : 2.25));
+      }
+    } finally {
+      document.documentElement.style.fontSize = originalSize;
+      fixture.destroy();
+    }
+  });
+
+  it('pins the desktop column rather than scrolling its padded inner content', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const root: HTMLElement = fixture.nativeElement;
+    const column = root.querySelector<HTMLElement>('.identity-column')!;
+    const content = root.querySelector<HTMLElement>('.identity-content')!;
+    fixture.componentInstance.stickyDisabled = false;
+    fixture.detectChanges();
+    const desktop = window.matchMedia('(min-width: 1024px)').matches;
+    expect(getComputedStyle(column).position).toBe(
+      desktop ? 'sticky' : 'static',
+    );
+    expect(getComputedStyle(column).alignSelf).toBe('start');
+    expect(getComputedStyle(content).position).toBe('static');
+    fixture.destroy();
+  });
+
+  it('releases the column when its content and padding cannot fit the viewport', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const root: HTMLElement = fixture.nativeElement;
+    const column = root.querySelector<HTMLElement>('.identity-column')!;
+    const content = root.querySelector<HTMLElement>('.identity-content')!;
+    const styles = getComputedStyle(column);
+    const padding =
+      parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+    const bounds = spyOn(content, 'getBoundingClientRect');
+    try {
+      bounds.and.returnValue(
+        new DOMRect(0, 0, 400, window.innerHeight - padding),
+      );
+      window.dispatchEvent(new Event('resize'));
+      fixture.detectChanges();
+      expect(fixture.componentInstance.stickyDisabled).toBeFalse();
+      bounds.and.returnValue(
+        new DOMRect(0, 0, 400, window.innerHeight - padding + 1),
+      );
+      window.dispatchEvent(new Event('resize'));
+      fixture.detectChanges();
+      expect(fixture.componentInstance.stickyDisabled).toBeTrue();
+      expect(getComputedStyle(column).position).toBe('static');
+    } finally {
+      fixture.destroy();
+    }
+  });
+
   it('uses route reading mode without identity sidebar and keeps bottom actions once', async () => {
     TestBed.resetTestingModule();
     await TestBed.configureTestingModule({

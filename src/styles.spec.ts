@@ -61,6 +61,54 @@ describe('Blueprint style contract', () => {
     expect(getComputedStyle(host.querySelector('.body-text')!).lineHeight).toBe('24.32px');
   });
 
+  it('uses the browser default root size and scales inherited text and control padding', () => {
+    const root = document.documentElement;
+    const originalSize = root.style.fontSize;
+    const rules = Array.from(document.styleSheets).flatMap((sheet) =>
+      Array.from(sheet.cssRules),
+    );
+    expect(
+      rules.some(
+        (rule) =>
+          rule instanceof CSSStyleRule &&
+          rule.selectorText === 'html' &&
+          rule.style.fontSize === '100%',
+      ),
+    ).toBeTrue();
+
+    const button = document.createElement('button');
+    button.className = 'blueprint-button';
+    button.textContent = 'Submit';
+    const tag = document.createElement('span');
+    tag.className = 'tag';
+    tag.textContent = 'Angular';
+    const text = document.createElement('p');
+    text.className = 'body-text';
+    host.append(button, tag, text);
+
+    try {
+      for (const size of [16, 20, 32]) {
+        root.style.fontSize = `${size}px`;
+        expect(parseFloat(getComputedStyle(document.body).fontSize)).toBe(size);
+        expect(parseFloat(getComputedStyle(text).fontSize)).toBeCloseTo(
+          size * 0.95,
+          2,
+        );
+        expect(parseFloat(getComputedStyle(button).fontSize)).toBe(size * 0.75);
+        expect(parseFloat(getComputedStyle(button).paddingTop)).toBe(
+          size * 0.375,
+        );
+        expect(parseFloat(getComputedStyle(button).paddingLeft)).toBe(
+          size * 0.75,
+        );
+        expect(parseFloat(getComputedStyle(tag).paddingTop)).toBe(size * 0.125);
+        expect(parseFloat(getComputedStyle(tag).paddingLeft)).toBe(size * 0.5);
+      }
+    } finally {
+      root.style.fontSize = originalSize;
+    }
+  });
+
   it('renders both reference grid scales and the edge vignette', () => {
     const canvas = document.createElement('div');
     canvas.className = 'blueprint-bg';
