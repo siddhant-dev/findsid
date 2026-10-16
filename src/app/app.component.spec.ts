@@ -212,8 +212,8 @@ describe('AppComponent', () => {
     expect(root.textContent).toContain(
       'Architecting scalable Angular applications, high-performance virtualized rendering engines, and accessible design systems',
     );
-    expect(root.querySelector('.version-badge')?.textContent?.trim()).toBe(
-      'v0.9.9',
+    expect(root.querySelector('.eyebrow')?.textContent?.trim()).toBe(
+      'PORTFOLIO / 26.10.2',
     );
     expect(
       Array.from(root.querySelectorAll<HTMLElement>('[data-section-link]')).map(

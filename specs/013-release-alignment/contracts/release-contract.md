@@ -1,5 +1,13 @@
 # Integration and Release Contract
 
+## Owner Version Policy (2026-10-16)
+
+The current app version is `26.10.2`, using `YY.MM.PATCH`. Increment `PATCH` for
+each approved Firebase live deployment, keeping package, lockfile and generated
+badge metadata aligned. This owner direction supersedes the fixed `0.9.9` and
+`26.0.0` values in the original release plan; it does not waive readiness or
+final-SHA publication approval. Historical evidence remains unchanged.
+
 All001-012 contracts are release prerequisites. This feature adds no content/design
 changes, deferred accessibility demo, invented numerical thresholds or budget increases.
 Acceptance includes current desktop Chrome/Firefox/Safari and mobile Safari/Chrome,

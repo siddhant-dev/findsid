@@ -168,6 +168,7 @@ test("manual publication rejects other refs and deploys only the captured, fresh
   assert.match(freshness.with.script, /context\.sha/);
   assert.match(freshness.with.script, /data\.commit\.sha/);
   assert.ok(deployIndex > publication.steps.indexOf(freshness));
+  assert.match(deploy.uses, /@[0-9a-f]{40}$/);
   assert.deepEqual(deploy.with, {
     firebaseServiceAccount:
       "${{ secrets.FIREBASE_SERVICE_ACCOUNT_FINDSIDDEV }}",

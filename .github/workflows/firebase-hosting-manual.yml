@@ -52,7 +52,7 @@ jobs:
               core.setFailed(`Refusing to publish stale revision ${context.sha}; main is now ${main.data.commit.sha}.`);
             }
       - name: Deploy verified build to Firebase Hosting
-        uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a
         with:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_FINDSIDDEV }}
           channelId: live
