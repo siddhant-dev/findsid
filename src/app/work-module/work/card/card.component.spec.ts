@@ -13,8 +13,7 @@ describe('CardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [CardComponent],
       providers: [provideRouter([])],
-    })
-    .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -39,30 +38,50 @@ describe('CardComponent', () => {
   it('renders complete image-free content with date above title and every supplied tag', () => {
     const description = 'A complete long description. '.repeat(30);
     fixture.componentRef.setInput('card_data', {
-      id: 42, typeOf: 'article', kind: 'article', title: 'Complete article',
-      cover_image: '/unused-cover.svg', description,
-      published_date: 'Oct 4', publishedDate: 'Oct 4',
-      tag: 'first', tags: ['first', 'second', 'third'], destination: '/work/articles/42',
+      id: 42,
+      typeOf: 'article',
+      kind: 'article',
+      title: 'Complete article',
+      cover_image: '/unused-cover.svg',
+      description,
+      published_date: 'Oct 4',
+      publishedDate: 'Oct 4',
+      tag: 'first',
+      tags: ['first', 'second', 'third'],
+      destination: '/work/articles/42',
     });
     fixture.detectChanges();
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelector('img, .banner, .blueprint-button')).toBeNull();
-    expect(root.querySelector('.description')?.textContent?.trim()).toBe(description.trim());
-    expect(getComputedStyle(root.querySelector('.description')!).webkitLineClamp).toBe('none');
-    expect(Array.from(root.querySelectorAll('.tags li'), tag => tag.textContent?.trim()))
-      .toEqual(['first', 'second', 'third']);
+    expect(root.querySelector('.description')?.textContent?.trim()).toBe(
+      description.trim(),
+    );
+    expect(
+      getComputedStyle(root.querySelector('.description')!).webkitLineClamp,
+    ).toBe('none');
+    expect(
+      Array.from(root.querySelectorAll('.tags li'), (tag) =>
+        tag.textContent?.trim(),
+      ),
+    ).toEqual(['first', 'second', 'third']);
     expect(root.querySelector('.date')?.textContent?.trim()).toBe('Oct 4');
     const heading = root.querySelector('h3');
     expect(heading?.textContent).toBe('Complete article');
-    expect(root.querySelector('.date')?.compareDocumentPosition(heading!)! & Node.DOCUMENT_POSITION_FOLLOWING)
-      .toBeTruthy();
+    expect(
+      root.querySelector('.date')?.compareDocumentPosition(heading!)! &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
     expect(root.textContent).not.toContain('Published On');
   });
 
   it('omits missing optional content independently with no placeholder wrappers', () => {
     for (const kind of ['article', 'archive']) {
       fixture.componentRef.setInput('card_data', {
-        id: 1, typeOf: 'app', kind, title: 'Title only', tags: [],
+        id: 1,
+        typeOf: 'app',
+        kind,
+        title: 'Title only',
+        tags: [],
         destination: 'https://example.com',
       });
       fixture.detectChanges();
@@ -74,31 +93,47 @@ describe('CardComponent', () => {
 
   it('uses one title-named card-wide native internal link and retains modifier actions', () => {
     fixture.componentRef.setInput('card_data', {
-      id: 42, kind: 'article', title: 'Open article', description: 'Supporting text',
-      tags: ['Angular'], destination: '/work/articles/42',
+      id: 42,
+      kind: 'article',
+      title: 'Open article',
+      description: 'Supporting text',
+      tags: ['Angular'],
+      destination: '/work/articles/42',
     });
     fixture.detectChanges();
     const root: HTMLElement = fixture.nativeElement;
     const anchor = root.querySelector('a');
     expect(anchor?.getAttribute('href')).toBe('/work/articles/42');
-    expect(anchor?.getAttribute('aria-labelledby')).toBe(root.querySelector('h3')?.id ?? null);
+    expect(anchor?.getAttribute('aria-labelledby')).toBe(
+      root.querySelector('h3')?.id ?? null,
+    );
     expect(anchor?.querySelector('.description')).not.toBeNull();
     expect(root.querySelectorAll('a, button, [tabindex]').length).toBe(1);
     expect(anchor?.target).toBe('');
-    const navigation = spyOn(TestBed.inject(Router), 'navigateByUrl').and.resolveTo(true);
+    const navigation = spyOn(
+      TestBed.inject(Router),
+      'navigateByUrl',
+    ).and.resolveTo(true);
     const event = new MouseEvent('click', { ctrlKey: true, cancelable: true });
-    fixture.debugElement.query(By.directive(RouterLink)).triggerEventHandler('click', event);
+    fixture.debugElement
+      .query(By.directive(RouterLink))
+      .triggerEventHandler('click', event);
     expect(event.defaultPrevented).toBeFalse();
     expect(navigation).not.toHaveBeenCalled();
   });
 
   it('uses safe new-tab links based on actual origin rather than the source external flag', () => {
     fixture.componentRef.setInput('card_data', {
-      id: 1, kind: 'archive', title: 'Offline project', tags: [],
-      destination: 'https://offline.invalid/project', external: false,
+      id: 1,
+      kind: 'archive',
+      title: 'Offline project',
+      tags: [],
+      destination: 'https://offline.invalid/project',
+      external: false,
     });
     fixture.detectChanges();
-    const anchor: HTMLAnchorElement | null = fixture.nativeElement.querySelector('a');
+    const anchor: HTMLAnchorElement | null =
+      fixture.nativeElement.querySelector('a');
     expect(anchor?.href).toBe('https://offline.invalid/project');
     expect(anchor?.target).toBe('_blank');
     expect(anchor?.rel).toBe('noopener noreferrer');
@@ -106,15 +141,27 @@ describe('CardComponent', () => {
   });
 
   it('keeps invalid destinations static Archived and updates link/static markup with inputs', () => {
-    for (const destination of [undefined, '', ' ', 'javascript:alert(1)', 'http://[bad',
-      'https://user@example.com']) {
+    for (const destination of [
+      undefined,
+      '',
+      ' ',
+      'javascript:alert(1)',
+      'http://[bad',
+      'https://user@example.com',
+    ]) {
       fixture.componentRef.setInput('card_data', {
-        id: 1, kind: 'archive', title: 'Retained archive', tags: ['Old'], destination,
+        id: 1,
+        kind: 'archive',
+        title: 'Retained archive',
+        tags: ['Old'],
+        destination,
       });
       fixture.detectChanges();
       const root: HTMLElement = fixture.nativeElement;
       expect(root.textContent).toContain('Archived');
-      expect(root.querySelector('a, button, [role="link"], [tabindex]')).toBeNull();
+      expect(
+        root.querySelector('a, button, [role="link"], [tabindex]'),
+      ).toBeNull();
       expect(root.querySelector('.card.interactive')).toBeNull();
     }
   });
@@ -132,12 +179,22 @@ describe('CardComponent', () => {
     expect(style.textDecorationLine).toBe('none');
     expect(style.transform).toBe('none');
     expect(card.getBoundingClientRect().width).toBe(320);
-    expect(getComputedStyle(root.querySelector('.date')!).marginBottom).toBe('8px');
-    expect(getComputedStyle(root.querySelector('h3')!).marginBottom).toBe('12px');
-    expect(getComputedStyle(root.querySelector('.description')!).lineHeight).toBe('23.04px');
-    expect(getComputedStyle(root.querySelector('.description')!).marginBottom).toBe('16px');
+    expect(getComputedStyle(root.querySelector('.date')!).marginBottom).toBe(
+      '8px',
+    );
+    expect(getComputedStyle(root.querySelector('h3')!).marginBottom).toBe(
+      '12px',
+    );
+    expect(
+      getComputedStyle(root.querySelector('.description')!).lineHeight,
+    ).toBe('23.04px');
+    expect(
+      getComputedStyle(root.querySelector('.description')!).marginBottom,
+    ).toBe('16px');
     expect(getComputedStyle(root.querySelector('.tags')!).gap).toBe('8px');
-    expect(getComputedStyle(root.querySelector('.tags')!).flexWrap).toBe('wrap');
+    expect(getComputedStyle(root.querySelector('.tags')!).flexWrap).toBe(
+      'wrap',
+    );
     expect(root.querySelectorAll('.corner[aria-hidden="true"]').length).toBe(2);
     expect(style.overflow).toBe('visible');
   });
@@ -149,21 +206,33 @@ describe('CardComponent', () => {
       ['tags', ['First', 'Second'], '.tags'],
     ] as const) {
       fixture.componentRef.setInput('card_data', {
-        id: 1, kind: 'archive', title: 'Optional content', tags: [], [field]: value,
+        id: 1,
+        kind: 'archive',
+        title: 'Optional content',
+        tags: [],
+        [field]: value,
       });
       fixture.detectChanges();
       const root: HTMLElement = fixture.nativeElement;
       expect(root.querySelector(selector)).not.toBeNull();
-      expect(root.querySelectorAll('.date, .description, .tags').length).toBe(1);
+      expect(root.querySelectorAll('.date, .description, .tags').length).toBe(
+        1,
+      );
       expect(root.querySelector('a')).toBeNull();
     }
     fixture.componentRef.setInput('card_data', {
-      id: 1, kind: 'archive', title: 'Same-origin archive', tags: [], destination: '/#about',
+      id: 1,
+      kind: 'archive',
+      title: 'Same-origin archive',
+      tags: [],
+      destination: '/#about',
     });
     fixture.detectChanges();
     const root: HTMLElement = fixture.nativeElement;
     expect(root.querySelector('article, .archived')).toBeNull();
-    expect(root.querySelector('a')?.href).toBe(new URL('/#about', document.baseURI).href);
+    expect(root.querySelector('a')?.href).toBe(
+      new URL('/#about', document.baseURI).href,
+    );
     expect(root.querySelector('a')?.target).toBe('');
   });
 });

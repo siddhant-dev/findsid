@@ -49,11 +49,13 @@ approval to publish unfinished work.
 
 Release013 readiness is currently blocked by outstanding prerequisite acceptance/
 test-first evidence, the actual desktop Chrome/Firefox/Safari and mobile Safari/
-Chrome matrix, and verified main protection/build evidence. A green local suite
-alone does not authorize the26.0.0 bump. Keep package/lock/generated badge metadata
-at0.9.9 until integrated readiness; publication additionally needs explicit approval
-of the final versioned main SHA. See `specs/013-release-alignment/quickstart.md`
-for the current assessment. No release was published by this implementation.
+Chrome matrix, and verified main protection/build evidence. Use `YY.MM.PATCH` for
+the app version and increment `PATCH` for every approved Firebase deployment. Keep
+`package.json`, the lockfile and generated badge metadata in sync; the current
+version is `26.10.2`. A version bump does not authorize publication: deployment
+still needs explicit approval of the final versioned main SHA. See
+`specs/013-release-alignment/quickstart.md` for the readiness assessment. No release
+was published by this implementation.
 
 Run `npm ci` with a Node 22 release satisfying the lockfile engines, then run the
 complete suite with:

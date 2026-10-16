@@ -2,7 +2,6 @@
 
 :host {
   display: block;
-  min-height: 100vh;
   isolation: isolate;
 }
 
@@ -10,7 +9,6 @@
   display: grid;
   grid-template-columns: minmax(0, 45fr) minmax(0, 50fr);
   gap: 3rem;
-  width: 100%;
   max-width: 80rem;
   min-height: 100vh;
   margin: 0 auto;
@@ -22,15 +20,21 @@
   display: block;
   max-width: none;
   padding: 0;
-  .content-column { padding: 0; }
-  .page-actions { max-width: 48rem; box-sizing: border-box; margin: 0 auto; padding: 0 1.5rem 3rem; }
+  .content-column {
+    padding: 0;
+  }
+  .page-actions {
+    max-width: 48rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+  }
 }
 
 .identity-column {
   position: sticky;
   top: 0;
   align-self: start;
-  min-width: 0;
   padding: 6rem 0;
 
   &.sticky-disabled {
@@ -118,7 +122,6 @@
 }
 
 .content-column {
-  min-width: 0;
   padding-top: 6rem;
 }
 
@@ -184,12 +187,6 @@
   }
 }
 
-@media (min-width: 1024px) {
-  .identity-content {
-    padding: 0;
-  }
-}
-
 @media (max-width: 1023px) {
   .shell {
     grid-template-columns: minmax(0, 1fr);
@@ -222,10 +219,6 @@
 
   .version-badge {
     margin-bottom: 0;
-  }
-
-  .identity-column.sticky-disabled .identity-content {
-    position: static;
   }
 }
 

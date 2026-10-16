@@ -1,9 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {
-  NavigationEnd,
-  NavigationStart,
-  Router,
-} from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, filter, Subscription } from 'rxjs';
 
 export interface SectionPosition {
@@ -24,7 +20,9 @@ const READING_LINE_TOLERANCE = 1;
 @Injectable({ providedIn: 'root' })
 export class SectionNavigationCoordinator implements OnDestroy {
   private readonly activeSubject = new BehaviorSubject<string>('about');
-  private readonly intentSubject = new BehaviorSubject<NavigationIntent | null>(null);
+  private readonly intentSubject = new BehaviorSubject<NavigationIntent | null>(
+    null,
+  );
   readonly activeSection$ = this.activeSubject.asObservable();
   private readonly subscription: Subscription;
   private homeHandler?: (intent: NavigationIntent) => void;
@@ -34,7 +32,9 @@ export class SectionNavigationCoordinator implements OnDestroy {
   private appendHandler?: (target: HTMLElement, keyboard: boolean) => void;
   private appendGeneration = 0;
   private modalBackground?: string;
-  registerAppendHandler(handler: (target: HTMLElement, keyboard: boolean) => void): Subscription {
+  registerAppendHandler(
+    handler: (target: HTMLElement, keyboard: boolean) => void,
+  ): Subscription {
     this.appendHandler = handler;
     return new Subscription(() => {
       if (this.appendHandler === handler) {
@@ -43,9 +43,17 @@ export class SectionNavigationCoordinator implements OnDestroy {
       }
     });
   }
-  beginAppendIntent(): number { return ++this.appendGeneration; }
-  cancelAppendIntent(): void { this.appendGeneration++; }
-  completeAppendIntent(token: number, target: HTMLElement, keyboard: boolean): void {
+  beginAppendIntent(): number {
+    return ++this.appendGeneration;
+  }
+  cancelAppendIntent(): void {
+    this.appendGeneration++;
+  }
+  completeAppendIntent(
+    token: number,
+    target: HTMLElement,
+    keyboard: boolean,
+  ): void {
     if (token !== this.appendGeneration) return;
     this.cancelAppendIntent();
     this.appendHandler?.(target, keyboard);
@@ -80,7 +88,9 @@ export class SectionNavigationCoordinator implements OnDestroy {
       this.emitIntent({ id, source: 'selection' });
       return;
     }
-    return this.router.navigateByUrl(this.router.createUrlTree(['/'], { fragment: id }));
+    return this.router.navigateByUrl(
+      this.router.createUrlTree(['/'], { fragment: id }),
+    );
   }
 
   registerHome(handler: (intent: NavigationIntent) => void): Subscription {
@@ -90,9 +100,10 @@ export class SectionNavigationCoordinator implements OnDestroy {
     if ((!primary || primary.segments.length === 0) && current.fragment) {
       if (SECTION_IDS.includes(current.fragment)) {
         const pending = this.intentSubject.value;
-        const intent = pending?.id === current.fragment
-          ? pending
-          : { id: current.fragment, source: 'initial' as const };
+        const intent =
+          pending?.id === current.fragment
+            ? pending
+            : { id: current.fragment, source: 'initial' as const };
         this.emitIntent(intent);
       }
     }
@@ -104,7 +115,11 @@ export class SectionNavigationCoordinator implements OnDestroy {
   }
 
   setPassiveActiveSection(id: string): void {
-    if (!this.requestedSection && SECTION_IDS.includes(id) && this.activeSubject.value !== id) {
+    if (
+      !this.requestedSection &&
+      SECTION_IDS.includes(id) &&
+      this.activeSubject.value !== id
+    ) {
       this.activeSubject.next(id);
     }
   }

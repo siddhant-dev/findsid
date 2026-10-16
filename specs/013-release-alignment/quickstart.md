@@ -1,5 +1,13 @@
 # Validation Guide: Final Integration and Release Alignment
 
+## Owner Version Direction (2026-10-16)
+
+The current package, lockfile and generated app badge version is `26.10.2`. Increment
+the final `PATCH` component for each approved Firebase live deployment. This direction
+supersedes earlier `0.9.9` and `26.0.0` values below; those dated assessments remain
+historical evidence. The version update does not claim a deployment or clear any
+readiness/publication gate.
+
 Execution was requested on 2026-10-04, after route retirement011. The readiness
 assessment below is blocked; no version alignment or publication has occurred.
 Execution permission does not override the explicit readiness/final-SHA approval gates.

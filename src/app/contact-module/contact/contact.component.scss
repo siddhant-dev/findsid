@@ -12,10 +12,23 @@
   overflow: auto;
   background: $bg-secondary;
   color: $text-main;
-  p { margin: 0; }
-  form { display: flex; flex-direction: column; gap: 1.5rem; min-width: 0; }
-  .form-group { display: flex; flex-direction: column; gap: 0.5rem; min-width: 0; }
-  input, textarea {
+  p {
+    margin: 0;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-width: 0;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  input,
+  textarea {
     @include surface-border;
     box-sizing: border-box;
     width: 100%;
@@ -24,8 +37,20 @@
     font-family: $font-sans;
     font-size: 0.95rem;
     line-height: 1.6;
-    &[aria-invalid="true"] { border-color: $error-color; }
+    &[aria-invalid="true"] {
+      border-color: $error-color;
+    }
   }
-  textarea { resize: vertical; }
-  button { align-self: flex-start; }
+  textarea {
+    resize: vertical;
+  }
+  button {
+    align-self: flex-start;
+  }
+  textarea {
+    resize: vertical;
+  }
+  button {
+    align-self: flex-start;
+  }
 }

@@ -1,12 +1,22 @@
 import {
-  Component, OnDestroy, OnInit, AfterViewChecked, ChangeDetectionStrategy,
-  ElementRef, ChangeDetectorRef, ViewEncapsulation, ViewChild,
+  Component,
+  OnDestroy,
+  OnInit,
+  AfterViewChecked,
+  ChangeDetectionStrategy,
+  ElementRef,
+  ChangeDetectorRef,
+  ViewEncapsulation,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ArticleDetail } from '../../models/dev.model';
-import { ArticleNotFoundError, ArticlesService } from '../../services/articles.service';
+import {
+  ArticleNotFoundError,
+  ArticlesService,
+} from '../../services/articles.service';
 import { ExternalLinksDirective } from '../../../shared/links/external-links.directive';
 import { MetaTagService } from '../../../services/meta-tag.service';
 import { SkeletonComponent } from 'boneyard-js/angular';
@@ -21,14 +31,18 @@ import { SkeletonResult, snapshotBones } from 'boneyard-js';
   standalone: true,
   imports: [RouterLink, ExternalLinksDirective, SkeletonComponent],
 })
-export class ArticlePageComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class ArticlePageComponent
+  implements OnInit, OnDestroy, AfterViewChecked
+{
   article?: ArticleDetail;
   showSpinner = true;
   error = '';
   @ViewChild(SkeletonComponent) private skeleton?: SkeletonComponent;
   bones?: SkeletonResult;
   private skeletonFrame = 0;
-  private readonly motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  private readonly motion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  );
   reducedMotion = this.motion.matches;
   private routeSub?: Subscription;
   private request?: Subscription;
@@ -38,19 +52,33 @@ export class ArticlePageComponent implements OnInit, OnDestroy, AfterViewChecked
   private destroyed = false;
   private body?: HTMLElement;
   private readonly imageCleanup: (() => void)[] = [];
-  constructor(private readonly route: ActivatedRoute, private readonly service: ArticlesService,
-    private readonly element: ElementRef<HTMLElement>, private readonly detector: ChangeDetectorRef,
-    private readonly meta: MetaTagService) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly service: ArticlesService,
+    private readonly element: ElementRef<HTMLElement>,
+    private readonly detector: ChangeDetectorRef,
+    private readonly meta: MetaTagService,
+  ) {}
   ngOnInit(): void {
     this.motion.addEventListener('change', this.onMotionChange);
-    this.routeSub = this.route.paramMap.subscribe(params => {
+    this.routeSub = this.route.paramMap.subscribe((params) => {
       const raw = params.get('id');
-      this.id = raw !== null && /^[1-9]\d*$/.test(raw) && Number.isSafeInteger(Number(raw)) ? Number(raw) : undefined;
+      this.id =
+        raw !== null &&
+        /^[1-9]\d*$/.test(raw) &&
+        Number.isSafeInteger(Number(raw))
+          ? Number(raw)
+          : undefined;
       this.load();
     });
   }
   retry(): void {
-    if (!this.showSpinner && this.error === "Article couldn't be loaded." && !this.destroyed) this.load();
+    if (
+      !this.showSpinner &&
+      this.error === "Article couldn't be loaded." &&
+      !this.destroyed
+    )
+      this.load();
   }
   private load(): void {
     this.request?.unsubscribe();
@@ -68,17 +96,20 @@ export class ArticlePageComponent implements OnInit, OnDestroy, AfterViewChecked
       return;
     }
     this.request = this.service.getArticleById(this.id).subscribe({
-      next: article => {
+      next: (article) => {
         if (this.destroyed || generation !== this.generation) return;
         this.article = article;
         this.showSpinner = false;
         this.meta.article(this.metadataOwner, article);
         this.detector.markForCheck();
       },
-      error: error => {
+      error: (error) => {
         if (this.destroyed || generation !== this.generation) return;
-        this.error = error instanceof ArticleNotFoundError || error instanceof HttpErrorResponse && error.status === 404
-          ? 'Article not found.' : "Article couldn't be loaded.";
+        this.error =
+          error instanceof ArticleNotFoundError ||
+          (error instanceof HttpErrorResponse && error.status === 404)
+            ? 'Article not found.'
+            : "Article couldn't be loaded.";
         this.showSpinner = false;
         this.detector.markForCheck();
       },
@@ -89,12 +120,17 @@ export class ArticlePageComponent implements OnInit, OnDestroy, AfterViewChecked
       this.skeletonFrame = requestAnimationFrame(() => {
         this.skeletonFrame = 0;
         if (this.skeleton && !this.destroyed) {
-          this.bones = snapshotBones(this.skeleton.containerRef.nativeElement, 'article-detail-loading');
+          this.bones = snapshotBones(
+            this.skeleton.containerRef.nativeElement,
+            'article-detail-loading',
+          );
           this.detector.markForCheck();
         }
       });
     }
-    const body = this.element.nativeElement.querySelector<HTMLElement>('.full-article') ?? undefined;
+    const body =
+      this.element.nativeElement.querySelector<HTMLElement>('.full-article') ??
+      undefined;
     if (body === this.body) return;
     this.clearImages();
     this.body = body;
@@ -143,6 +179,6 @@ export class ArticlePageComponent implements OnInit, OnDestroy, AfterViewChecked
     this.detector.markForCheck();
   };
   private clearImages(): void {
-    this.imageCleanup.splice(0).forEach(dispose => dispose());
+    this.imageCleanup.splice(0).forEach((dispose) => dispose());
   }
 }

@@ -17,8 +17,7 @@ describe('AboutComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AboutComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -51,7 +50,9 @@ describe('AboutComponent', () => {
 
     expect(paragraphs.length).toBe(1);
     expect(root.children.length).toBe(1);
-    expect(root.querySelector('img, .hero-img, h1, h2, h3, h4, h5, h6')).toBeNull();
+    expect(
+      root.querySelector('img, .hero-img, h1, h2, h3, h4, h5, h6'),
+    ).toBeNull();
     expect(root.querySelectorAll('[tabindex]').length).toBe(0);
     expect(root.querySelector('[style*="background-image"]')).toBeNull();
     expect(getComputedStyle(root).backgroundImage).toBe('none');

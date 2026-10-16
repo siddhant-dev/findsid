@@ -1,6 +1,13 @@
 import {
-  Component, Input, OnDestroy, OnInit, AfterViewInit, ChangeDetectionStrategy,
-  ChangeDetectorRef, ViewChildren, QueryList,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  ViewChildren,
+  QueryList,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SkeletonComponent } from 'boneyard-js/angular';
@@ -23,15 +30,21 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
   state: 'loading' | 'ready' | 'empty' | 'error' | 'disposed' = 'loading';
   readonly skeletons = Array.from({ length: 5 }, (_, i) => i);
   bones?: SkeletonResult;
-  @ViewChildren(SkeletonComponent) private skeletonComponents!: QueryList<SkeletonComponent>;
+  @ViewChildren(SkeletonComponent)
+  private skeletonComponents!: QueryList<SkeletonComponent>;
   private sub?: Subscription;
   private skeletonSubscription?: Subscription;
   private skeletonFrame = 0;
   private active = false;
-  private readonly motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  private readonly motion = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  );
   reducedMotion = this.motion.matches;
 
-  constructor(private readonly service: AppService, private readonly detector: ChangeDetectorRef) {}
+  constructor(
+    private readonly service: AppService,
+    private readonly detector: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.motion.addEventListener('change', this.onMotionChange);
@@ -45,7 +58,7 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.active = true;
     this.state = 'loading';
     this.sub = this.service.getApps().subscribe({
-      next: data => {
+      next: (data) => {
         this.cards = data.map(archiveCard);
         this.active = false;
         this.state = this.cards.length ? 'ready' : 'empty';
@@ -59,16 +72,22 @@ export class AppsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
   ngAfterViewInit(): void {
-    this.skeletonSubscription = this.skeletonComponents.changes.subscribe(() => this.captureSkeleton());
+    this.skeletonSubscription = this.skeletonComponents.changes.subscribe(() =>
+      this.captureSkeleton(),
+    );
     this.captureSkeleton();
   }
   private captureSkeleton(): void {
-    if (this.bones || this.skeletonFrame || !this.skeletonComponents.first) return;
+    if (this.bones || this.skeletonFrame || !this.skeletonComponents.first)
+      return;
     this.skeletonFrame = requestAnimationFrame(() => {
       this.skeletonFrame = 0;
       const skeleton = this.skeletonComponents.first;
       if (skeleton) {
-        this.bones = snapshotBones(skeleton.containerRef.nativeElement, 'vault-loading');
+        this.bones = snapshotBones(
+          skeleton.containerRef.nativeElement,
+          'vault-loading',
+        );
         this.detector.markForCheck();
       }
     });

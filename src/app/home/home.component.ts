@@ -15,7 +15,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ArticleListSnapshot, ArticleListSnapshotService } from '../work-module/work/articles/article-list-snapshot.service';
+import {
+  ArticleListSnapshot,
+  ArticleListSnapshotService,
+} from '../work-module/work/articles/article-list-snapshot.service';
 import { AboutComponent } from '../about/about.component';
 import {
   LazySectionId,
@@ -38,7 +41,13 @@ import {
   imports: [CommonModule, AboutComponent],
 })
 export class HomeComponent implements AfterViewInit, OnDestroy {
-  readonly sectionIds = ['about', 'lab', 'experience', 'articles', 'vault'] as const;
+  readonly sectionIds = [
+    'about',
+    'lab',
+    'experience',
+    'articles',
+    'vault',
+  ] as const;
   private readonly renderedStates: Record<
     LazySectionId,
     SectionActivationState<Type<unknown>>
@@ -48,26 +57,30 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     articles: { status: 'idle' },
     vault: { status: 'idle' },
   };
-  private readonly activation = new SectionActivationCoordinator<Type<unknown>>({
-    lab: () =>
-      import('../interaction-lab/interaction-lab.component').then(
-        module => module.InteractionLabComponent,
-      ),
-    experience: () =>
-      import('../experiences/experiences.component').then(
-        module => module.ExperiencesComponent,
-      ),
-    articles: () =>
-      import('../work-module/work/articles/articles.component').then(
-        (module) => module.ArticlesComponent,
-      ),
-    vault: () =>
-      import('../work-module/work/apps/apps.component').then(
-        (module) => module.AppsComponent,
-      ),
-  });
+  private readonly activation = new SectionActivationCoordinator<Type<unknown>>(
+    {
+      lab: () =>
+        import('../interaction-lab/interaction-lab.component').then(
+          (module) => module.InteractionLabComponent,
+        ),
+      experience: () =>
+        import('../experiences/experiences.component').then(
+          (module) => module.ExperiencesComponent,
+        ),
+      articles: () =>
+        import('../work-module/work/articles/articles.component').then(
+          (module) => module.ArticlesComponent,
+        ),
+      vault: () =>
+        import('../work-module/work/apps/apps.component').then(
+          (module) => module.AppsComponent,
+        ),
+    },
+  );
 
-  @ViewChildren('sectionBody') sectionBodies!: QueryList<ElementRef<HTMLElement>>;
+  @ViewChildren('sectionBody') sectionBodies!: QueryList<
+    ElementRef<HTMLElement>
+  >;
   @ViewChild('labHost', { read: ViewContainerRef })
   private labHost?: ViewContainerRef;
   @ViewChild('experienceHost', { read: ViewContainerRef })
@@ -114,8 +127,8 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     this.activationSubscription = this.navigation.registerHome((intent) =>
       this.handleNavigationIntent(intent),
     );
-    this.appendSubscription = this.navigation.registerAppendHandler((target, keyboard) =>
-      this.handleAppendNavigation(target, keyboard),
+    this.appendSubscription = this.navigation.registerAppendHandler(
+      (target, keyboard) => this.handleAppendNavigation(target, keyboard),
     );
     this.setupActivationObserver();
     this.setupResizeObserver();
@@ -123,7 +136,9 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     window.addEventListener('resize', this.onViewportChange, { passive: true });
     window.addEventListener('wheel', this.onUserIntent, { passive: true });
     window.addEventListener('touchstart', this.onUserIntent, { passive: true });
-    window.addEventListener('pointerdown', this.onUserIntent, { passive: true });
+    window.addEventListener('pointerdown', this.onUserIntent, {
+      passive: true,
+    });
     window.addEventListener('keydown', this.onKeyIntent);
     window.addEventListener('scrollend', this.onScrollEnd);
     document.fonts?.addEventListener('loadingdone', this.onViewportChange);
@@ -194,13 +209,19 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         const state = this.activation.state(id);
         this.renderedStates[id] = state;
         if (state.status === 'ready' && !this.renderedComponents[id]) {
-          const host = id === 'lab' ? this.labHost :
-            id === 'experience' ? this.experienceHost :
-            id === 'articles' ? this.articlesHost : this.vaultHost;
+          const host =
+            id === 'lab'
+              ? this.labHost
+              : id === 'experience'
+                ? this.experienceHost
+                : id === 'articles'
+                  ? this.articlesHost
+                  : this.vaultHost;
           if (host) {
             const component = host.createComponent(state.value);
             component.setInput('embedded', true);
-            if (id === 'articles' && this.restoration) component.setInput('checkpoint', this.restoration.checkpoint);
+            if (id === 'articles' && this.restoration)
+              component.setInput('checkpoint', this.restoration.checkpoint);
             component.changeDetectorRef.detectChanges();
             this.renderedComponents[id] = component;
             if (id === 'articles' && this.restoration) this.restoreArticles();
@@ -259,19 +280,26 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     if (typeof ResizeObserver === 'undefined') {
       return;
     }
-    this.resizeObserver = new ResizeObserver(() => this.preserveReadingPosition());
+    this.resizeObserver = new ResizeObserver(() =>
+      this.preserveReadingPosition(),
+    );
     this.sectionBodies?.forEach(({ nativeElement }) =>
       this.resizeObserver?.observe(nativeElement),
     );
     if (this.sectionBodies) {
-      this.sectionBodies.changes.subscribe((bodies: QueryList<ElementRef<HTMLElement>>) =>
-        bodies.forEach(({ nativeElement }) => this.resizeObserver?.observe(nativeElement)),
+      this.sectionBodies.changes.subscribe(
+        (bodies: QueryList<ElementRef<HTMLElement>>) =>
+          bodies.forEach(({ nativeElement }) =>
+            this.resizeObserver?.observe(nativeElement),
+          ),
       );
     }
   }
 
   private sectionElement(id: string): HTMLElement | null {
-    return this.element.nativeElement.querySelector<HTMLElement>(`#${id}[data-home-section]`);
+    return this.element.nativeElement.querySelector<HTMLElement>(
+      `#${id}[data-home-section]`,
+    );
   }
 
   private get readingLine(): number {
@@ -284,7 +312,12 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
   private handleNavigationIntent(intent: NavigationIntent): void {
     const generation = ++this.userIntentGeneration;
     this.requestedTarget = intent.id;
-    if (intent.id === 'lab' || intent.id === 'experience' || intent.id === 'articles' || intent.id === 'vault') {
+    if (
+      intent.id === 'lab' ||
+      intent.id === 'experience' ||
+      intent.id === 'articles' ||
+      intent.id === 'vault'
+    ) {
       this.activate(intent.id);
     }
     if (intent.id === 'articles' && this.restoration) return;
@@ -296,14 +329,25 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       return;
     }
     requestAnimationFrame(() => {
-      if (this.destroyed || this.requestedTarget !== intent.id || generation !== this.userIntentGeneration) {
+      if (
+        this.destroyed ||
+        this.requestedTarget !== intent.id ||
+        generation !== this.userIntentGeneration
+      ) {
         return;
       }
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const reducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
       const behavior: ScrollBehavior =
         intent.source === 'selection' && !reducedMotion ? 'smooth' : 'instant';
       window.scrollTo({
-        top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - this.readingLine),
+        top: Math.max(
+          0,
+          window.scrollY +
+            target.getBoundingClientRect().top -
+            this.readingLine,
+        ),
         behavior,
       });
       this.lastReadingPosition = {
@@ -311,7 +355,10 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
         top: target.getBoundingClientRect().top,
       };
       if (behavior === 'smooth') {
-        this.scrollEndTimer = window.setTimeout(() => this.finishIntent(intent.id), 1200);
+        this.scrollEndTimer = window.setTimeout(
+          () => this.finishIntent(intent.id),
+          1200,
+        );
       } else {
         this.finishIntent(intent.id);
       }
@@ -325,25 +372,41 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       cancelAnimationFrame(this.correctionFrame);
       this.correctionFrame = 0;
     }
-    if (this.scrollEndTimer !== undefined) window.clearTimeout(this.scrollEndTimer);
-    if (this.requestedTarget) this.navigation.finishIntent(this.requestedTarget);
+    if (this.scrollEndTimer !== undefined)
+      window.clearTimeout(this.scrollEndTimer);
+    if (this.requestedTarget)
+      this.navigation.finishIntent(this.requestedTarget);
     this.requestedTarget = 'articles';
     if (keyboard) {
       if (target.tagName !== 'A') {
         target.setAttribute('tabindex', '-1');
-        target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+        target.addEventListener(
+          'blur',
+          () => target.removeAttribute('tabindex'),
+          { once: true },
+        );
       }
       target.focus({ preventScroll: true });
     }
-    const behavior: ScrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      ? 'instant' : 'smooth';
+    const behavior: ScrollBehavior = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+      ? 'instant'
+      : 'smooth';
     window.scrollTo({
-      top: Math.max(0, window.scrollY + target.getBoundingClientRect().top - this.readingLine), behavior,
+      top: Math.max(
+        0,
+        window.scrollY + target.getBoundingClientRect().top - this.readingLine,
+      ),
+      behavior,
     });
     if (behavior === 'instant') {
       this.finishIntent('articles');
     } else {
-      this.scrollEndTimer = window.setTimeout(() => this.finishIntent('articles'), 1200);
+      this.scrollEndTimer = window.setTimeout(
+        () => this.finishIntent('articles'),
+        1200,
+      );
     }
   }
 
@@ -356,15 +419,25 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
       if (this.destroyed || generation !== this.userIntentGeneration) return;
       const section = this.sectionElement('articles');
       if (!section) return;
-      const card = [...section.querySelectorAll<HTMLElement>('[data-article-key]')]
-        .find(node => node.dataset['articleKey'] === snapshot.initiatingCardKey);
+      const card = [
+        ...section.querySelectorAll<HTMLElement>('[data-article-key]'),
+      ].find(
+        (node) => node.dataset['articleKey'] === snapshot.initiatingCardKey,
+      );
       const target = card?.querySelector<HTMLElement>('a, h3');
       if (snapshot.keyboard && target) {
         if (target.tagName !== 'A') target.tabIndex = -1;
         target.focus({ preventScroll: true });
       }
-      window.scrollTo({ top: Math.max(0, window.scrollY + section.getBoundingClientRect().top + snapshot.sectionOffset),
-        behavior: 'instant' });
+      window.scrollTo({
+        top: Math.max(
+          0,
+          window.scrollY +
+            section.getBoundingClientRect().top +
+            snapshot.sectionOffset,
+        ),
+        behavior: 'instant',
+      });
       this.finishIntent('articles');
     });
     this.renderFrames.add(frame);
@@ -384,7 +457,11 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     const atBottom =
       window.scrollY + window.innerHeight >=
       document.documentElement.scrollHeight - 1;
-    const active = activeSectionFromPositions(positions, this.readingLine, atBottom);
+    const active = activeSectionFromPositions(
+      positions,
+      this.readingLine,
+      atBottom,
+    );
     this.navigation.setPassiveActiveSection(active);
     this.lastReadingPosition = {
       id: active,
@@ -416,10 +493,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
     }
     this.correctionFrame = requestAnimationFrame(() => {
       this.correctionFrame = 0;
-      if (this.destroyed || generation !== this.userIntentGeneration || this.requestedTarget) {
+      if (
+        this.destroyed ||
+        generation !== this.userIntentGeneration ||
+        this.requestedTarget
+      ) {
         return;
       }
-      window.scrollTo({ top: Math.max(0, window.scrollY + delta), behavior: 'instant' });
+      window.scrollTo({
+        top: Math.max(0, window.scrollY + delta),
+        behavior: 'instant',
+      });
       this.lastReadingPosition = {
         id: previous.id,
         top: heading.getBoundingClientRect().top,
@@ -466,7 +550,17 @@ export class HomeComponent implements AfterViewInit, OnDestroy {
 
   private readonly onKeyIntent = (event: KeyboardEvent): void => {
     this.navigation.cancelAppendIntent();
-    if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) {
+    if (
+      [
+        'ArrowDown',
+        'ArrowUp',
+        'PageDown',
+        'PageUp',
+        'Home',
+        'End',
+        ' ',
+      ].includes(event.key)
+    ) {
       this.onUserIntent();
     }
   };

@@ -3,7 +3,13 @@ import {
   shouldPushSectionHistory,
 } from './section-navigation';
 import { TestBed } from '@angular/core/testing';
-import { Event, NavigationEnd, NavigationStart, provideRouter, Router } from '@angular/router';
+import {
+  Event,
+  NavigationEnd,
+  NavigationStart,
+  provideRouter,
+  Router,
+} from '@angular/router';
 import { Subject } from 'rxjs';
 import { SectionNavigationCoordinator } from './section-navigation';
 
@@ -19,7 +25,7 @@ describe('section navigation rules', () => {
     coordinator.registerHome(home);
     home.calls.reset();
     let active = '';
-    coordinator.activeSection$.subscribe(value => active = value);
+    coordinator.activeSection$.subscribe((value) => (active = value));
     events.next(new NavigationStart(1, '/contact'));
     events.next(new NavigationEnd(1, '/contact', '/contact'));
     expect(active).toBe('articles');
@@ -117,7 +123,11 @@ describe('section navigation rules', () => {
     expect(handler.calls.count()).toBe(1);
     expect(navigate).not.toHaveBeenCalled();
     registration.unsubscribe();
-    coordinator.completeAppendIntent(coordinator.beginAppendIntent(), target, false);
+    coordinator.completeAppendIntent(
+      coordinator.beginAppendIntent(),
+      target,
+      false,
+    );
     expect(handler.calls.count()).toBe(1);
   });
 });

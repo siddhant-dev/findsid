@@ -43,16 +43,21 @@ describe('application routes', () => {
     await nextFrame();
     for (
       let frame = 0;
-      frame < 30 &&
-      ['idle', 'loading'].includes(home.state('articles').status);
+      frame < 30 && ['idle', 'loading'].includes(home.state('articles').status);
       frame += 1
     ) {
       await nextFrame();
     }
     await harness.fixture.whenStable();
     harness.detectChanges();
-    expect(harness.routeNativeElement?.querySelector('#articles app-articles')).not.toBeNull();
-    http.expectOne('https://dev.to/api/articles?username=siddev&page=1&per_page=10').flush([]);
+    expect(
+      harness.routeNativeElement?.querySelector('#articles app-articles'),
+    ).not.toBeNull();
+    http
+      .expectOne(
+        'https://dev.to/api/articles?username=siddev&page=1&per_page=10',
+      )
+      .flush([]);
   }
 
   async function settleVault(home: HomeComponent): Promise<void> {
@@ -69,13 +74,17 @@ describe('application routes', () => {
     await harness.fixture.whenStable();
     harness.detectChanges();
     expect(home.state('vault').status).toBe('ready');
-    expect(harness.routeNativeElement?.querySelector('#vault app-apps')).not.toBeNull();
+    expect(
+      harness.routeNativeElement?.querySelector('#vault app-apps'),
+    ).not.toBeNull();
   }
 
   it('renders the five permanent homepage sections in contract order', async () => {
     await harness.navigateByUrl('/');
     const sections = Array.from(
-      harness.routeNativeElement?.querySelectorAll<HTMLElement>('[data-home-section]') ?? [],
+      harness.routeNativeElement?.querySelectorAll<HTMLElement>(
+        '[data-home-section]',
+      ) ?? [],
     );
 
     expect(sections.map((section) => section.id)).toEqual([
@@ -85,30 +94,49 @@ describe('application routes', () => {
       'articles',
       'vault',
     ]);
-    expect(sections.map((section) => section.querySelector('h2')?.textContent?.trim())).toEqual([
+    expect(
+      sections.map((section) =>
+        section.querySelector('h2')?.textContent?.trim(),
+      ),
+    ).toEqual([
       'About me',
       'Interaction Lab',
       'Experiences',
       'Articles',
       'Retro Vault',
     ]);
-    const about = harness.routeNativeElement?.querySelector<HTMLElement>('#about');
+    const about =
+      harness.routeNativeElement?.querySelector<HTMLElement>('#about');
     expect(about?.querySelectorAll('#about-heading').length).toBe(1);
     expect(about?.querySelectorAll('h1, h2, h3, h4, h5, h6').length).toBe(1);
     expect(about?.querySelectorAll('app-about p').length).toBe(1);
   });
 
-  for (const path of ['/resume', '/work/art', '/work/not-a-section', '/work/articles/42/unknown']) {
+  for (const path of [
+    '/resume',
+    '/work/art',
+    '/work/not-a-section',
+    '/work/articles/42/unknown',
+  ]) {
     it(`resolves ${path} through the general Home fallback without a retired view`, async () => {
       await harness.navigateByUrl(path);
       await harness.fixture.whenStable();
       harness.detectChanges();
-      http.match(request => request.url.startsWith('https://dev.to/api/articles?'))
-        .forEach(request => request.flush([]));
+      http
+        .match((request) =>
+          request.url.startsWith('https://dev.to/api/articles?'),
+        )
+        .forEach((request) => request.flush([]));
       expect(router.url).toBe('/');
-      expect(harness.routeNativeElement?.querySelector('#about-heading')).not.toBeNull();
-      expect(harness.routeNativeElement?.querySelector('app-resume, app-art')).toBeNull();
-      http.expectNone(request => /firebasestorage|graph\.instagram/.test(request.url));
+      expect(
+        harness.routeNativeElement?.querySelector('#about-heading'),
+      ).not.toBeNull();
+      expect(
+        harness.routeNativeElement?.querySelector('app-resume, app-art'),
+      ).toBeNull();
+      http.expectNone((request) =>
+        /firebasestorage|graph\.instagram/.test(request.url),
+      );
     });
   }
 
@@ -127,7 +155,9 @@ describe('application routes', () => {
         await settleVault(home);
       }
       expect(router.url).toBe(destination);
-      expect(harness.routeNativeElement?.querySelector('#about-heading')).not.toBeNull();
+      expect(
+        harness.routeNativeElement?.querySelector('#about-heading'),
+      ).not.toBeNull();
     });
   }
 
@@ -140,28 +170,44 @@ describe('application routes', () => {
 
     await harness.navigateByUrl('/#unrecognized');
     expect(router.url).toBe('/#unrecognized');
-    expect(harness.routeNativeElement?.querySelector('#about-heading')).not.toBeNull();
+    expect(
+      harness.routeNativeElement?.querySelector('#about-heading'),
+    ).not.toBeNull();
   });
 
   it('preserves direct navigation to the About fragment', async () => {
     await harness.navigateByUrl('/#about', HomeComponent);
 
     expect(router.url).toBe('/#about');
-    expect(harness.routeNativeElement?.querySelector('#about-heading')?.textContent?.trim()).toBe(
-      'About me',
-    );
-    expect(harness.routeNativeElement?.querySelector('#about app-about p')).not.toBeNull();
+    expect(
+      harness.routeNativeElement
+        ?.querySelector('#about-heading')
+        ?.textContent?.trim(),
+    ).toBe('About me');
+    expect(
+      harness.routeNativeElement?.querySelector('#about app-about p'),
+    ).not.toBeNull();
   });
 
   it('keeps an eager code-load failure boundary with actual loader Retry and Back', async () => {
     harness.fixture.destroy();
     TestBed.resetTestingModule();
     let attempts = 0;
-    const loader = jasmine.createSpy('actual detail loader').and.callFake(() =>
-    ++attempts === 1 ? Promise.reject(new Error('Controlled unavailable chunk')) : Promise.resolve(ArticlePageComponent));
+    const loader = jasmine
+      .createSpy('actual detail loader')
+      .and.callFake(() =>
+        ++attempts === 1
+          ? Promise.reject(new Error('Controlled unavailable chunk'))
+          : Promise.resolve(ArticlePageComponent),
+      );
     await TestBed.configureTestingModule({
-    providers: [provideRouter(APP_ROUTES), ...CONTACT_ROUTING_PROVIDERS, provideHttpClient(), provideHttpClientTesting(),
-      { provide: ARTICLE_ROUTE_LOADER, useValue: loader }],
+      providers: [
+        provideRouter(APP_ROUTES),
+        ...CONTACT_ROUTING_PROVIDERS,
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ARTICLE_ROUTE_LOADER, useValue: loader },
+      ],
     }).compileComponents();
     harness = await RouterTestingHarness.create();
     router = TestBed.inject(Router);
@@ -169,11 +215,19 @@ describe('application routes', () => {
     await harness.navigateByUrl('/work/articles/42');
     await harness.fixture.whenStable();
     harness.detectChanges();
-    http.match('https://dev.to/api/articles/42').forEach(request => request.flush({
-    id: 42, user: { username: 'siddev' }, title: 'Unexpected eager detail', body_html: '<p>Body</p>',
-    }));
-    expect(harness.routeNativeElement?.textContent).toContain("This page couldn't be loaded.");
-    const retry = harness.routeNativeElement?.querySelector<HTMLButtonElement>('button');
+    http.match('https://dev.to/api/articles/42').forEach((request) =>
+      request.flush({
+        id: 42,
+        user: { username: 'siddev' },
+        title: 'Unexpected eager detail',
+        body_html: '<p>Body</p>',
+      }),
+    );
+    expect(harness.routeNativeElement?.textContent).toContain(
+      "This page couldn't be loaded.",
+    );
+    const retry =
+      harness.routeNativeElement?.querySelector<HTMLButtonElement>('button');
     expect(retry).not.toBeNull();
     expect(retry?.classList.contains('blueprint-button')).toBeTrue();
     retry?.click();
@@ -182,10 +236,19 @@ describe('application routes', () => {
     expect(loader.calls.count()).toBe(2);
     const request = http.match('https://dev.to/api/articles/42')[0];
     expect(request).toBeDefined();
-    request?.flush({ id: 42, user: { username: 'siddev' }, title: 'Recovered title', body_html: '<p>Recovered body</p>' });
+    request?.flush({
+      id: 42,
+      user: { username: 'siddev' },
+      title: 'Recovered title',
+      body_html: '<p>Recovered body</p>',
+    });
     harness.detectChanges();
-    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toBe('Recovered title');
-    const back = harness.routeNativeElement?.querySelector<HTMLAnchorElement>('a[href="/#articles"]');
+    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toBe(
+      'Recovered title',
+    );
+    const back = harness.routeNativeElement?.querySelector<HTMLAnchorElement>(
+      'a[href="/#articles"]',
+    );
     expect(back).not.toBeNull();
     back?.click();
     await harness.fixture.whenStable();
@@ -196,58 +259,320 @@ describe('application routes', () => {
 
   it('renders a detail-shaped response and styled data Retry through the real route', async () => {
     await harness.navigateByUrl('/work/articles/805');
-    for (let frame = 0; frame < 30 && !harness.routeNativeElement?.querySelector('app-article-page'); frame++) {
-      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (
+      let frame = 0;
+      frame < 30 &&
+      !harness.routeNativeElement?.querySelector('app-article-page');
+      frame++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
       harness.detectChanges();
     }
     http.expectOne('https://dev.to/api/articles/805').flush('Rate limited', {
-      status: 429, statusText: 'Too Many Requests',
+      status: 429,
+      statusText: 'Too Many Requests',
     });
     harness.detectChanges();
-    const retry = harness.routeNativeElement?.querySelector<HTMLButtonElement>('button');
+    const retry =
+      harness.routeNativeElement?.querySelector<HTMLButtonElement>('button');
     expect(retry?.classList.contains('blueprint-button')).toBeTrue();
     retry?.click();
     retry?.click();
     http.expectOne('https://dev.to/api/articles/805').flush({
-      id: 805, title: 'Independent routed detail', user: { username: 'siddev' },
-      tag_list: 'angular,typescript,rxjs', tags: ['angular', 'typescript', 'rxjs'],
+      id: 805,
+      title: 'Independent routed detail',
+      user: { username: 'siddev' },
+      tag_list: 'angular,typescript,rxjs',
+      tags: ['angular', 'typescript', 'rxjs'],
       body_html: '<h2>Preserved section</h2><p>Complete routed body</p>',
     });
     harness.detectChanges();
-    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toBe('Independent routed detail');
-    expect(harness.routeNativeElement?.querySelector('.full-article')?.textContent).toContain('Complete routed body');
-    expect(Array.from(harness.routeNativeElement?.querySelectorAll('.tags .tag') ?? [], tag => tag.textContent))
-      .toEqual(['angular', 'typescript', 'rxjs']);
+    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toBe(
+      'Independent routed detail',
+    );
+    expect(
+      harness.routeNativeElement?.querySelector('.full-article')?.textContent,
+    ).toContain('Complete routed body');
+    expect(
+      Array.from(
+        harness.routeNativeElement?.querySelectorAll('.tags .tag') ?? [],
+        (tag) => tag.textContent,
+      ),
+    ).toEqual(['angular', 'typescript', 'rxjs']);
   });
 
   it('restores committed listing data without page-one refetch through the real return route', async () => {
     const store = TestBed.inject(ArticleListSnapshotService);
     store.save({
-    checkpoint: {
-      displayed: [{ source: { id: 42, title: 'Saved card', typeOf: 'article', description: '',
-        published_date: '', tags: [], cover_image: '' }, sessionKey: 'article-42', encounterOrder: 0 }],
-      datedBuffer: [], undatedBuffer: [], acceptedIds: [42], nextPage: 3,
-      sourceExhausted: true, sourceHadRecords: true, encounterOrder: 1, hasMore: false,
-    }, sectionOffset: 100, initiatingCardKey: 'article-42', keyboard: true,
+      checkpoint: {
+        displayed: [
+          {
+            source: {
+              id: 42,
+              title: 'Saved card',
+              typeOf: 'article',
+              description: '',
+              published_date: '',
+              tags: [],
+              cover_image: '',
+            },
+            sessionKey: 'article-42',
+            encounterOrder: 0,
+          },
+        ],
+        datedBuffer: [],
+        undatedBuffer: [],
+        acceptedIds: [42],
+        nextPage: 3,
+        sourceExhausted: true,
+        sourceHadRecords: true,
+        encounterOrder: 1,
+        hasMore: false,
+      },
+      sectionOffset: 100,
+      initiatingCardKey: 'article-42',
+      keyboard: true,
     });
     await harness.navigateByUrl('/work/articles/42');
-    for (let frame = 0; frame < 30 && !harness.routeNativeElement?.querySelector('app-article-page'); frame++) {
-      await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (
+      let frame = 0;
+      frame < 30 &&
+      !harness.routeNativeElement?.querySelector('app-article-page');
+      frame++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
       harness.detectChanges();
     }
     await harness.fixture.whenStable();
     harness.detectChanges();
     http.expectOne('https://dev.to/api/articles/42').flush({
-    id: 42, user: { username: 'siddev' }, title: 'Detail', body_html: '<p>Body</p>',
+      id: 42,
+      user: { username: 'siddev' },
+      title: 'Detail',
+      body_html: '<p>Body</p>',
     });
     await harness.navigateByUrl('/#articles');
-    for (let frame = 0; frame < 30 && !harness.routeNativeElement?.querySelector('app-articles'); frame++) {
-    await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    for (
+      let frame = 0;
+      frame < 30 && !harness.routeNativeElement?.querySelector('app-articles');
+      frame++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
     }
     harness.detectChanges();
-    await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => resolve()),
+    );
     expect(harness.routeNativeElement?.textContent).toContain('Saved card');
-    http.expectNone('https://dev.to/api/articles?username=siddev&page=1&per_page=10');
+    http.expectNone(
+      'https://dev.to/api/articles?username=siddev&page=1&per_page=10',
+    );
+    expect(document.activeElement?.textContent).toContain('Saved card');
+  });
+
+  it('preserves direct navigation to the About fragment', async () => {
+    await harness.navigateByUrl('/#about', HomeComponent);
+
+    expect(router.url).toBe('/#about');
+    expect(
+      harness.routeNativeElement
+        ?.querySelector('#about-heading')
+        ?.textContent?.trim(),
+    ).toBe('About me');
+    expect(
+      harness.routeNativeElement?.querySelector('#about app-about p'),
+    ).not.toBeNull();
+  });
+
+  it('keeps an eager code-load failure boundary with actual loader Retry and Back', async () => {
+    harness.fixture.destroy();
+    TestBed.resetTestingModule();
+    let attempts = 0;
+    const loader = jasmine
+      .createSpy('actual detail loader')
+      .and.callFake(() =>
+        ++attempts === 1
+          ? Promise.reject(new Error('Controlled unavailable chunk'))
+          : Promise.resolve(ArticlePageComponent),
+      );
+    await TestBed.configureTestingModule({
+      providers: [
+        provideRouter(APP_ROUTES),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        { provide: ARTICLE_ROUTE_LOADER, useValue: loader },
+      ],
+    }).compileComponents();
+    harness = await RouterTestingHarness.create();
+    router = TestBed.inject(Router);
+    http = TestBed.inject(HttpTestingController);
+    await harness.navigateByUrl('/work/articles/42');
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    http.match('https://dev.to/api/articles/42').forEach((request) =>
+      request.flush({
+        id: 42,
+        user: { username: 'siddev' },
+        title: 'Unexpected eager detail',
+        body_html: '<p>Body</p>',
+      }),
+    );
+    expect(harness.routeNativeElement?.textContent).toContain(
+      "This page couldn't be loaded.",
+    );
+    const retry =
+      harness.routeNativeElement?.querySelector<HTMLButtonElement>('button');
+    expect(retry).not.toBeNull();
+    expect(retry?.classList.contains('blueprint-button')).toBeTrue();
+    retry?.click();
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    expect(loader.calls.count()).toBe(2);
+    const request = http.match('https://dev.to/api/articles/42')[0];
+    expect(request).toBeDefined();
+    request?.flush({
+      id: 42,
+      user: { username: 'siddev' },
+      title: 'Recovered title',
+      body_html: '<p>Recovered body</p>',
+    });
+    harness.detectChanges();
+    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toBe(
+      'Recovered title',
+    );
+    const back = harness.routeNativeElement?.querySelector<HTMLAnchorElement>(
+      'a[href="/#articles"]',
+    );
+    expect(back).not.toBeNull();
+    back?.click();
+    await harness.fixture.whenStable();
+    const home = harness.routeDebugElement?.componentInstance as HomeComponent;
+    await settleArticles(home);
+    expect(router.url).toBe('/#articles');
+  });
+
+  it('renders a detail-shaped response and styled data Retry through the real route', async () => {
+    await harness.navigateByUrl('/work/articles/805');
+    for (
+      let frame = 0;
+      frame < 30 &&
+      !harness.routeNativeElement?.querySelector('app-article-page');
+      frame++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+      harness.detectChanges();
+    }
+    http.expectOne('https://dev.to/api/articles/805').flush('Rate limited', {
+      status: 429,
+      statusText: 'Too Many Requests',
+    });
+    harness.detectChanges();
+    const retry =
+      harness.routeNativeElement?.querySelector<HTMLButtonElement>('button');
+    expect(retry?.classList.contains('blueprint-button')).toBeTrue();
+    retry?.click();
+    retry?.click();
+    http.expectOne('https://dev.to/api/articles/805').flush({
+      id: 805,
+      title: 'Independent routed detail',
+      user: { username: 'siddev' },
+      tag_list: 'angular,typescript,rxjs',
+      tags: ['angular', 'typescript', 'rxjs'],
+      body_html: '<h2>Preserved section</h2><p>Complete routed body</p>',
+    });
+    harness.detectChanges();
+    expect(harness.routeNativeElement?.querySelector('h1')?.textContent).toBe(
+      'Independent routed detail',
+    );
+    expect(
+      harness.routeNativeElement?.querySelector('.full-article')?.textContent,
+    ).toContain('Complete routed body');
+    expect(
+      Array.from(
+        harness.routeNativeElement?.querySelectorAll('.tags .tag') ?? [],
+        (tag) => tag.textContent,
+      ),
+    ).toEqual(['angular', 'typescript', 'rxjs']);
+  });
+
+  it('restores committed listing data without page-one refetch through the real return route', async () => {
+    const store = TestBed.inject(ArticleListSnapshotService);
+    store.save({
+      checkpoint: {
+        displayed: [
+          {
+            source: {
+              id: 42,
+              title: 'Saved card',
+              typeOf: 'article',
+              description: '',
+              published_date: '',
+              tags: [],
+              cover_image: '',
+            },
+            sessionKey: 'article-42',
+            encounterOrder: 0,
+          },
+        ],
+        datedBuffer: [],
+        undatedBuffer: [],
+        acceptedIds: [42],
+        nextPage: 3,
+        sourceExhausted: true,
+        sourceHadRecords: true,
+        encounterOrder: 1,
+        hasMore: false,
+      },
+      sectionOffset: 100,
+      initiatingCardKey: 'article-42',
+      keyboard: true,
+    });
+    await harness.navigateByUrl('/work/articles/42');
+    for (
+      let frame = 0;
+      frame < 30 &&
+      !harness.routeNativeElement?.querySelector('app-article-page');
+      frame++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+      harness.detectChanges();
+    }
+    await harness.fixture.whenStable();
+    harness.detectChanges();
+    http.expectOne('https://dev.to/api/articles/42').flush({
+      id: 42,
+      user: { username: 'siddev' },
+      title: 'Detail',
+      body_html: '<p>Body</p>',
+    });
+    await harness.navigateByUrl('/#articles');
+    for (
+      let frame = 0;
+      frame < 30 && !harness.routeNativeElement?.querySelector('app-articles');
+      frame++
+    ) {
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => resolve()),
+      );
+    }
+    harness.detectChanges();
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => resolve()),
+    );
+    expect(harness.routeNativeElement?.textContent).toContain('Saved card');
+    http.expectNone(
+      'https://dev.to/api/articles?username=siddev&page=1&per_page=10',
+    );
     expect(document.activeElement?.textContent).toContain('Saved card');
   });
 });

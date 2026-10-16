@@ -21,9 +21,14 @@ app-article-page {
     flex-direction: column;
     gap: 1.5rem;
     min-width: 0;
-    p { margin: 0; }
+    p {
+      margin: 0;
+    }
   }
-  .page-title { font-size: 2.75rem; font-weight: 700; }
+  .page-title {
+    font-size: 2.75rem;
+    font-weight: 700;
+  }
   .tags {
     display: flex;
     flex-wrap: wrap;
@@ -38,15 +43,52 @@ app-article-page {
     font-family: $font-sans;
     font-size: 0.95rem;
     line-height: 1.6;
-    > * { max-width: 100%; }
-    p, li { font-size: inherit; line-height: inherit; }
-    h2, h3, h4, h5, h6 { color: $text-main; font-size: 1.1rem; font-weight: 600; }
-    img { display: block; max-width: 100%; height: auto; }
-    pre, .table-scroll { max-width: 100%; overflow-x: auto; }
-    pre { padding: 0.5rem; box-sizing: border-box; white-space: pre; overflow-wrap: normal; }
-    code { font-family: $font-mono; }
-    table { border-collapse: collapse; }
-    td, th { border: 1px solid $border-color; padding: 0.5rem; }
-    a { color: $accent; }
+    > * {
+      max-width: 100%;
+    }
+    p,
+    li {
+      font-size: inherit;
+      line-height: inherit;
+    }
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: $text-main;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+    pre,
+    .table-scroll {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    pre {
+      padding: 0.5rem;
+      box-sizing: border-box;
+      white-space: pre;
+      overflow-wrap: normal;
+    }
+    code {
+      font-family: $font-mono;
+    }
+    table {
+      border-collapse: collapse;
+    }
+    td,
+    th {
+      border: 1px solid $border-color;
+      padding: 0.5rem;
+    }
+    a {
+      color: $accent;
+    }
   }
 }

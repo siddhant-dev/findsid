@@ -30,7 +30,10 @@ $font-mono: var(--font-mono);
   font-family: $font-mono;
   font-size: 0.75rem;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 
   &:hover:not(:disabled):not([aria-disabled="true"]) {
     background-color: $accent;

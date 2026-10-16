@@ -1,6 +1,6 @@
 <div class="blueprint-bg" aria-hidden="true"></div>
-<a class="skip-nav" href="#main" (click)="skipContent($event)"
-  [attr.inert]="contactState.open() ? '' : null" [attr.aria-hidden]="contactState.open() ? 'true' : null">Skip to content</a>
+<a class="skip-nav" href="#main" (click)="skipContent($event)" [attr.inert]="contactState.open() ? '' : null"
+  [attr.aria-hidden]="contactState.open() ? 'true' : null">Skip to content</a>
 
 <div class="shell" [class.reading]="readingMode" [attr.inert]="contactState.open() ? '' : null"
   [attr.aria-hidden]="contactState.open() ? 'true' : null">
@@ -11,19 +11,17 @@
       <h1 class="owner-name">Siddhant Jaiswal</h1>
       <p class="owner-title">Lead Product Development Professional</p>
       <p class="owner-summary">
-        Architecting scalable Angular applications, high-performance virtualized rendering engines, and accessible design systems
+        Architecting scalable Angular applications, high-performance virtualized rendering engines, and accessible
+        design systems
       </p>
       <span class="version-badge">SYS.ARCH | {{ currentWorkExperience | number : '1.1-1'}} years</span>
 
       <nav class="section-navigation" aria-label="Portfolio sections">
         @for (section of sections; track section.id) {
-          <a
-            [attr.data-section-link]="section.id"
-            [href]="'/#' + section.id"
-            [attr.aria-current]="(activeSection$ | async) === section.id ? 'location' : null"
-            [class.active]="(activeSection$ | async) === section.id"
-            (click)="selectSection($event, section.id)"
-          >{{ section.label }}</a>
+        <a [attr.data-section-link]="section.id" [href]="'/#' + section.id"
+          [attr.aria-current]="(activeSection$ | async) === section.id ? 'location' : null"
+          [class.active]="(activeSection$ | async) === section.id" (click)="selectSection($event, section.id)">{{
+          section.label }}</a>
         }
       </nav>
     </div>
@@ -36,16 +34,20 @@
     <footer class="page-actions">
       <a class="contact-link" href="/contact" (click)="openContact($event)">Contact</a>
       <nav class="social-links" appExternalLinks aria-label="Social profiles">
-        <a href="https://www.linkedin.com/in/iamsiddj" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" title="LinkedIn">
+        <a href="https://www.linkedin.com/in/iamsiddj" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+          title="LinkedIn">
           <i-feather name="linkedin" aria-hidden="true"></i-feather>
         </a>
-        <a href="https://twitter.com/iamsidd_j" target="_blank" rel="noopener noreferrer" aria-label="Twitter" title="Twitter">
+        <a href="https://twitter.com/iamsidd_j" target="_blank" rel="noopener noreferrer" aria-label="Twitter"
+          title="Twitter">
           <i-feather name="twitter" aria-hidden="true"></i-feather>
         </a>
-        <a href="https://github.com/siddhant-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+        <a href="https://github.com/siddhant-dev" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+          title="GitHub">
           <i-feather name="github" aria-hidden="true"></i-feather>
         </a>
-        <a href="https://codepen.io/sidd_dev" target="_blank" rel="noopener noreferrer" aria-label="CodePen" title="CodePen">
+        <a href="https://codepen.io/sidd_dev" target="_blank" rel="noopener noreferrer" aria-label="CodePen"
+          title="CodePen">
           <i-feather name="codepen" aria-hidden="true"></i-feather>
         </a>
         <a href="https://dev.to/siddev" target="_blank" rel="noopener noreferrer" aria-label="Dev.to" title="Dev.to">

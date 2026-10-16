@@ -1,5 +1,8 @@
 import { provideHttpClient } from '@angular/common/http';
-import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import {
+  HttpTestingController,
+  provideHttpClientTesting,
+} from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VirtualScrollDemoComponent } from './virtual-scroll-demo.component';
 import { MockRecord } from './mock-record.model';
@@ -17,7 +20,9 @@ function fullDataset(): MockRecord[] {
 
 async function frames(count = 12): Promise<void> {
   for (let i = 0; i < count; i++) {
-    await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
+    await new Promise<void>((resolve) =>
+      requestAnimationFrame(() => resolve()),
+    );
   }
 }
 
@@ -55,14 +60,20 @@ describe('Virtual scroll demo', () => {
     const startButton = idleViewport.querySelector('button')!;
     const viewportBounds = idleViewport.getBoundingClientRect();
     const buttonBounds = startButton.getBoundingClientRect();
-    expect(buttonBounds.left + buttonBounds.width / 2)
-      .toBeCloseTo(viewportBounds.left + viewportBounds.width / 2, 0);
-    expect(buttonBounds.top + buttonBounds.height / 2)
-      .toBeCloseTo(viewportBounds.top + viewportBounds.height / 2, 0);
+    expect(buttonBounds.left + buttonBounds.width / 2).toBeCloseTo(
+      viewportBounds.left + viewportBounds.width / 2,
+      0,
+    );
+    expect(buttonBounds.top + buttonBounds.height / 2).toBeCloseTo(
+      viewportBounds.top + viewportBounds.height / 2,
+      0,
+    );
     http.expectNone('assets/lab/records.json');
     fixture.componentInstance.start();
     fixture.detectChanges();
-    expect(root.querySelector('[role="status"]')?.textContent).toContain('Loading records');
+    expect(root.querySelector('[role="status"]')?.textContent).toContain(
+      'Loading records',
+    );
     expect(root.querySelector('boneyard-skeleton')).not.toBeNull();
     expect(root.querySelector('footer')).toBeNull();
     http.expectOne('assets/lab/records.json').flush(fullDataset());
@@ -74,11 +85,19 @@ describe('Virtual scroll demo', () => {
     const viewport = root.querySelector<HTMLElement>('[role="region"]')!;
     expect(viewport.getAttribute('aria-label')).toBeTruthy();
     expect(viewport.tabIndex).toBe(0);
-    const expectedHeight = Math.min(400, window.innerHeight * .6);
-    expect(parseFloat(getComputedStyle(viewport).height)).toBeCloseTo(expectedHeight, 1);
-    expect(viewport.getBoundingClientRect().height).toBeCloseTo(expectedHeight, 1);
+    const expectedHeight = Math.min(400, window.innerHeight * 0.6);
+    expect(parseFloat(getComputedStyle(viewport).height)).toBeCloseTo(
+      expectedHeight,
+      1,
+    );
+    expect(viewport.getBoundingClientRect().height).toBeCloseTo(
+      expectedHeight,
+      1,
+    );
     expect(root.querySelectorAll('[data-record-id] [tabindex]').length).toBe(0);
-    viewport.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', cancelable: true }));
+    viewport.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Tab', cancelable: true }),
+    );
     expect(root.querySelector('[data-record-id="1"]')).not.toBeNull();
   });
 
@@ -91,7 +110,9 @@ describe('Virtual scroll demo', () => {
 
   it('presents load failure distinctly and retries instead of claiming empty success', async () => {
     fixture.componentInstance.start();
-    http.expectOne('assets/lab/records.json').flush('Unavailable', { status: 503, statusText: 'Unavailable' });
+    http
+      .expectOne('assets/lab/records.json')
+      .flush('Unavailable', { status: 503, statusText: 'Unavailable' });
     fixture.detectChanges();
     expect(root.querySelector('[role="alert"]')).not.toBeNull();
     expect(root.textContent).toContain('Retry');
@@ -123,7 +144,9 @@ describe('Virtual scroll demo', () => {
     fixture.detectChanges();
     expect(fixture.componentInstance.selection.search).toBe('');
     expect(root.querySelector('[data-record-id="1"]')).not.toBeNull();
-    expect(root.querySelector<HTMLElement>('[role="region"]')?.scrollTop).toBe(0);
+    expect(root.querySelector<HTMLElement>('[role="region"]')?.scrollTop).toBe(
+      0,
+    );
     http.expectNone('assets/lab/records.json');
   });
 
@@ -149,7 +172,9 @@ describe('Virtual scroll demo', () => {
     const uid = skeleton.uid;
     fixture.destroy();
     expect(request.cancelled).toBeTrue();
-    expect(document.querySelector(`[data-boneyard-keyframes="${uid}"]`)).toBeNull();
+    expect(
+      document.querySelector(`[data-boneyard-keyframes="${uid}"]`),
+    ).toBeNull();
   });
 
   it('does not publish an old query or error after a newer query completes', async () => {
@@ -157,8 +182,12 @@ describe('Virtual scroll demo', () => {
     const service = fixture.debugElement.injector.get(MockRecordsService);
     let rejectOld!: (reason: Error) => void;
     spyOn(service, 'query').and.returnValues(
-      new Promise<readonly MockRecord[]>((_resolve, reject) => rejectOld = reject),
-      Promise.resolve([{ id: 99999, name: 'Newest', description: 'Current query only' }]),
+      new Promise<readonly MockRecord[]>(
+        (_resolve, reject) => (rejectOld = reject),
+      ),
+      Promise.resolve([
+        { id: 99999, name: 'Newest', description: 'Current query only' },
+      ]),
     );
     fixture.componentInstance.search('old');
     fixture.componentInstance.search('new');
@@ -175,11 +204,15 @@ describe('Virtual scroll demo', () => {
     await start();
     const service = fixture.debugElement.injector.get(MockRecordsService);
     const original = service.query.bind(service);
-    const query = spyOn(service, 'query').and.returnValue(Promise.reject(new Error('Query failed')));
+    const query = spyOn(service, 'query').and.returnValue(
+      Promise.reject(new Error('Query failed')),
+    );
     fixture.componentInstance.search('100000');
     await frames(3);
     fixture.detectChanges();
-    expect(root.querySelector('[role="alert"]')?.textContent).toContain('Query failed');
+    expect(root.querySelector('[role="alert"]')?.textContent).toContain(
+      'Query failed',
+    );
     expect(root.querySelector('footer')).toBeNull();
     query.and.callFake(original);
     fixture.componentInstance.retry();
@@ -192,10 +225,13 @@ describe('Virtual scroll demo', () => {
   it('reports datasource failures rather than publishing a fake empty EOF', async () => {
     await start();
     const source = fixture.componentInstance.datasource!;
-    await expectAsync(Promise.resolve(source.get(0, 0, () => undefined)))
-      .toBeRejectedWithError(/Window index/);
+    await expectAsync(
+      Promise.resolve(source.get(0, 0, () => undefined)),
+    ).toBeRejectedWithError(/Window index/);
     fixture.detectChanges();
-    expect(root.querySelector('[role="alert"]')?.textContent).toContain('record window');
+    expect(root.querySelector('[role="alert"]')?.textContent).toContain(
+      'record window',
+    );
     expect(root.textContent).not.toContain('No matching records');
     expect(fixture.componentInstance.metrics?.firstRowMs).toBeNull();
     expect(root.querySelector('[data-record-id]')).toBeNull();
@@ -205,11 +241,15 @@ describe('Virtual scroll demo', () => {
     await start();
     const service = fixture.debugElement.injector.get(MockRecordsService);
     let resolveQuery!: (records: readonly MockRecord[]) => void;
-    spyOn(service, 'query').and.returnValue(new Promise(resolve => resolveQuery = resolve));
+    spyOn(service, 'query').and.returnValue(
+      new Promise((resolve) => (resolveQuery = resolve)),
+    );
     fixture.componentInstance.search('pending');
     const generation = fixture.componentInstance.generation;
     fixture.destroy();
-    resolveQuery([{ id: 100000, name: 'Late', description: 'Must not publish' }]);
+    resolveQuery([
+      { id: 100000, name: 'Late', description: 'Must not publish' },
+    ]);
     await frames(3);
     expect(fixture.componentInstance.datasource).toBeUndefined();
     expect(fixture.componentInstance.generation).toBeGreaterThan(generation);
@@ -218,11 +258,16 @@ describe('Virtual scroll demo', () => {
 
   it('compares actual rendered rows with the matching normal-scroll baseline without RAM claims', async () => {
     await start();
-    expect(fixture.componentInstance.metrics?.renderedRows).toBe(root.querySelectorAll('[data-record-id]').length);
+    expect(fixture.componentInstance.metrics?.renderedRows).toBe(
+      root.querySelectorAll('[data-record-id]').length,
+    );
     const component = fixture.componentInstance;
-    expect(component.estimatedRowMemorySavings)
-      .toBe((1 - component.metrics!.renderedRows / component.matchCount) * 100);
-    let comparison = root.querySelector('[aria-label="Estimated row memory savings"]')!;
+    expect(component.estimatedRowMemorySavings).toBe(
+      (1 - component.metrics!.renderedRows / component.matchCount) * 100,
+    );
+    let comparison = root.querySelector(
+      '[aria-label="Estimated row memory savings"]',
+    )!;
     expect(comparison.textContent).toContain('not measured RAM');
     expect(comparison.textContent).toContain('100,000 matching rows');
     expect(root.textContent).not.toContain('Owner-reported');
@@ -233,7 +278,9 @@ describe('Virtual scroll demo', () => {
     fixture.detectChanges();
     expect(component.matchCount).toBe(1);
     expect(component.estimatedRowMemorySavings).toBe(0);
-    comparison = root.querySelector('[aria-label="Estimated row memory savings"]')!;
+    comparison = root.querySelector(
+      '[aria-label="Estimated row memory savings"]',
+    )!;
     expect(comparison.textContent).toContain('0%');
     component.search('no matching record here');
     await frames();
@@ -249,7 +296,12 @@ describe('Virtual scroll demo', () => {
     expect(component.estimatedRowMemorySavings).toBeNull();
     component.status = 'ready';
     component.matchCount = 100000;
-    component.metrics = { generation: component.generation, label: 'Start', firstRowMs: 5, renderedRows: 10 };
+    component.metrics = {
+      generation: component.generation,
+      label: 'Start',
+      firstRowMs: 5,
+      renderedRows: 10,
+    };
     expect(component.estimatedRowMemorySavings).toBeCloseTo(99.99, 8);
     fixture.changeDetectorRef.markForCheck();
     fixture.detectChanges();
@@ -262,9 +314,16 @@ describe('Virtual scroll demo', () => {
     component.matchCount = 100000;
     component.metrics = { ...component.metrics, renderedRows: 0 };
     expect(component.estimatedRowMemorySavings).toBeNull();
-    component.metrics = { ...component.metrics, renderedRows: 10, generation: component.generation - 1 };
+    component.metrics = {
+      ...component.metrics,
+      renderedRows: 10,
+      generation: component.generation - 1,
+    };
     expect(component.estimatedRowMemorySavings).toBeNull();
-    component.metrics = { ...component.metrics, generation: component.generation };
+    component.metrics = {
+      ...component.metrics,
+      generation: component.generation,
+    };
     for (const status of ['loading', 'querying', 'empty', 'error'] as const) {
       component.status = status;
       expect(component.estimatedRowMemorySavings).toBeNull();
@@ -277,7 +336,8 @@ describe('Virtual scroll demo', () => {
     const response = await fetch('/assets/lab/records.json');
     expect(response.ok).toBeTrue();
     const records: unknown = await response.json();
-    if (!Array.isArray(records)) throw new Error('The bundled JSON must be an array');
+    if (!Array.isArray(records))
+      throw new Error('The bundled JSON must be an array');
     fixture.componentInstance.start();
     http.expectOne('assets/lab/records.json').flush(records);
     await frames();
@@ -289,10 +349,15 @@ describe('Virtual scroll demo', () => {
       expect(result.success).toBeTrue();
       await frames(4);
       fixture.detectChanges();
-      expect(root.querySelector(`[data-record-id="${index + 1}"]`)).not.toBeNull();
-      expect(root.querySelectorAll('[data-record-id]').length).toBeLessThan(1000);
-      expect(fixture.componentInstance.metrics?.renderedRows)
-        .toBe(root.querySelectorAll('[data-record-id]').length);
+      expect(
+        root.querySelector(`[data-record-id="${index + 1}"]`),
+      ).not.toBeNull();
+      expect(root.querySelectorAll('[data-record-id]').length).toBeLessThan(
+        1000,
+      );
+      expect(fixture.componentInstance.metrics?.renderedRows).toBe(
+        root.querySelectorAll('[data-record-id]').length,
+      );
     }
   });
 });

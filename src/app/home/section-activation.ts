@@ -24,7 +24,9 @@ export class SectionActivationCoordinator<T> {
   }
 
   state(id: LazySectionId): SectionActivationState<T> {
-    return this.states.get(id) ?? { status: this.destroyed ? 'disposed' : 'idle' };
+    return (
+      this.states.get(id) ?? { status: this.destroyed ? 'disposed' : 'idle' }
+    );
   }
 
   activate(id: LazySectionId): Promise<T | undefined> {
@@ -42,7 +44,9 @@ export class SectionActivationCoordinator<T> {
 
     const loader = this.loaders[id];
     if (!loader) {
-      return Promise.reject(new Error(`No loader registered for section "${id}"`));
+      return Promise.reject(
+        new Error(`No loader registered for section "${id}"`),
+      );
     }
 
     const generation = this.generation;
@@ -63,11 +67,13 @@ export class SectionActivationCoordinator<T> {
       },
     );
     this.pending.set(id, request);
-    request.finally(() => {
-      if (this.pending.get(id) === request) {
-        this.pending.delete(id);
-      }
-    }).catch(() => undefined);
+    request
+      .finally(() => {
+        if (this.pending.get(id) === request) {
+          this.pending.delete(id);
+        }
+      })
+      .catch(() => undefined);
     return request;
   }
 
